@@ -19,6 +19,20 @@ window.onerror = function (msg, url, line, column, err) {
 };
 
 
+function modal(el, type, callback){
+    el.classList[(type == "show") ? "add" : "remove"]("modal-active");
+    el.addEventListener("click", e => {
+        if(e.target != el && !e.target.classList.contains("close-btn"))
+            return;
+        else
+            el.classList.remove("modal-active");
+    });
+    if(typeof callback == "function") {
+        //el.ontranstionend = () => callback();
+        callback();
+    }
+}
+
 /* Call functions search, settings change, change location, prev & next buttons, open file button
 ======================================= */
 
@@ -39,8 +53,7 @@ let App = function (el) {
             }
             return;
         }
-    }); 
-    
+    });
     this.qsa(".tab-list .tab-item").forEach(el => el.addEventListener("click", this.onTabClick.bind(this, el.dataset.tab)));
     
     this.qs(".tab[data-tab=search] .search-bar .search-input").addEventListener("keydown", event => {
@@ -60,12 +73,12 @@ let App = function (el) {
     });
     
     //temporary!!!
-    this.qsa(".modal").forEach(el => el.addEventListener("click", e => {
-        if(e.target != el && !e.target.classList.contains("close-btn"))
-            return;
-        else
-            el.classList.add("hidden");
-    }));
+    // this.qsa(".modal").forEach(el => el.addEventListener("click", e => {
+    //     if(e.target != el && !e.target.classList.contains("close-btn"))
+    //         return;
+    //     else
+    //         el.classList.add("hidden");
+    // }));
 
 
     // this.qs(".sidebar-wrapper").addEventListener("click", event => {
@@ -272,13 +285,20 @@ App.prototype.changeFS = function(mode, set) {
 // }
 App.prototype.makeBookmark = function () {
     let textInput = this.qs(".new-bookmark .bookmark-input"),
-        text = textInput.value.trim();
+        text = textInput.value.trim().slice(0, 70);
 
     if (!text) return;
 
     this.addBookm({title: text, href: this.qs(".rangebar").value});
-    textInput.value = "";
     this.qs(".menu-bar .bookmark-tool").classList.add("bookmarked");
+    textInput.value = "";
+}
+App.prototype.bookmFillText = function () {
+    let text = this.getSelectedText(),
+        textInput = this.qs(".new-bookmark .bookmark-input");
+
+    textInput.value = text ? text : this.qs("a.chapter-item.active").innerText;
+    textInput.focus();
 }
 App.prototype.addBookm = function (item) {
     console.log(item);
@@ -286,7 +306,9 @@ App.prototype.addBookm = function (item) {
     this.updateBookm();
 }
 App.prototype.rmBookm = function (index) {
-    this.bookmArr.splice(index, 1);
+    let removed = this.bookmArr.splice(index, 1)[0];
+    if(removed.href == this.qs(".rangebar").value)
+       this.qs(".menu-bar .bookmark-tool").classList.remove("bookmarked");
     this.updateBookm();
 }
 App.prototype.updateBookm = function () {
@@ -302,7 +324,7 @@ App.prototype.updateBookm = function () {
         a.innerText = item.title;
         a.addEventListener("click", event => {
             this.state.rendition.display(this.state.book.locations.cfiFromLocation(item.href)).catch(err => console.warn("error displaying page", err));
-            this.qsa(".modal").forEach(el => el.classList.add("hidden"));
+            modal(this.qs(".tabs-modal"), 'hide');
             event.stopPropagation();
             event.preventDefault();
         });
@@ -325,6 +347,13 @@ App.prototype.restoreBookm = function () {
         this.bookmArr = localBookm;
         this.updateBookm();
     }
+}
+
+App.prototype.getSelectedText = function () {
+    let w = this.qs("iframe").contentWindow;
+    if (w.getSelection)
+        return w.getSelection().toString();
+    return "";
 }
 
 App.prototype.doOpenBook = function () {
@@ -460,7 +489,7 @@ App.prototype.onTocItemClick = function (href, event) {
     console.log("tocClick", href);
 
     this.state.rendition.display(href).catch(err => console.warn("error displaying page", err));
-    this.qsa(".modal").forEach(el => el.classList.add("hidden"));
+    modal(this.qs(".tabs-modal"), 'hide');
     event.stopPropagation();
     event.preventDefault();
 
@@ -720,8 +749,8 @@ App.prototype.onRenditionRelocatedUpdateIndicators = function (event) {
 
         //bookmark indicator update
         let icon = this.qs(".menu-bar .bookmark-tool");
-        for(let item of this.bookmArr) {
-            if(item.href == event.start.location) {
+        for(let item in this.bookmArr) {
+            if(this.bookmArr[item].href == event.start.location) {
                 icon.classList.add("bookmarked");
                 break;
             }
@@ -880,15 +909,25 @@ App.prototype.onResultClick = function (href, event) {
     console.log("tocClick", href);
     this.state.rendition.display(href);
     //temporary!!!
-    this.qsa(".modal").forEach(el => el.classList.add("hidden"));
+    modal(this.qs(".tabs-modal"), 'hide');
     event.stopPropagation();
     event.preventDefault();
 };
 
 App.prototype.doTab = function (tab) {
     try {
-        this.qsa(".tab-list .tab-item").forEach(el => el.classList[(el.dataset.tab == tab) ? "add" : "remove"]("active"));
-        this.qsa(".tab-container .tab").forEach(el => el.classList[(el.dataset.tab != tab) ? "remove" : "add"]("tab-active"));
+        let controls = this.qsa(".tab-list .tab-item"),
+            tabs = this.qsa(".tab-container .tab");
+
+        controls.forEach(el => el.classList[(el.dataset.tab == tab) ? "add" : "remove"]("active"));
+
+        tabs.forEach(el => {
+            let tabInp = el.querySelector('input');
+            el.classList[(el.dataset.tab != tab) ? "remove" : "add"]("tab-active");
+            if(tabInp)
+                tabInp.focus();
+        });
+
         try {
             this.qs(".tab-wrapper").scrollTop = 0;
         } catch (err) {}
@@ -936,10 +975,10 @@ App.prototype.onSearchClick = function (event) {
 };
 
 //temporary!!!
-App.prototype.doModal = function (activeTab) {
-    this.qs(".modal").classList.toggle('hidden');
-    this.doTab(activeTab);
-};
+// App.prototype.doModal = function (activeTab) {
+//     this.qs(".modal").classList.toggle('hidden');
+//     this.doTab(activeTab);
+// };
 
 let ePubViewer = null;
 

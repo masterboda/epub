@@ -86,6 +86,7 @@ body {
 
 .app .modal {
     position: absolute;
+    display: none;
     cursor: pointer;
     z-index: 9999;
     top: 0;
@@ -94,6 +95,9 @@ body {
     bottom: 0;
     overflow-y: auto;
     background: rgba(36, 38, 128, .4);
+}
+.app .modal.modal-active {
+    display: block;
 }
 
 .app .tabs-wrapper {
@@ -290,6 +294,10 @@ body {
     color: #333;
     transition: color .3s;
     padding: 15px 0;
+}
+
+.bookmark-list .bookmark-item.active {
+    color: var(--segundo);
 }
 
 .bookmark-list .bookmark-item:hover {
