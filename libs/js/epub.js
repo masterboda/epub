@@ -7464,7 +7464,7 @@ var Rendition = function () {
 			contents.addStylesheetRules({
 				"img": {
 					"max-width": (this._layout.columnWidth ? this._layout.columnWidth + "px" : "100%") + "!important",
-					"max-height": (this._layout.height ? this._layout.height * 0.6 + "px" : "60%") + "!important",
+					"max-height": (this._layout.height ? this._layout.height * 0.99 + "px" : "99%") + "!important",
 					"object-fit": "contain",
 					"page-break-inside": "avoid"
 				},
