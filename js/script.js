@@ -1,25 +1,23 @@
 "use strict";
 
 
-// window.onerror = function (msg, url, line, column, err) {
-//     if (msg.indexOf("Permission denied") > -1) return;
-//     if (msg.indexOf("Object expected") > -1 && url.indexOf("epub") > -1) return;
-//     document.querySelector(".app .error").classList.remove("hidden");
-//     document.querySelector(".app .error .error-title").innerHTML = "Error1";
-//     document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
-//     document.querySelector(".app .error .error-info").innerHTML = msg;
-//     document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
-//         error: err.toString(),
-//         stack: err.stack,
-//         msg: msg,
-//         url: url,
-//         line: line,
-//         column: column,
-//     });    
-//     console.log("Error line 19:");
-//     console.log(mgs, url, line, column);
-//     console.error(err);
-// };
+window.onerror = function (msg, url, line, column, err) {
+    if (msg.indexOf("Permission denied") > -1) return;
+    if (msg.indexOf("Object expected") > -1 && url.indexOf("epub") > -1) return;
+    if (msg.length < 1) return;
+    document.querySelector(".app .error").classList.remove("hidden");
+    document.querySelector(".app .error .error-title").innerHTML = "Error1";
+    document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
+    document.querySelector(".app .error .error-info").innerHTML = msg;
+    document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
+        error: err.toString(),
+        stack: err.stack,
+        msg: msg,
+        url: url,
+        line: line,
+        column: column,
+    });
+};
 
 
 function modal(el, type, callback){
