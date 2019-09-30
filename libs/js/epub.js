@@ -7471,7 +7471,8 @@ var Rendition = function () {
 				"svg": {
 					"max-width": (this._layout.columnWidth ? this._layout.columnWidth + "px" : "100%") + "!important",
 					"max-height": (this._layout.height ? this._layout.height * 0.6 + "px" : "60%") + "!important",
-					"page-break-inside": "avoid"
+					"page-break-inside": "avoid",
+					"display": "block"
 				}
 			});
 
