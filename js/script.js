@@ -244,8 +244,8 @@ App.prototype.setChipActive = function (container, value) {
 };
 
 App.prototype.getChipActive = function (container) {
-    console.log("container : ");
-    console.dir(container);
+    // console.log("container : ");
+    // console.dir(container);
     let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item.active[data-value]");
     if (!el) return this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]");
     return el.dataset.value;
