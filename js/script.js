@@ -15,7 +15,10 @@ window.onerror = function (msg, url, line, column, err) {
         url: url,
         line: line,
         column: column,
-    });
+    });    
+    console.log("Error line 19:");
+    console.log(mgs, url, line, column);
+    console.error(err);
 };
 
 
@@ -403,7 +406,12 @@ App.prototype.fatal = function (msg, err, usersFault) {
     document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
         error: err.toString(),
         stack: err.stack
-    });
+    });    
+    console.log("Error line 410");
+    console.log(mgs);
+    console.error(err);
+    console.log(usersFault);
+    console.log(err.toString(), err.stack);
 };
 
 App.prototype.doReset = function () {
@@ -1005,4 +1013,7 @@ try {
         error: err.toString(),
         stack: err.stack
     });
+    console.log("Error line 1016");
+    console.error(err);
+    console.log(err.toString(), err.stack);
 }
