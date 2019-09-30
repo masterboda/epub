@@ -5,7 +5,7 @@ window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;
     if (msg.indexOf("Object expected") > -1 && url.indexOf("epub") > -1) return;
     document.querySelector(".app .error").classList.remove("hidden");
-    document.querySelector(".app .error .error-title").innerHTML = "Error";
+    document.querySelector(".app .error .error-title").innerHTML = "Error1";
     document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
     document.querySelector(".app .error .error-info").innerHTML = msg;
     document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
@@ -400,7 +400,7 @@ App.prototype.doOpenBook = function () {
 App.prototype.fatal = function (msg, err, usersFault) {
     console.error(msg, err);
     document.querySelector(".app .error").classList.remove("hidden");
-    document.querySelector(".app .error .error-title").innerHTML = "Error";
+    document.querySelector(".app .error .error-title").innerHTML = "Error2";
     document.querySelector(".app .error .error-description").innerHTML = usersFault ? "" : "Please try reloading the page or using a different browser, and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
     document.querySelector(".app .error .error-info").innerHTML = msg + ": " + err.toString();
     document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
@@ -1007,7 +1007,7 @@ try {
     }
 } catch (err) {
     document.querySelector(".app .error").classList.remove("hidden");
-    document.querySelector(".app .error .error-title").innerHTML = "Error";
+    document.querySelector(".app .error .error-title").innerHTML = "Error3";
     document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
     document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
         error: err.toString(),
