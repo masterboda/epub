@@ -4,7 +4,7 @@
 window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;
     if (msg.indexOf("Object expected") > -1 && url.indexOf("epub") > -1) return;
-    if (msg.length < 1 or !err) return;
+    if (msg.length < 1 || !err) return;
     document.querySelector(".app .error").classList.remove("hidden");
     document.querySelector(".app .error .error-title").innerHTML = "Error1";
     document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
@@ -75,10 +75,10 @@ let App = function (el) {
         }
     });
     
-    // image fullscrean EventListeners
+    // image fullscrean EventListeners test
     this.qsa("img").forEach(el => {
-        el => el.addEventListener("click", event => {
-            console.(el.src);
+        el.addEventListener("click", event => {
+        console.log(el.src);
         });
     });
     
