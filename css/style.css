@@ -63,7 +63,7 @@ button:active,
     top: 0;
     left: 0;
     cursor: zoom-out;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(255, 255, 255, .85);
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -481,11 +481,12 @@ body {
     outline: none;
     background: transparent;
     cursor: pointer;
+    height: 100%;
 }
 
 .nav-arrows .prev-btn,
 .nav-arrows .next-btn {
-    font-size: 24px;
+    height: 56px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -496,7 +497,9 @@ body {
 .nav-arrows .next-btn:hover {
     opacity: .7;
 }
-
+.nav-arrows img {
+    height: 100%;
+}
 .nav-arrows .prev-btn {
     left: -50px;
 }
@@ -865,6 +868,22 @@ body {
 
 @media only screen and (max-width: 450px) {
     .app .nav-arrows {
-        display: none;
+        /*display: none;*/
+        bottom: 0;
+
+    }
+    .nav-arrows .prev-btn {
+        left: 5px;
+        bottom: 0;
+        transform: translateY(0%);
+        top: 101%;
+        height: 30px;
+    }
+    .nav-arrows .next-btn {
+        right: 5px;
+        bottom: 0;
+        transform: translateY(0%);
+        top: 101%;
+        height: 30px;
     }
 }
