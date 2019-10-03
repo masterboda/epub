@@ -54,6 +54,20 @@ button:active,
     background: var(--primero);
 }
 
+.imgFullscreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    z-index: 10000,
+    top: 0;
+    left: 0;
+    cursor: zoom-out;
+    background-color: rgba(0, 0, 0, .5);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .clearfix::after {
     content: '';
     display: block;

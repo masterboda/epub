@@ -75,13 +75,6 @@ let App = function (el) {
         }
     });
     
-    // image fullscrean EventListeners test
-    this.qsa("img").forEach(el => {
-        el.addEventListener("click", event => {
-        console.log(el.src);
-        });
-    });
-    
     // Settings buttons EventListeners
     this.qsa(".settings-row[data-type]").forEach(el => {
         Array.from(el.querySelectorAll(".settings-item[data-value]")).forEach(cel => cel.addEventListener("click", event => {
@@ -442,6 +435,24 @@ App.prototype.el = function (t, c) {
     return e;
 };
 
+App.prototype.addImgClick = function () {    
+    let iDoc = this.qs("iframe").contentWindow.document;
+    let imgArr = Array.from(iDoc.querySelectorAll("img"));
+    imgArr.forEach(im => {
+        im.onclick = function () {
+            let modalImg = document.createElement("div");
+            modalImg.className = "imgFullscreen fadeIn animated";
+            modalImg.style.backgroundImage = `url(${im.src})`;
+            modalImg.onclick = function() {
+                // this.classList.remove("animated");
+                this.remove();
+            }
+            document.body.appendChild(modalImg);
+            console.log(im.src);
+        }
+    });
+}
+
 App.prototype.onBookReady = function (event) {
     // this.qs(".sidebar-button").classList.remove("hidden");
     this.qs("button.prev").classList.remove("hidden");
@@ -532,6 +543,7 @@ App.prototype.onRenditionRelocated = function (event) {
     try {
         let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
         this.qsa(".chapter-list .chapter-item").forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
+        this.addImgClick();
     } catch (err) {
         this.fatal("error updating toc", err);
     }
