@@ -118,7 +118,7 @@ body {
     display: block;
     width: 45px;
     height: 45px;
-    background: url(../images/icons/close-alone.png) center no-repeat var(--segundo);
+    background: url(./../images/icons/close-alone.png) center no-repeat;    /*background: url(./images/icons/close-alone.png) center no-repeat var(--segundo);*/
     background-size: 20px;
     border-radius: 0 25px 0 25px;
 }

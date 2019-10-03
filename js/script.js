@@ -4,7 +4,7 @@
 window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;
     if (msg.indexOf("Object expected") > -1 && url.indexOf("epub") > -1) return;
-    if (msg.length < 1) return;
+    if (msg.length < 1 or !err) return;
     document.querySelector(".app .error").classList.remove("hidden");
     document.querySelector(".app .error .error-title").innerHTML = "Error1";
     document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
@@ -73,30 +73,14 @@ let App = function (el) {
         }
     });
     
-    //temporary!!!
-    // this.qsa(".modal").forEach(el => el.addEventListener("click", e => {
-    //     if(e.target != el && !e.target.classList.contains("close-btn"))
-    //         return;
-    //     else
-    //         el.classList.add("hidden");
-    // }));
-
-
-    // this.qs(".sidebar-wrapper").addEventListener("click", event => {
-    //     try {
-    //         if (event.target.classList.contains("sidebar-wrapper")) event.target.classList.add("out");
-    //     } catch (err) {
-    //         this.fatal("error hiding sidebar", err);
-    //     }
-    // });
-    // Old version
-    // this.qsa(".chips[data-chips]").forEach(el => {
-    //     Array.from(el.querySelectorAll(".chip[data-value]")).forEach(cel => cel.addEventListener("click", event => {
-    //         this.setChipActive(el.dataset.chips, cel.dataset.value);
-    //     }));
-    // });
-
-    // New version
+    // image fullscrean EventListeners
+    this.qsa("img").forEach(el => {
+        el => el.addEventListener("click", event => {
+            console.(el.src);
+        });
+    });
+    
+    // Settings buttons EventListeners
     this.qsa(".settings-row[data-type]").forEach(el => {
         Array.from(el.querySelectorAll(".settings-item[data-value]")).forEach(cel => cel.addEventListener("click", event => {
             this.setChipActive(el.dataset.type, cel.dataset.value);
