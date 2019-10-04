@@ -439,19 +439,48 @@ App.prototype.addImgClick = function () {
     let iDoc = this.qs("iframe").contentWindow.document;
     let imgArr = Array.from(iDoc.querySelectorAll("img"));
     imgArr.forEach(im => {
-        im.onclick = function () {
-            let modalImg = document.createElement("div");
-            modalImg.className = "imgFullscreen fadeIn animated";
-            modalImg.style.backgroundImage = `url(${im.src})`;
-            modalImg.onclick = function() {
-                // this.classList.remove("animated");
-                this.remove();
-            }
-            document.body.appendChild(modalImg);
+        im.onclick = function (e) {
             console.log(im.src);
+
+            let modalContainer = document.body.appendChild(document.createElement("div")),
+                modalImg = modalContainer.appendChild(document.createElement("img"));
+
+            modalContainer.className = "imgFullscreen fadeIn animated";
+            modalImg.src = im.src;
+
+            modalContainer.onclick = function() {
+                // this.classList.remove("animated");
+                this.className = "imgFullscreen fadeOut animated";
+                this.style.animationDuration = "0.5s";
+                this.addEventListener('animationend', function() {
+                    this.remove();
+                });
+            }
+
+            e.stopPropagation();
         }
     });
 }
+
+// App.prototype.addImgClick = function () {    
+//     let iDoc = this.qs("iframe").contentWindow.document;
+//     let imgArr = Array.from(iDoc.querySelectorAll("img"));
+//     imgArr.forEach(im => {
+//         im.onclick = function (e) {
+//             let modalImg = document.createElement("div");
+//             modalImg.className = "imgFullscreen fadeIn animated";
+//             modalImg.style.backgroundImage = `url(${im.src})`;
+//             modalImg.onclick = function() {
+//                 // this.classList.remove("animated");
+//                 this.remove();
+//             }
+//             document.body.appendChild(modalImg);
+//             console.log(im.src);
+
+//             e.stopPropagation();
+//         }
+//     });
+// }
 
 App.prototype.onBookReady = function (event) {
     // this.qs(".sidebar-button").classList.remove("hidden");
