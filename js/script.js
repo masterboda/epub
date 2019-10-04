@@ -442,7 +442,7 @@ App.prototype.addImgClick = function () {
         im.onclick = function (e) {
             console.log(im.src);
 
-            let modalContainer = document.body.appendChild(document.createElement("div")),
+            let modalContainer = document.querySelector(".app").appendChild(document.createElement("div")),
                 modalImg = modalContainer.appendChild(document.createElement("img"));
 
             modalContainer.className = "imgFullscreen fadeIn animated";

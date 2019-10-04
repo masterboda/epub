@@ -7464,13 +7464,13 @@ var Rendition = function () {
 			contents.addStylesheetRules({
 				"img": {
 					"max-width": (this._layout.columnWidth ? this._layout.columnWidth + "px" : "100%") + "!important",
-					"max-height": (this._layout.height ? this._layout.height * 0.6 + "px" : "60%") + "!important",
+					"max-height": (this._layout.height ? this._layout.height * 0.95 + "px" : "95%") + "!important",
 					"object-fit": "contain",
 					"page-break-inside": "avoid"
 				},
 				"svg": {
 					"max-width": (this._layout.columnWidth ? this._layout.columnWidth + "px" : "100%") + "!important",
-					"max-height": (this._layout.height ? this._layout.height * 0.6 + "px" : "60%") + "!important",
+					"max-height": (this._layout.height ? this._layout.height * 0.95 + "px" : "95%") + "!important",
 					"page-break-inside": "avoid"
 				}
 			});
