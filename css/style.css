@@ -393,14 +393,14 @@ body {
 }
 .app .menu-bar .title .book-title{
     font-size: 18px;
-    font-weight: 600;
-    color: #3d66ef;
+    font-weight: 500;
+    color: var(--segundo);
     padding-bottom: 3px;
 }
 
 .app .menu-bar .title .book-author {
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 300;
     color: var(--primero);
 }
 
