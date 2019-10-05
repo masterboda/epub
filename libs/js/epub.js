@@ -7472,6 +7472,9 @@ var Rendition = function () {
 					"max-width": (this._layout.columnWidth ? this._layout.columnWidth + "px" : "100%") + "!important",
 					"max-height": (this._layout.height ? this._layout.height * 0.95 + "px" : "95%") + "!important",
 					"page-break-inside": "avoid"
+				},
+				"img._idGenObjectAttribute-1": {
+					"max-height": (this._layout.height ? this._layout.height * 0.99 + "px" : "99%") + "!important",
 				}
 			});
 
