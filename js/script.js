@@ -9,8 +9,8 @@ window.onerror = function (msg, url, line, column, err) {
     document.querySelector(".app .error .error-title").innerHTML = "Error1";
     document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
     document.querySelector(".app .error .error-info").innerHTML = msg;
-    console.log("msg:", msg, " url:", url, "line: ", line, " column:", column);
-    console.log("err:", err.toString(), " err.stack:", err.stack);
+    console.log(msg,url,line,column);
+    console.log(err.toString(),err.stack);
     document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
         error: err.toString(),
         stack: err.stack,
