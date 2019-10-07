@@ -1,0 +1,21 @@
+{
+  "short_name": "Narrativas",
+  "name": "Narrativas. Wemath. Somos Matemáticas",
+  "icons": [
+    {
+      "src": "/images/icons/w_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/icons/w_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/reader.html",
+  "background_color": "#3367D6",
+  "display": "fullscreen",
+  "scope": "./",
+  "theme_color": "#3367D6"
+}

@@ -138,7 +138,7 @@ App.prototype.doBook = function (url, opts) {
     try {
         this.state.book = ePub(url, opts);
         this.qs(".book").innerHTML = "";
-        this.state.rendition = this.state.book.renderTo(this.qs(".book"), {});
+        this.state.rendition = this.state.book.renderTo(this.qs(".book"), {}); //flow: "scrolled-doc"
     } catch (err) {
         this.fatal("error loading book", err);
         throw err;
@@ -439,6 +439,7 @@ App.prototype.addImgClick = function () {
     let iDoc = this.qs("iframe").contentWindow.document;
     let imgArr = Array.from(iDoc.querySelectorAll("img"));
     imgArr.forEach(im => {
+        im.style.cursor = "zoom-in";
         im.onclick = function (e) {
             console.log(im.src);
 

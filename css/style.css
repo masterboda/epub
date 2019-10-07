@@ -598,6 +598,7 @@ body {
     box-sizing: border-box;
     max-width: 1200px;
     margin: 0 auto;
+    /*height: calc(100vh - 60px);*/
 
     background: #fff;
     padding: 40px 0;
@@ -854,7 +855,12 @@ body {
     ::-webkit-scrollbar {
         display: none;
     }
-    .app .menu-bar .title {
+    .app .menu-bar .title .logo {
+        width: 35px;
+        height: 35px;
+    }
+
+    .app .menu-bar .title-text {
         display: none !important;
     }
     .app .menu-bar {

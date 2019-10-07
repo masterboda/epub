@@ -2,7 +2,7 @@
 console.log("sw: service worker loaded");
 
 const cachePrefix = "ePubViewer";
-const revision = 1;              // Update on every change
+const revision = 2;              // Update on every change
 
 // Set the cache as the active cache.
 self.addEventListener('activate', event =>
@@ -12,7 +12,8 @@ self.addEventListener('activate', event =>
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(`${cachePrefix}-${revision}`).then(
-            cache => self.skipWaiting()))});
+            cache => self.skipWaiting()))
+});
 
 // Handle request.
 self.addEventListener('fetch', event => {
@@ -26,7 +27,8 @@ self.addEventListener('fetch', event => {
             cache => cache.match(event.request).then(resp => resp 
                 ? resp 
                 : fetch(event.request).then(
-                    resp => cache.put(event.request, resp.clone()).then(() => resp)))));});
+                    resp => cache.put(event.request, resp.clone()).then(() => resp)))));
+});
 /**/
 /* Network first (currently broken):
     ) event.respondWith(
@@ -42,3 +44,10 @@ self.addEventListener('activate', event =>
             ns => Promise.all(ns.filter(
                 n => n.startsWith(cachePrefix)).map(
                 n => caches.delete(n))))));
+
+
+self.addEventListener('beforeinstallprompt', (e) => {
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+
+});
