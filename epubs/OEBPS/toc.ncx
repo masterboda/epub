@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+	<head>
+		<meta name="dtb:uid" content="urn:uuid:8E21DA97-699A-4EF4-9848-7F876D7E8195" />
+		<meta name="dtb:depth" content="0" />
+		<meta name="dtb:totalPageCount" content="0" />
+		<meta name="dtb:maxPageNumber" content="0" />
+	</head>
+	<docTitle>
+		<text>Pucuy y Kitan, la batalla contra Smog</text>
+	</docTitle>
+	<navMap>
+		<navPoint id="navpoint1" playOrder="1"><navLabel><text>wm3_narrativa_epub</text></navLabel><content src="wm3_narrativa_epub.xhtml" /></navPoint>
+	</navMap>
+</ncx>

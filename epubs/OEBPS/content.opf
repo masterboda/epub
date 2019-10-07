@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookid" prefix="ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<meta name="generator" content="Adobe InDesign 12.1" />
+		<meta name="cover" content="x1.png" />
+		<meta property="ibooks:specified-fonts">true</meta>
+		<dc:title>Pucuy y Kitan, la batalla contra Smog</dc:title>
+		<dc:date>2019-09-26T04:35:01Z</dc:date>
+		<dc:language>en-GB</dc:language>
+		<dc:language>es-ES</dc:language>
+		<meta property="dcterms:modified">2019-09-26T04:35:01Z</meta>
+		<dc:identifier id="bookid">urn:uuid:8E21DA97-699A-4EF4-9848-7F876D7E8195</dc:identifier>
+	</metadata>
+	<manifest>
+		<item id="cover" href="cover.xhtml" media-type="application/xhtml+xml" />
+		<item id="wm3_narrativa_epub" href="wm3_narrativa_epub.xhtml" media-type="application/xhtml+xml" />
+		<item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+		<item id="toc" href="toc.xhtml" media-type="application/xhtml+xml" properties="nav" />
+		<item id="idGeneratedStyles.css" href="css/idGeneratedStyles.css" media-type="text/css" />
+		<item id="ep1_02.png" href="image/ep1_02.png" media-type="image/png" />
+		<item id="ep1_03.png" href="image/ep1_03.png" media-type="image/png" />
+		<item id="ep1_04.png" href="image/ep1_04.png" media-type="image/png" />
+		<item id="ep1_05.png" href="image/ep1_05.png" media-type="image/png" />
+		<item id="ep_09.png" href="image/ep_09.png" media-type="image/png" />
+		<item id="ep_08.png" href="image/ep_08.png" media-type="image/png" />
+		<item id="ep_10.png" href="image/ep_10.png" media-type="image/png" />
+		<item id="ep_06.png" href="image/ep_06.png" media-type="image/png" />
+		<item id="PORTS.png" href="image/PORTS.png" media-type="image/png" />
+		<item id="ep_07.png" href="image/ep_07.png" media-type="image/png" />
+		<item id="pall2.png" href="image/pall2.png" media-type="image/png" />
+		<item id="pall1.png" href="image/pall1.png" media-type="image/png" />
+		<item id="titulo.png" href="image/titulo.png" media-type="image/png" />
+		<item id="x1.png" href="image/1.png" media-type="image/png" properties="cover-image" />
+		<item id="ChaparralPro-Regular.otf" href="font/ChaparralPro-Regular.otf" media-type="application/vnd.ms-opentype" />
+		<item id="ChaparralPro-Italic.otf" href="font/ChaparralPro-Italic.otf" media-type="application/vnd.ms-opentype" />
+		<item id="Atma-Bold.ttf" href="font/Atma-Bold.ttf" media-type="application/x-font-ttf" />
+	</manifest>
+	<spine toc="ncx">
+		<itemref idref="cover" linear="no" />
+		<itemref idref="wm3_narrativa_epub" />
+	</spine>
+	<guide>
+		<reference type="cover" href="cover.xhtml" title="Cover" />
+	</guide>
+</package>
