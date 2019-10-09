@@ -15,8 +15,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="ePubViewer is an powerful, modern, and easy-to-use web app for reading ebooks.">
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color">
+<!--     <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color"> -->
     <title>Narrativas</title>
     
     <!-- Fonts
@@ -125,15 +125,21 @@
                     <div class="menu-tooltip font-settings">
                         <div class="tooltip-content">
 
-                          <div class="settings-row" data-font-size="14">
+                            <div class="settings-row" data-font-size="14">
                                 <div class="settings-item" onclick="ePubViewer.changeFS(-1)">Aa-</div>
+                                <!-- <div class="settings-item active hidden" data-value="14">14</div> -->
                                 <div class="settings-item" onclick="ePubViewer.changeFS(1)">Aa+</div>
                             </div>
     
+                            <div class="settings-row" data-type="flow">
+                                <div class="settings-item" data-value="paginated">Paginated</div>
+                                <div class="settings-item active" data-value="scrolled-doc">Scrolled</div>
+                            </div>
+
                             <div class="settings-row" data-type="theme">
                                 <!-- data-value: body-bg;book-bg;shadow;font-color -->
                                 <div class="settings-item active" style="background: #eff6fe; color: #000;" data-value="#eff6fe;#fff;#ccc;#000" data-default="true">Light</div>
-                                <div class="settings-item" style="background: #f5deb3; color: #000;" data-value="#f5deb3;#f5deb3;#fff;#000">Sephia</div>
+                                <div class="settings-item" style="background: #f5deb3; color: #000;" data-value="#f5deb3;#f5deb3;#fff;#000">Sepia</div>
                                 <div class="settings-item" style="background: #111b21; color: #e8e8e8;" data-value="#111b21;#111b21;#aaa;#e8e8e8">Dark</div>
                             </div>
     
@@ -202,25 +208,6 @@
         }
         if (isIE()) alert("ePubViewer does not support Internet Explorer. Please use Chrome or Firefox.");
     </script>
-
-    <script>
-        if ('serviceWorker' in navigator) window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').then(reg => {
-                reg.onupdatefound = () => {
-                    const installingWorker = reg.installing;
-                    installingWorker.onstatechange = () => {
-                        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            location.reload();
-                        }
-                    };
-                };
-            })
-        });
-        try {
-            window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log("error checking cache version"));
-        } catch (err) { }
-    </script>
-
 
     <!-- Libs & polyfills
     ======================================= -->

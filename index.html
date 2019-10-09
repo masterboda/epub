@@ -3,6 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+ 	
+ 	<link rel="manifest" href="./manifest.json">
+	<meta name="theme-color">
+	
 	<title>Narrativas</title>
 	<!-- BOOTSTRAP -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -17,11 +21,6 @@
 	<!-- ESTILOS -->
 	<link rel="stylesheet" href="css/estilos.css">
 	<script src="dist/vconsole.min.js"></script>
-	<script>
-		// init vConsole
-		var vConsole = new VConsole();
-		console.log('Hello world');
-	</script>
 </head>
 <body>
 
@@ -124,11 +123,26 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<!-- FONT FEATHER -->
-	<script>
-      feather.replace()
-    </script>
-    <!-- CODE -->
-    <script src="js/code_base.js"></script>
+	<script>feather.replace()</script>
+   <!-- CODE -->
+   <script src="js/code_base.js"></script>
+   <script>
+		if ('serviceWorker' in navigator) window.addEventListener('load', () => {
+		   navigator.serviceWorker.register('sw.js').then(reg => {
+		       reg.onupdatefound = () => {
+		           const installingWorker = reg.installing;
+		           installingWorker.onstatechange = () => {
+		               if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+		                   location.reload();
+		               }
+		           };
+		       };
+		   })
+		});
+		try {
+			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log("error checking cache version"));
+		} catch (err) { }
+   </script>
 
 </body>
 </html>
