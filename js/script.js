@@ -138,7 +138,8 @@ App.prototype.doBook = function (url, opts) {
     try {
         this.state.book = ePub(url, opts);
         this.qs(".book").innerHTML = "";
-        this.state.rendition = this.state.book.renderTo(this.qs(".book"), {}); //flow: "scrolled-doc"
+        let flowState = localStorage.getItem(`ePubViewer:flow`) || "paginated";
+        this.state.rendition = this.state.book.renderTo(this.qs(".book"), {flow: flowState}); //flow: "scrolled-doc"
     } catch (err) {
         this.fatal("error loading book", err);
         throw err;
@@ -172,8 +173,8 @@ App.prototype.doBook = function (url, opts) {
 };
 
 App.prototype.loadSettingsFromStorage = function () {
-    ["theme", "font"].forEach(container => this.restoreChipActive(container));
-    this.changeFS(0, localStorage.getItem(`ePubViewer:font-size`));
+    ["theme", "font", "font-size"].forEach(container => this.restoreChipActive(container));
+    // this.changeFS(0, localStorage.getItem(`ePubViewer:font-size`));
 };
 
 /* Setting buttons
@@ -226,10 +227,29 @@ App.prototype.setChipActive = function (container, value) {
 App.prototype.getChipActive = function (container) {
     // console.log("container : ");
     // console.dir(container);
-    let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item.active[data-value]");
-    if (!el) return this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]");
+    let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item.active[data-value]") ||
+             this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]");
     return el.dataset.value;
 };
+
+App.prototype.fontSizeUp = function(mode) {
+    let fontEl = this.qs("[data-font-size]"),
+        sizes = ["04pt","08pt","09pt","10pt","12pt","14pt","16pt","18pt","30pt"],
+        btns = this.qsa("[data-font-size] .settings-item"),
+        currFZ = sizes[sizes.indexOf(btns[0].dataset.value) + mode];
+    if (mode == -1 && currFZ == "04pt") {
+        btns[0].classList.add('disabled');
+        return;
+    }
+    else if ( mode == 1 && currFZ == "30pt") {
+        btns[1].classList.add('disabled');
+        return;
+    }
+    btns[0].dataset.value = currFZ;
+    btns[1].dataset.value = currFZ;
+
+    fontEl.dataset.fontSize = currFZ;
+}
 
 App.prototype.changeFS = function(mode, set) {
     let fontEl = this.qs("[data-font-size]"),
@@ -463,25 +483,6 @@ App.prototype.addImgClick = function () {
     });
 }
 
-// App.prototype.addImgClick = function () {    
-//     let iDoc = this.qs("iframe").contentWindow.document;
-//     let imgArr = Array.from(iDoc.querySelectorAll("img"));
-//     imgArr.forEach(im => {
-//         im.onclick = function (e) {
-//             let modalImg = document.createElement("div");
-//             modalImg.className = "imgFullscreen fadeIn animated";
-//             modalImg.style.backgroundImage = `url(${im.src})`;
-//             modalImg.onclick = function() {
-//                 // this.classList.remove("animated");
-//                 this.remove();
-//             }
-//             document.body.appendChild(modalImg);
-//             console.log(im.src);
-
-//             e.stopPropagation();
-//         }
-//     });
-// }
 
 App.prototype.onBookReady = function (event) {
     // this.qs(".sidebar-button").classList.remove("hidden");
@@ -686,7 +687,8 @@ App.prototype.applyTheme = function () {
         linkColor: "#1e83d2",
         textAlign: "justify",
         fontFamily: this.getChipActive("font"),
-        fontSize: this.qs("[data-font-size]").dataset.fontSize + 'pt',
+        // fontSize: this.qs("[data-font-size]").dataset.fontSize + 'pt',
+        fontSize: this.getChipActive("font-size")
         // lineHeight: 1
     };
 

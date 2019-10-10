@@ -472,13 +472,19 @@ body {
     flex-basis: 100%;
 }
 
-.app .menu-bar .menu-tool .font-settings .settings-item:hover, 
+.app .menu-bar .menu-tool .font-settings .settings-item:hover {
+    border-color: var(--primero);
+}
 .app .menu-bar .menu-tool .font-settings .settings-item.active {
     background: var(--primero);
-    border-color: var(--primero);
     color: #fff;
 }
 
+.app .menu-bar .menu-tool .font-settings .settings-item.font-size.active {
+    /*border-color: var(--primero);*/
+    background: white;
+    color: #000 !important;
+}
 
 /* End menu bar */
 
@@ -598,7 +604,8 @@ body {
     box-sizing: border-box;
     max-width: 1200px;
     margin: 0 auto;
-    /*height: calc(100vh - 60px);*/
+    height: calc(100vh - 156px);
+    /*overflow-y: scroll;*/
 
     background: #fff;
     padding: 40px 0;
