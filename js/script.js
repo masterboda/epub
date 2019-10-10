@@ -45,6 +45,18 @@ let App = function (el) {
     this.state = {};
     this.doReset();
 
+    let ufn = location.search.replace("?", "") || location.hash.replace("#", "");
+    this.ufn = ufn.startsWith("!") ? ufn.replace("!", "") : ufn;
+
+    if (ufn) {
+        fetch(ufn).then(resp => {
+            if (resp.status != 200) throw new Error("response status: " + resp.status.toString() + " " + resp.statusText);
+        }).catch(err => {
+            this.fatal("error loading book", err, true);
+        });
+        this.doBook(this.ufn);
+    }
+
     document.body.addEventListener("keyup", this.onKeyUp.bind(this));
 
     this.qsa(".menu-bar .menu-tool").forEach(el => {
@@ -111,7 +123,6 @@ let App = function (el) {
     //     this.fatal("error attaching event handlers for location go to", err);
     //     throw err;
     // }
-
     // this.doTab("toc");
 
     try {
@@ -123,9 +134,7 @@ let App = function (el) {
     this.applyTheme();
 };
 
-
-
-App.prototype.doBook = function (url, opts) {
+App.prototype.doBook = function (url, opts = null) {
     this.qs(".book").innerHTML = "Loading";
 
     opts = opts || {
@@ -138,7 +147,7 @@ App.prototype.doBook = function (url, opts) {
     try {
         this.state.book = ePub(url, opts);
         this.qs(".book").innerHTML = "";
-        let flowState = localStorage.getItem(`ePubViewer:flow`) || "paginated";
+        let flowState = this.getChipActive("flow");//localStorage.getItem(`ePubViewer:flow`) || "paginated";
         this.state.rendition = this.state.book.renderTo(this.qs(".book"), {flow: flowState}); //flow: "scrolled-doc"
     } catch (err) {
         this.fatal("error loading book", err);
@@ -173,7 +182,7 @@ App.prototype.doBook = function (url, opts) {
 };
 
 App.prototype.loadSettingsFromStorage = function () {
-    ["theme", "font", "font-size"].forEach(container => this.restoreChipActive(container));
+    ["theme", "font", "font-size", "flow"].forEach(container => this.restoreChipActive(container));
     // this.changeFS(0, localStorage.getItem(`ePubViewer:font-size`));
 };
 
@@ -194,24 +203,6 @@ App.prototype.setDefaultChipActive = function (container) {
     return el.dataset.value;
 };
 
-// Old version 
-// App.prototype.setChipActive = function (container, value) {
-//     Array.from(this.qs(`.chips[data-chips='${container}']`).querySelectorAll(".chip[data-value]")).forEach(el => {
-//         el.classList[el.dataset.value == value ? "add" : "remove"]("active");
-//     });
-//     localStorage.setItem(`ePubViewer:${container}`, value);
-//     this.applyTheme();
-//     if (this.state.rendition && this.state.rendition.location) this.onRenditionRelocatedUpdateIndicators(this.state.rendition.location);
-//     return value;
-// };
-
-// App.prototype.getChipActive = function (container) {
-//     let el = this.qs(`.chips[data-chips='${container}']`).querySelector(".chip.active[data-value]");
-//     if (!el) return this.qs(`.chips[data-chips='${container}']`).querySelector(".chip[data-default]");
-//     return el.dataset.value;
-// };
-
-
 // New version 
 App.prototype.setChipActive = function (container, value) {
     Array.from(this.qs(`.settings-row[data-type='${container}']`).querySelectorAll(".settings-item[data-value]")).forEach(el => {
@@ -219,6 +210,9 @@ App.prototype.setChipActive = function (container, value) {
     });
     localStorage.setItem(`ePubViewer:${container}`, value);
     this.applyTheme();
+    if(container == "flow")
+        this.doBook(this.ufn);
+        
     if (this.state.rendition && this.state.rendition.location)
         this.onRenditionRelocatedUpdateIndicators(this.state.rendition.location);
     return value;
@@ -289,7 +283,7 @@ App.prototype.makeBookmark = function () {
 
     if (!text) return;
 
-    this.addBookm({title: text, href: this.qs(".rangebar").value});
+    this.addBookm({title: text, href: this.state.rendition.location.start.cfi});
     this.qs(".menu-bar .bookmark-tool").classList.add("bookmarked");
     textInput.value = "";
 }
@@ -323,7 +317,7 @@ App.prototype.updateBookm = function () {
         a.href = a.dataset.href = item.href;
         a.innerText = item.title;
         a.addEventListener("click", event => {
-            this.state.rendition.display(this.state.book.locations.cfiFromLocation(item.href)).catch(err => console.warn("error displaying page", err));
+            this.state.rendition.display(item.href).catch(err => console.warn("error displaying page", err));
             modal(this.qs(".tabs-modal"), 'hide');
             event.stopPropagation();
             event.preventDefault();
@@ -786,7 +780,7 @@ App.prototype.onRenditionRelocatedUpdateIndicators = function (event) {
         //bookmark indicator update
         let icon = this.qs(".menu-bar .bookmark-tool");
         for(let item in this.bookmArr) {
-            if(this.bookmArr[item].href == event.start.location) {
+            if(this.bookmArr[item].href == this.state.rendition.location.start.cfi) {
                 icon.classList.add("bookmarked");
                 break;
             }
@@ -1020,19 +1014,6 @@ let ePubViewer = null;
 
 try {
     ePubViewer = new App(document.querySelector(".app"));
-    let ufn = location.search.replace("?", "") || location.hash.replace("#", "");
-    if (ufn.startsWith("!")) {
-        ufn = ufn.replace("!", "");
-        // document.querySelector(".app button.open").style = "display: none !important";
-    }
-    if (ufn) {
-        fetch(ufn).then(resp => {
-            if (resp.status != 200) throw new Error("response status: " + resp.status.toString() + " " + resp.statusText);
-        }).catch(err => {
-            ePubViewer.fatal("error loading book", err, true);
-        });
-        ePubViewer.doBook(ufn);
-    }
 } catch (err) {
     document.querySelector(".app .error").classList.remove("hidden");
     document.querySelector(".app .error .error-title").innerHTML = "Error3";
