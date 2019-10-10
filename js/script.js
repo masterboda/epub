@@ -48,8 +48,8 @@ let App = function (el) {
     let ufn = location.search.replace("?", "") || location.hash.replace("#", "");
     this.ufn = ufn.startsWith("!") ? ufn.replace("!", "") : ufn;
 
-    if (ufn) {
-        fetch(ufn).then(resp => {
+    if (this.ufn) {
+        fetch(this.ufn).then(resp => {
             if (resp.status != 200) throw new Error("response status: " + resp.status.toString() + " " + resp.statusText);
         }).catch(err => {
             this.fatal("error loading book", err, true);
