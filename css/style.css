@@ -105,6 +105,10 @@ body {
     font-size: 14px;
 }
 
+.app.scrolled .bar, .app.scrolled .nav-arrows{
+    display: none;
+}
+
 /* Modal */
 
 .app .modal {
