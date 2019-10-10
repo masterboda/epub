@@ -210,9 +210,11 @@ App.prototype.setChipActive = function (container, value) {
     });
     localStorage.setItem(`ePubViewer:${container}`, value);
     this.applyTheme();
-    if(container == "flow")
+    if(container == "flow") {
         this.doBook(this.ufn);
-        
+        this.appElm.classList[value == "scrolled-doc" ? "add" : "remove"]("scrolled");
+    }
+
     if (this.state.rendition && this.state.rendition.location)
         this.onRenditionRelocatedUpdateIndicators(this.state.rendition.location);
     return value;
