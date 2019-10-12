@@ -146,6 +146,9 @@
 				if (result.done) {
 					console.log('Fetch complete');
 					container.style.display = 'none';
+					let img = container.parentElement.querySelector(".cubiertaAvs"),
+						pos = img.src.lastIndexOf('/');
+					img.src = img.src.substring(0,pos) + '/on/' + img.src.substring(pos+1)
 					break;
 				}
 				bytesReceived += result.value.length;
