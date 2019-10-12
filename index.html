@@ -43,7 +43,10 @@
 					<div class="row no-gutters">
 						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
 							<div class="tableLibrary2"></div>
-							<div class="book"><img class="cubiertaAvs" src="images/thumb1.png" alt=""></div>
+							<div class="book">
+								<img class="cubiertaAvs" src="images/thumb1.png" alt="">
+								<div class="progress-container"><span class="prog-bar"><span class="bar"></span></span><a href="#" data-url="https://masterboda.github.io/reader/epubs/wm3.epub" onclick="progress(this)" class="dwn-icon"></a></div>
+							</div>
 							<div class="infoBook">
 								<p class="titleBook block-ellipsis">Misión bebé</p>
 								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
@@ -124,9 +127,37 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<!-- FONT FEATHER -->
 	<script>feather.replace()</script>
-   <!-- CODE -->
-   <script src="js/code_base.js"></script>
-   <script>
+	<!-- CODE -->
+	<script src="js/code_base.js"></script>
+	<script>
+		progress = async function(target) {
+			let container = target.parentElement,
+				bar = container.querySelector('.prog-bar .bar');
+
+			const url = target.dataset.url,
+				response = await fetch(url),
+				total = Number(response.headers.get('content-length')),
+				reader = response.body.getReader();
+
+			let bytesReceived = 0;
+
+			while (true) {
+				const result = await reader.read();
+				if (result.done) {
+					console.log('Fetch complete');
+					container.style.display = 'none';
+					break;
+				}
+				bytesReceived += result.value.length;
+				bar.style.width = `${bytesReceived / total * 100}%`;
+				console.log(`Received ${bytesReceived} bytes of ${total}`);
+			}
+
+			return bytesReceived;
+		}
+
+   </script>
+   <!-- <script>
 		if ('serviceWorker' in navigator) window.addEventListener('load', () => {
 		   navigator.serviceWorker.register('sw.js').then(reg => {
 		       reg.onupdatefound = () => {
@@ -142,7 +173,7 @@
 		try {
 			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log("error checking cache version"));
 		} catch (err) { }
-   </script>
+   </script> -->
 
 </body>
 </html>
