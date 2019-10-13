@@ -44,8 +44,8 @@
 						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
 							<div class="tableLibrary2"></div>
 							<div class="book">
-								<img class="cubiertaAvs" src="images/thumb1.png" alt="">
-								<div class="progress-container"><span class="prog-bar"><span class="bar"></span></span><a href="#" data-url="https://masterboda.github.io/reader/epubs/wm3.epub" onclick="progress(this)" class="dwn-icon"></a></div>
+								<img class="cubiertaAvs" src="images/on/thumb1.png" alt="">
+								<div class="progress-container"><span class="prog-bar"><span class="bar"></span></span><a href="#" data-url="/epubs/alice.epub" class="dwn-icon"></a></div>
 							</div>
 							<div class="infoBook">
 								<p class="titleBook block-ellipsis">Misión bebé</p>
@@ -55,7 +55,10 @@
 						</div>
 						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
 							<div class="tableLibrary2"></div>
-							<div class="book"><img class="cubiertaAvs" src="images/thumb2.png" alt=""></div>
+							<div class="book">
+								<img class="cubiertaAvs" src="images/on/thumb2.png" alt="">
+								<div class="progress-container"><span class="prog-bar"><span class="bar"></span></span><a href="#" data-url="/epubs/wm3_narrativa_epub_v6.epub" class="dwn-icon"></a></div>
+							</div>
 							<div class="infoBook">
 								<p class="ti
 								tleBook block-ellipsis">El club de los octópodos azules</p>
@@ -63,17 +66,20 @@
 								<p class="porcentBook">Próximamente...</p>
 							</div>
 						</div>
-						<a href="reader.html#!epubs/wm3_narrativa_epub_v6.epub" class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
+						<div href="reader.html#!epubs/wm3_narrativa_epub_v6.epub" class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
 							<!-- <a class="linkInner" href="book1.html"> -->
 								<div class="tableLibrary2"></div>
-								<div class="book"><img class="cubiertaAvs" src="images/thumb3.png" alt=""></div>
+								<div class="book">
+									<img class="cubiertaAvs" src="images/on/thumb3.png" alt="">
+									<div class="progress-container"><span class="prog-bar"><span class="bar"></span></span><a href="#" data-url="/epubs/wm3.epub" class="dwn-icon"></a></div>
+								</div>
 								<div class="infoBook">
 									<p class="titleBook block-ellipsis">Pucuy y Kitan: La batalla contra Smog.</p>
 									<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
 									<p class="porcentBook">Disponible</p>
 								</div>
 							<!-- </a> -->
-						</a>
+						</div>
 					</div>
 				</div>
 				<!-- LIBRARY -->
@@ -84,7 +90,10 @@
 						<div class="col-md-2"></div>
 						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
 							<div class="tableLibrary2"></div>
-							<div class="book"><img class="cubiertaAvs" src="images/thumb4.png" alt=""></div>
+							<div class="book">
+								<img class="cubiertaAvs" src="images/on/thumb4.png" alt="">
+								<div class="progress-container"><span class="prog-bar"><span class="bar"></span></span><a href="#" data-url="/epubs/wm5.epub" class="dwn-icon"></a></div>
+							</div>
 							<div class="infoBook">
 								<p class="titleBook block-ellipsis">El librotante</p>
 								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
@@ -93,7 +102,10 @@
 						</div>
 						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
 							<div class="tableLibrary2"></div>
-							<div class="book"><img class="cubiertaAvs" src="images/thumb5.png" alt=""></div>
+							<div class="book">
+								<img class="cubiertaAvs" src="images/on/thumb5.png" alt="">
+								<div class="progress-container"><span class="prog-bar"><span class="bar"></span></span><a href="#" data-url="/epubs/wm5_adjust.epub" class="dwn-icon"></a></div>
+							</div>
 							<div class="infoBook">
 								<p class="titleBook block-ellipsis">Lupe y los caramelos para adivinar</p>
 								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
@@ -129,7 +141,31 @@
 	<script>feather.replace()</script>
 	<!-- CODE -->
 	<script src="js/code_base.js"></script>
+
 	<script>
+		if ('serviceWorker' in navigator) window.addEventListener('load', () => {
+			navigator.serviceWorker.register('sw.js').then(reg => {
+				reg.onupdatefound = () => {
+					const installingWorker = reg.installing;
+					installingWorker.onstatechange = () => {
+						if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+							location.reload();
+						}
+					};
+				};
+			})
+		});
+		try {
+			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log("error checking cache version"));
+		} catch (err) { }
+	</script>
+
+	<script>
+		let dwnBtns = Array.from(document.querySelectorAll('.dwn-icon'));
+		dwnBtns.forEach(function(btn){
+			btn.addEventListener('click', onDwnClick);
+		});
+
 		progress = async function(target) {
 			let container = target.parentElement,
 				bar = container.querySelector('.prog-bar .bar');
@@ -140,15 +176,16 @@
 				reader = response.body.getReader();
 
 			let bytesReceived = 0;
+			console.log(response);
 
 			while (true) {
 				const result = await reader.read();
 				if (result.done) {
 					console.log('Fetch complete');
-					container.style.display = 'none';
-					let img = container.parentElement.querySelector(".cubiertaAvs"),
-						pos = img.src.lastIndexOf('/');
-					img.src = img.src.substring(0,pos) + '/on/' + img.src.substring(pos+1)
+					container.parentElement.classList.add('downloaded');
+					// let img = container.parentElement.querySelector(".cubiertaAvs"),
+					// 	pos = img.src.lastIndexOf('/');
+					// img.src = img.src.substring(0,pos) + '/on/' + img.src.substring(pos+1)
 					break;
 				}
 				bytesReceived += result.value.length;
@@ -159,24 +196,46 @@
 			return bytesReceived;
 		}
 
-   </script>
-   <!-- <script>
-		if ('serviceWorker' in navigator) window.addEventListener('load', () => {
-		   navigator.serviceWorker.register('sw.js').then(reg => {
-		       reg.onupdatefound = () => {
-		           const installingWorker = reg.installing;
-		           installingWorker.onstatechange = () => {
-		               if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-		                   location.reload();
-		               }
-		           };
-		       };
-		   })
+		function onDwnClick(event) {
+			event.preventDefault();
+			progress(event.target);
+		}
+
+		function isBookCached(url) {
+			return new Promise(function(resolve, reject){
+				window.caches.keys()
+					.then(keys => {
+						keys = keys.filter(key => key.startsWith('ePubViewer'));
+						if(keys.length == 0)
+							reject();
+						
+						window.caches.open(keys[0])
+						.then(cache => cache.match(url))
+						.then(match => {
+							if(match != undefined)
+								resolve();
+							else
+								reject();
+						})
+					});
+			});
+		}
+
+		let	bookPosters = Array.from(document.querySelectorAll('.book'));
+		
+		bookPosters.forEach(function(book){
+			let bookUrl = book.querySelector('.dwn-icon').dataset.url;
+
+			isBookCached(bookUrl)
+				.then(function() {
+					book.classList.add('downloaded');
+				})
+				.catch(function() {
+					book.classList.remove('downloaded');
+				});
 		});
-		try {
-			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log("error checking cache version"));
-		} catch (err) { }
-   </script> -->
+
+   </script>
 
 </body>
 </html>

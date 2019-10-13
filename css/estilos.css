@@ -60,6 +60,18 @@ body{
     box-shadow: 0 0px 15px rgba(0, 0, 0, 0.08), 0 0px 0px rgba(0,0,0,.29);
 }
 
+.book img{
+    filter: grayscale(0.9);
+    transition: filter .3s;
+}
+
+.book.downloaded img{
+    filter: grayscale(0);
+}
+.book.downloaded .progress-container{
+    display: none;
+}
+
 .prog-bar{
     position: absolute;
     display: block;
