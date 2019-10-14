@@ -71,13 +71,17 @@ body{
     border-radius: 50%;
     box-shadow: 0 0 15px #aaa;
     display: block;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     background: url(../images/icons/dwn.png) no-repeat center;
     background-size: cover;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.dwn-icon.in-progress {
+    background-image: url(../images/icons/ajax-loader.gif);
 }
 
 .rm-book{

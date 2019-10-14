@@ -83,19 +83,6 @@
 								<p class="porcentBook">Disponible</p>
 							</div>
 						</div>
-						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
-							<div class="tableLibrary2"></div>
-							<a href="#" data-url="epubs/wm5.epub" class="book">
-								<img class="cubiertaAvs" src="images/on/thumb3.png" alt="">
-								<span class="dwn-icon"></span>
-								<span class="rm-book"></span>
-							</a>
-							<div class="infoBook">
-								<p class="titleBook block-ellipsis">Pucuy y Kitan: La batalla contra Smog.</p>
-								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
-								<p class="porcentBook">Disponible</p>
-							</div>
-						</div>
 					</div>
 				</div>
 				<!-- LIBRARY -->
@@ -196,11 +183,13 @@
 				book = btn.parentElement,
 				url = book.dataset.url;
 
+			btn.classList.add('in-progress');
+
 			fetch(url)
 				.then(response => {
 					if (response.ok) {
 						book.classList.add('downloaded');
-						console.log(book, btn);
+						btn.classList.remove('in-progress');
 					}
 				});
 		}
