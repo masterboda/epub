@@ -68,26 +68,14 @@ body{
 .book.downloaded img{
     filter: grayscale(0);
 }
-.book.downloaded .progress-container{
+.book.downloaded .dwn-icon{
     display: none;
 }
 
-.prog-bar{
-    position: absolute;
+.book.downloaded .rm-book {
     display: block;
-    width: 100%;
-    bottom: 10px;
-    padding: 0 10px;
 }
-.prog-bar .bar {
-    display: block;
-    border-radius: 3px;
-    height: 4px;
-    width: 0;
-    /* max-width: 120px; */
-    background: blue;
-    transition: background-color .3s;
-}
+
 .dwn-icon {
     position: absolute;
     border-radius: 50%;
@@ -100,6 +88,18 @@ body{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.rm-book{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: url(../images/icons/close@2x.png) center no-repeat;
+    background-size: cover;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+    display: none;
 }
 
 .tableLibrary{
