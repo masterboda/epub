@@ -10,6 +10,7 @@ self.addEventListener('activate', event =>
 
 // Immediately activate the new cache.
 self.addEventListener('install', event => {
+    console.log('sw: onInstall');
     event.waitUntil(
         caches.open(`${cachePrefix}-${revision}`).then(
             cache => self.skipWaiting()))
@@ -42,7 +43,7 @@ self.addEventListener('activate', event =>
     event.waitUntil(
         caches.keys().then(
             ns => Promise.all(ns.filter(
-                n => n.startsWith(cachePrefix)).map(
+                n => n.startsWith(cachePrefix) && !n.endsWith(revision)).map(
                 n => caches.delete(n))))));
 
 

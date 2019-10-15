@@ -29,10 +29,10 @@
 		// init vConsole
 		var vConsole = new VConsole();
 	</script>
-
+	
 	<script>
 		if ('serviceWorker' in navigator) {
-			var serviceWorkerSupported = true;
+			const serviceWorkerSupported = true;
 
 			window.addEventListener('load', () => {
 				navigator.serviceWorker.register('sw.js').then(reg => {
@@ -48,7 +48,7 @@
 				})
 			});
 		} else {
-			var serviceWorkerSupported = false;
+			const serviceWorkerSupported = false;
 			alert('Your web browser do not support ServiceWorker so offline mode is unavailable :(');
 		}
 
@@ -233,15 +233,16 @@
 						keys = keys.filter(key => key.startsWith('ePubViewer'));
 						if (keys.length == 0)
 							reject();
-
-						window.caches.open(keys[0])
-							.then(cache => cache.match(url))
-							.then(match => {
-								if (match != undefined)
-									resolve();
-								else
-									reject();
-							})
+						else {
+							window.caches.open(keys[0])
+								.then(cache => cache.match(url))
+								.then(match => {
+									if (match != undefined)
+										resolve();
+									else
+										reject();
+								})
+						}
 					});
 			});
 		}
