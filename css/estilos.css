@@ -55,7 +55,7 @@ body{
     transition: filter .3s;
 }
 
-.book.downloaded img{
+.book.downloaded img, .book.available img{
     filter: grayscale(0);
 }
 .book.downloaded .dwn-icon{

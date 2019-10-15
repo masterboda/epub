@@ -148,22 +148,28 @@
 	</script>
 
 	<script>
-		if ('serviceWorker' in navigator) window.addEventListener('load', () => {
-			navigator.serviceWorker.register('sw.js').then(reg => {
-				reg.onupdatefound = () => {
-					const installingWorker = reg.installing;
-					installingWorker.onstatechange = () => {
-						if (installingWorker.state === 'installed' && navigator.serviceWorker
-							.controller) {
-							location.reload();
-						}
+		if ('serviceWorker' in navigator) {
+			const serviceWorkerSupported = true;
+
+			window.addEventListener('load', () => {
+				navigator.serviceWorker.register('sw.js').then(reg => {
+					reg.onupdatefound = () => {
+						const installingWorker = reg.installing;
+						installingWorker.onstatechange = () => {
+							if (installingWorker.state === 'installed' && navigator.serviceWorker
+								.controller) {
+								location.reload();
+							}
+						};
 					};
-				};
-			})
-		});
-		else
+				})
+			});
+		}
+		else {
+			const serviceWorkerSupported = false;
 			alert('Your web browser do not support ServiceWorker so offline mode is unavailable :(');
-			
+		}
+
 		try {
 			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log(
 				"error checking cache version"));
@@ -246,13 +252,21 @@
 			let bookUrl = book.dataset.url;
 			book.href = `reader.html#!${bookUrl}`;
 
-			isBookCached(bookUrl)
-				.then(function () {
-					book.classList.add('downloaded');
-				})
-				.catch(function () {
-					book.classList.remove('downloaded');
-				});
+			if(serviceWorkerSupported) {
+				isBookCached(bookUrl)
+					.then(function () {
+						book.classList.add('downloaded');
+					})
+					.catch(function () {
+						book.classList.remove('downloaded');
+					});
+			}
+			else {
+				Array.from(book.querySelectorAll('.dwn-icon, .rm-book'))
+					.forEach(item => {
+						item.remove();
+					});
+			}
 		});
 	</script>
 

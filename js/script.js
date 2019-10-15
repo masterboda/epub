@@ -272,13 +272,6 @@ App.prototype.changeFS = function(mode, set) {
 
 
 //Bookmarks
-
-// App.onBookmItemClick = function (href, event) {
-//     this.state.rendition.display(this.state.book.locations.cfiFromLocation(href)).catch(err => console.warn("error displaying page", err));
-//     this.qsa(".modal").forEach(el => el.classList.add("hidden"));
-//     event.stopPropagation();
-//     event.preventDefault();
-// }
 App.prototype.makeBookmark = function () {
     let textInput = this.qs(".new-bookmark .bookmark-input"),
         text = textInput.value.trim().slice(0, 70);
@@ -522,12 +515,6 @@ App.prototype.onTocItemClick = function (href, event) {
     modal(this.qs(".tabs-modal"), 'hide');
     event.stopPropagation();
     event.preventDefault();
-
-    // document.getElementsByClassName("item").addEventListener("click", myFunction);
-
-    // function myFunction() {
-    //     document.getElementsByClassName("item").css("display","none");
-    // }
 };
 
 App.prototype.getNavItem = function(loc, ignoreHash) {
@@ -557,7 +544,6 @@ App.prototype.onNavigationLoaded = function (nav) {
             else
                 a.classList.add("level-2");
 
-            // a.innerHTML = `${'&nbsp'.repeat(indent*4)} ${item.label.trim()}`;
             a.addEventListener("click", this.onTocItemClick.bind(this, item.href));
             handleItems(item.subitems, indent + 1);
         });
@@ -622,6 +608,7 @@ App.prototype.onKeyUp = function (event) {
 };
 
 App.prototype.onRenditionClick = function (event) {
+    console.log("You clicked on book");
     try {
         if (event.target.tagName.toLowerCase() == "a" && event.target.href) return;
         if (event.target.parentNode.tagName.toLowerCase() == "a" && event.target.parentNode.href) return;
@@ -652,6 +639,7 @@ App.prototype.onRenditionClick = function (event) {
 };
 
 App.prototype.onRenditionDisplayedTouchSwipe = function (event) {
+    console.log("call function 'onRenditionDisplayedTouchSwipe'");
     let start = null
     let end = null;
     const el = event.document.documentElement;
@@ -660,6 +648,7 @@ App.prototype.onRenditionDisplayedTouchSwipe = function (event) {
         start = event.changedTouches[0];
     });
     el.addEventListener('touchend', event => {
+        console.log("You swiped");
         end = event.changedTouches[0];
 
         let hr = (end.screenX - start.screenX) / el.getBoundingClientRect().width;
