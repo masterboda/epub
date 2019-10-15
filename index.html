@@ -161,6 +161,9 @@
 				};
 			})
 		});
+		else
+			alert('Your web browser do not support ServiceWorker so offline mode is unavailable :(');
+			
 		try {
 			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log(
 				"error checking cache version"));
