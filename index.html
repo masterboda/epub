@@ -139,7 +139,7 @@
 						</div>
 						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
 							<div class="tableLibrary2"></div>
-							<a href="#" data-url="epubs/wm3.epub" class="book">
+							<a href="#" class="book">
 								<img class="cubiertaAvs" src="images/on/thumb5.png" alt="">
 								<span class="dwn-icon"></span>
 								<span class="rm-book"></span>
@@ -250,9 +250,9 @@
 		let bookPosters = Array.from(document.querySelectorAll('.book'));
 		bookPosters.forEach(function (book) {
 			let bookUrl = book.dataset.url;
-			book.href = `reader.html#!${bookUrl}`;
+			book.href = bookUrl ? `reader.html#!${bookUrl}` : '#';
 
-			if(serviceWorkerSupported) {
+			if(serviceWorkerSupported && bookUrl) {
 				isBookCached(bookUrl)
 					.then(function () {
 						book.classList.add('downloaded');
@@ -266,6 +266,9 @@
 					.forEach(item => {
 						item.remove();
 					});
+
+				if(bookUrl)
+					book.classList.add('downloaded');
 			}
 		});
 	</script>
