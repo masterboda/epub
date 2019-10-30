@@ -412,7 +412,7 @@ App.prototype.doReset = function () {
     this.qs(".menu-bar .book-title").innerHTML = "";
     this.qs(".menu-bar .book-author").innerHTML = "";
     this.qs(".tab[data-tab=bookmarks] .bookmark-list").innerHTML = "";
-    // this.qs(".bar .loc").innerHTML = "";
+    this.qs(".bar .loc").innerHTML = "";
     this.qs(".search-results").innerHTML = "";
     this.qs(".search-input").value = "";
     this.qs(".chapter-list").innerHTML = "";
@@ -666,7 +666,7 @@ App.prototype.onRenditionDisplayedTouchSwipe = function (event) {
 ======================================= */
 
 App.prototype.applyTheme = function () {
-    let viewerElm = this.qs(".app .viewer");
+    let viewerElm = this.qs(".app .viewer .book");
 
     let theme = {
         linkColor: "#1e83d2",
@@ -767,6 +767,9 @@ App.prototype.onRenditionRelocatedUpdateIndicators = function (event) {
             this.updateRangeBar(range);
             this.state.rendition.display(this.state.book.locations.cfiFromLocation(range.value));
         }
+
+        //book percent indicator update
+        this.qs('.bar .loc').innerText = `${Math.round(this.state.rendition.location.start.percentage * 100)}%`;
 
         //bookmark indicator update
         let icon = this.qs(".menu-bar .bookmark-tool");

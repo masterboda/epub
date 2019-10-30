@@ -24,9 +24,9 @@
     
     <!-- ToDo: link to 'Geogia' font -->
     <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Arbutus+Slab" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Arbutus+Slab" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet"> -->
     
     <!-- Css libs
     ======================================= -->
@@ -43,7 +43,7 @@
     <script src="dist/vconsole.min.js"></script>
 	<script>
 		// init vConsole
-		var vConsole = new VConsole();
+		// var vConsole = new VConsole();
 	</script>
 </head>
 
@@ -149,11 +149,12 @@
                                 <div class="settings-item" style="background: #f5deb3; color: #000;" data-value="#f5deb3;#f5deb3;#fff;#000">Sepia</div>
                                 <div class="settings-item" style="background: #111b21; color: #e8e8e8;" data-value="#111b21;#111b21;#aaa;#e8e8e8">Dark</div>
                             </div>
-    
+                            
                             <div class="settings-row"  data-type="font">
-                                <div class="settings-item active" style="font-family: Arial" data-value="'Arial', Arimo, Liberation Sans, sans-serif" data-default="true">Arial</div>
-                                <div class="settings-item" style="font-family: Lato" data-value="'Lato', sans-serif">Lato</div>
-                                <div class="settings-item" style="font-family: Georgia" data-value="'Georgia', Liberation Serif, serif">Georgia</div>
+                                <div class="settings-item active" style="font-family: Arial" data-value="Arial, Arimo, Liberation Sans, sans-serif" data-default="true">Arial</div>
+                                <div class="settings-item" style="font-family: Lato" data-value="Lato, sans-serif">Lato</div>
+                                <div class="settings-item" style="font-family: Georgia" data-value="Georgia, Liberation Serif, serif">Georgia</div>
+                                <div class="settings-item" style="font-family: Times New Roman" data-value="Times New Roman, Times, serif">Times</div>
                             </div>
 
                         </div>
@@ -178,23 +179,23 @@
                     </div>
                 </div>
             </div>
-    
-            <!-- Navigation buttons
+
+            <!-- PROGRESS BAR
             ======================================= -->
             
-            <div class="nav-arrows">
-                <div class="prev-btn"><button class="prev"><img src="images/icons/arrow-left.png" alt=""/></button></div>
-                <div class="next-btn"><button class="next"><img src="images/icons/arrow-right.png" alt=""/></button></div>
+            <div class="bar">
+                <input type="range" class="rangebar hidden">
+                <div class="loc"></div>
             </div>
+    
         </div>
 
-        <!-- PROGRESS BAR
-        ======================================= -->
-        
-        <div class="bar">
-            <!-- <div class="loc"> -->
-                <input type="range" class="rangebar hidden">
-            <!-- </div> -->
+        <!-- Navigation buttons
+            ======================================= -->
+            
+        <div class="nav-arrows">
+            <div class="prev-btn"><button class="prev"><img src="images/icons/button-left.png" alt=""/></button></div>
+            <div class="next-btn"><button class="next"><img src="images/icons/button-right.png" alt=""/></button></div>
         </div>
 
         

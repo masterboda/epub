@@ -1,0 +1,33 @@
+
+/* Font-family GEORGIA
+======================================= */
+
+/* regular */
+@font-face {
+	font-family: "Georgia";
+	src: url("./georgia-regular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+/* regular italic*/
+@font-face {
+	font-family: "Georgia";
+	src: url("./georgia-regularItalic.ttf") format("truetype");
+	font-style: italic;
+	font-weight: normal;
+}
+
+/* bold */
+@font-face {
+	font-family: "Georgia";
+	src: url("./georgia-bold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: bold;
+}
+/* bold italic*/
+@font-face {
+	font-family: "Georgia";
+	src: url("./georgia-boldItalic.ttf") format("truetype");
+	font-style: italic;
+	font-weight: bold;
+}
