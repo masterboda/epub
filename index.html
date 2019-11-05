@@ -31,26 +31,26 @@
 	</script>
 	
 	<script>
-		if ('serviceWorker' in navigator) {
-			var serviceWorkerSupported = true;
+		// if ('serviceWorker' in navigator) {
+		// 	var serviceWorkerSupported = true;
 
-			window.addEventListener('load', () => {
-				navigator.serviceWorker.register('sw.js').then(reg => {
-					reg.onupdatefound = () => {
-						const installingWorker = reg.installing;
-						installingWorker.onstatechange = () => {
-							if (installingWorker.state === 'installed' && navigator.serviceWorker
-								.controller) {
-								location.reload();
-							}
-						};
-					};
-				})
-			});
-		} else {
-			var serviceWorkerSupported = false;
-			alert('Your web browser do not support ServiceWorker so offline mode is unavailable :(');
-		}
+		// 	window.addEventListener('load', () => {
+		// 		navigator.serviceWorker.register('sw.js').then(reg => {
+		// 			reg.onupdatefound = () => {
+		// 				const installingWorker = reg.installing;
+		// 				installingWorker.onstatechange = () => {
+		// 					if (installingWorker.state === 'installed' && navigator.serviceWorker
+		// 						.controller) {
+		// 						location.reload();
+		// 					}
+		// 				};
+		// 			};
+		// 		})
+		// 	});
+		// } else {
+		// 	var serviceWorkerSupported = false;
+		// 	alert('Your web browser do not support ServiceWorker so offline mode is unavailable :(');
+		// }
 
 		try {
 			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log(

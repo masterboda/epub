@@ -155,7 +155,6 @@ App.prototype.doBook = function (url, opts = null) {
     }
 
     this.state.book.ready.then(this.onBookReady.bind(this)).catch(this.fatal.bind(this, "error loading book"));
-
     this.state.book.loaded.navigation.then(this.onNavigationLoaded.bind(this)).catch(this.fatal.bind(this, "error loading toc"));
     this.state.book.loaded.metadata.then(this.onBookMetadataLoaded.bind(this)).catch(this.fatal.bind(this, "error loading metadata"));
     // this.state.book.loaded.cover.then(this.onBookCoverLoaded.bind(this)).catch(this.fatal.bind(this, "error loading cover"));
@@ -166,7 +165,7 @@ App.prototype.doBook = function (url, opts = null) {
     this.state.rendition.on("relocated", this.onRenditionRelocated.bind(this));
     this.state.rendition.on("click", this.onRenditionClick.bind(this));
     this.state.rendition.on("keyup", this.onKeyUp.bind(this));
-    this.state.rendition.on("displayed", this.onRenditionDisplayedTouchSwipe.bind(this));
+    this.state.rendition.on("relocated", this.addSwipeListener.bind(this));
     this.state.rendition.on("relocated", this.onRenditionRelocatedUpdateIndicators.bind(this));
     this.state.rendition.on("relocated", this.onRenditionRelocatedSavePos.bind(this));
     this.state.rendition.on("started", this.onRenditionStartedRestorePos.bind(this));
@@ -608,8 +607,9 @@ App.prototype.onKeyUp = function (event) {
 };
 
 App.prototype.onRenditionClick = function (event) {
-    console.log("You clicked on book");
+    // console.log("You clicked on book");
     try {
+        if(true) return;
         if (event.target.tagName.toLowerCase() == "a" && event.target.href) return;
         if (event.target.parentNode.tagName.toLowerCase() == "a" && event.target.parentNode.href) return;
         if (window.getSelection().toString().length !== 0) return;
@@ -638,27 +638,78 @@ App.prototype.onRenditionClick = function (event) {
     }
 };
 
+App.prototype.addSwipeListener = function () {
+    
+    let el = this.qs("iframe").contentWindow.document;
+
+    console.log('Call \'addSwipeListerner\'', el);
+
+    var yDown = null, xDown = null;
+
+    function getTouches(evt) {
+        return evt.touches ||             // browser API
+                evt.originalEvent.touches; // jQuery
+    }                                                     
+
+    el.ontouchstart = (evt) => {
+        const firstTouch = getTouches(evt)[0];
+        xDown = firstTouch.clientX;
+        yDown = firstTouch.clientY;
+    };  
+
+    el.ontouchend = (evt) => {
+        if ( ! xDown || ! yDown ) return;
+
+        let xUp = evt.changedTouches[0].clientX,
+            yUp = evt.changedTouches[0].clientY;
+
+        let xDiff = xDown - xUp,
+            yDiff = yDown - yUp;
+
+        if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+            if ( xDiff > 0.25 ) {
+                console.log('left swipe');
+                return this.state.rendition.next();
+            } else if (xDiff < -0.25) {
+                console.log('right swipe');
+                return this.state.rendition.prev();
+            }
+        } else {
+            if ( yDiff > 0.25 ) {
+                console.log('up swipe');
+            } else if (yDiff < -0.25) {
+                console.log('down swipe');
+            }
+        };
+
+        /* reset values */
+        xDown = null;
+        yDown = null;
+    };
+}
+
 App.prototype.onRenditionDisplayedTouchSwipe = function (event) {
     console.log("call function 'onRenditionDisplayedTouchSwipe'");
-    let start = null
-    let end = null;
-    const el = event.document.documentElement;
+    // let start = null
+    // let end = null;
+    // const el = event.document.documentElement;
 
-    el.addEventListener('touchstart', event => {
-        start = event.changedTouches[0];
-    });
-    el.addEventListener('touchend', event => {
-        console.log("You swiped");
-        end = event.changedTouches[0];
+    // el.addEventListener('touchstart', event => {
+    //     start = event.changedTouches[0];
+    // });
+    // el.addEventListener('touchend', event => {
+    //     console.log("You swiped");
+    //     end = event.changedTouches[0];
 
-        let hr = (end.screenX - start.screenX) / el.getBoundingClientRect().width;
-        let vr = (end.screenY - start.screenY) / el.getBoundingClientRect().height;
+    //     let hr = (end.screenX - start.screenX) / el.getBoundingClientRect().width;
+    //     let vr = (end.screenY - start.screenY) / el.getBoundingClientRect().height;
 
-        if (hr > vr && hr > 0.25) return this.state.rendition.prev();
-        if (hr < vr && hr < -0.25) return this.state.rendition.next();
-        if (vr > hr && vr > 0.25) return;
-        if (vr < hr && vr < -0.25) return;
-    });
+    //     if (hr > vr && hr > 0.25) return this.state.rendition.prev();
+    //     if (hr < vr && hr < -0.25) return this.state.rendition.next();
+    //     if (vr > hr && vr > 0.25) return;
+    //     if (vr < hr && vr < -0.25) return;
+    // });
+
 };
 
 
