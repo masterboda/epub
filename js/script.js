@@ -80,12 +80,12 @@ let App = function (el) {
     this.qs(".tab[data-tab=search] .search-bar .do-search").addEventListener("click", this.onSearchClick.bind(this));
     
     
-    this.qs(".do-bookmark").addEventListener("click", this.makeBookmark.bind(this));
-    this.qs(".new-bookmark .bookmark-input").addEventListener("keydown", event => {
-        if(event.keyCode == 13) {
-            this.makeBookmark();
-        }
-    });
+    // this.qs(".do-bookmark").addEventListener("click", this.makeBookmark.bind(this));
+    // this.qs(".new-bookmark .bookmark-input").addEventListener("keydown", event => {
+    //     if(event.keyCode == 13) {
+    //         this.makeBookmark();
+    //     }
+    // });
     
     // Settings buttons EventListeners
     this.qsa(".settings-row[data-type]").forEach(el => {
@@ -170,9 +170,21 @@ App.prototype.doBook = function (url, opts = null) {
     this.state.rendition.on("relocated", this.onRenditionRelocatedSavePos.bind(this));
     this.state.rendition.on("started", this.onRenditionStartedRestorePos.bind(this));
     this.state.rendition.on("started", this.restoreBookm.bind(this));
+    this.state.rendition.on("selected", this.doBookmTooltip.bind(this)); //show tooltip when selected text.
     this.state.rendition.on("displayError", this.fatal.bind(this, "error rendering book"));
 
     this.state.rendition.display();
+
+    this.state.rendition.themes.default({
+        '::selection': {
+            'background': 'rgba(255,255,0, 0.3)'
+        },
+        '.epubjs-hl': {
+            'fill': 'yellow',
+            'fill-opacity': '0.3',
+            'mix-blend-mode': 'multiply'
+        }
+    });
 
     // if (this.state.dictInterval)
     //     window.clearInterval(this.state.dictInterval);
@@ -271,23 +283,36 @@ App.prototype.changeFS = function(mode, set) {
 
 
 //Bookmarks
-App.prototype.makeBookmark = function () {
-    let textInput = this.qs(".new-bookmark .bookmark-input"),
-        text = textInput.value.trim().slice(0, 70);
 
-    if (!text) return;
-
-    this.addBookm({title: text, href: this.state.rendition.location.start.cfi});
-    this.qs(".menu-bar .bookmark-tool").classList.add("bookmarked");
-    textInput.value = "";
+App.prototype.doBookmTooltip = function(cfiRange, contents) {
+    if(this.state.rendition.annotations._annotations[encodeURI(cfiRange)] != undefined)
+        return;
+        
+    let tooltip = document.createElement('span');
+    tooltip.innerText = 'Create Bookmark';
+    tooltip.addEventListener('click', this.makeBookmark.bind(this, cfiRange, contents));
+    tooltip.addEventListener('click', (evt) => evt.target.remove());
+    tooltip.style = "color: red; position: absolute; top: 50%; left: 50%; z-index: 20000";
+    this.appElm.appendChild(tooltip);
 }
-App.prototype.bookmFillText = function () {
-    let text = this.getSelectedText(),
-        textInput = this.qs(".new-bookmark .bookmark-input");
 
-    textInput.value = text ? text : this.qs("a.chapter-item.active").innerText;
-    textInput.focus();
+App.prototype.makeBookmark = function (cfiRange, contents) {
+    this.state.book.getRange(cfiRange).then(range => {
+        console.log(`Selected: ${range.toString()}`, cfiRange, contents);
+        if(range) {
+            let text = range.toString().trim().slice(0, 70);
+            this.addBookm({title: text, href: cfiRange});
+            contents.window.getSelection().removeAllRanges();
+        }
+    });
 }
+// App.prototype.bookmFillText = function () {
+//     let text = this.getSelectedText(),
+//         textInput = this.qs(".new-bookmark .bookmark-input");
+
+//     textInput.value = text ? text : this.qs("a.chapter-item.active").innerText;
+//     textInput.focus();
+// }
 App.prototype.addBookm = function (item) {
     console.log(item);
     this.bookmArr.push(item);
@@ -295,15 +320,24 @@ App.prototype.addBookm = function (item) {
 }
 App.prototype.rmBookm = function (index) {
     let removed = this.bookmArr.splice(index, 1)[0];
-    if(removed.href == this.qs(".rangebar").value)
-       this.qs(".menu-bar .bookmark-tool").classList.remove("bookmarked");
+    this.state.rendition.annotations.remove(removed.href);
     this.updateBookm();
 }
 App.prototype.updateBookm = function () {
     let bookmElm = this.qs(".tab[data-tab=bookmarks] .bookmark-list");
         bookmElm.innerHTML = "";
 
+    let annt = this.state.rendition.annotations;
+
     this.bookmArr.forEach((item, i) => {
+        
+        if(annt._annotations[encodeURI(item.href)] == undefined) {
+            // console.log(annt._annotations);
+            annt.highlight(item.href, {}, (e) => {
+                console.log("highlight clicked", e.target);
+            });
+        }
+
         let bookmark = bookmElm.appendChild(this.el("div", "bookmark")),
             a = bookmark.appendChild(this.el("a", "bookmark-item")),
             btn = bookmark.appendChild(this.el("span", "rm-bookmark"));
@@ -823,15 +857,15 @@ App.prototype.onRenditionRelocatedUpdateIndicators = function (event) {
         this.qs('.bar .loc').innerText = `${Math.round(this.state.rendition.location.start.percentage * 100)}%`;
 
         //bookmark indicator update
-        let icon = this.qs(".menu-bar .bookmark-tool");
-        for(let item in this.bookmArr) {
-            if(this.bookmArr[item].href == this.state.rendition.location.start.cfi) {
-                icon.classList.add("bookmarked");
-                break;
-            }
+        // let icon = this.qs(".menu-bar .bookmark-tool");
+        // for(let item in this.bookmArr) {
+        //     if(this.bookmArr[item].href == this.state.rendition.location.start.cfi) {
+        //         icon.classList.add("bookmarked");
+        //         break;
+        //     }
 
-            icon.classList.remove("bookmarked");
-        }
+        //     icon.classList.remove("bookmarked");
+        // }
         
     } catch (err) {
         console.error("error updating indicators: " + err);

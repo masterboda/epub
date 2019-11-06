@@ -95,7 +95,7 @@
                             <div class="search-results"></div>
                         </div>
                         <div data-tab="bookmarks" class="tab">
-                            <div class="new-bookmark"><input type="text" class="bookmark-input" placeholder="Título del marcador"><button class="do-bookmark primary-btn btn-right">Crear marcador</button></div>
+                            <!-- <div class="new-bookmark"><input type="text" class="bookmark-input" placeholder="Título del marcador"><button class="do-bookmark primary-btn btn-right">Crear marcador</button></div> -->
                             <div class="bookmark-list"></div>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="menu-tool search-tool" onclick="modal(document.querySelector('.tabs-modal'), 'show', () => ePubViewer.doTab('search'))"></div>
-                <div class="menu-tool bookmark-tool" onclick="modal(document.querySelector('.tabs-modal'), 'show', () => {ePubViewer.doTab('bookmarks'); ePubViewer.bookmFillText()})"></div>
+                <div class="menu-tool bookmark-tool" onclick="modal(document.querySelector('.tabs-modal'), 'show', () => {ePubViewer.doTab('bookmarks')})"></div>
             </div>
         </div>
         
