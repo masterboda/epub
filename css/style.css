@@ -57,22 +57,24 @@ button:active,
 }
 
 .imgFullscreen {
-    position: fixed;
+    position: absolute;
     width: 100%;
     height: 100%;
     background-size: contain;
-    z-index: 9999;
+    z-index: 100;
     top: 0;
     left: 0;
     cursor: zoom-out;
-    background: inherit;
+    background: #eff6fe;
+    box-shadow: 0 0 10px #ccc;
+    border-radius: 0 25px 0 0;
 }
 
 .imgFullscreen img {
-    max-width: 100%;
-    max-height: 100%;
-    position: fixed;
-    z-index: 10000;
+    max-width: 95%;
+    max-height: 95%;
+    position: absolute;
+    z-index: 1001;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -140,11 +142,13 @@ body {
     margin: 100px auto;
 }
 
-.app .tabs-wrapper .close-btn {
+.close-btn {
     position: absolute;
     top: 0;
     right: 0;
     display: block;
+    cursor: pointer;
+    /* z-index: 10000; */
     width: 45px;
     height: 45px;
     background: url(../images/icons/close-alone.png) center no-repeat #242680;

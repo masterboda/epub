@@ -44,6 +44,8 @@ let App = function (el) {
     this.bookmArr = [];
     this.state = {};
     this.doReset();
+    this.mx = 0;
+    this.my = 0;
 
     let ufn = location.search.replace("?", "") || location.hash.replace("#", "");
     this.ufn = ufn.startsWith("!") ? ufn.replace("!", "") : ufn;
@@ -172,19 +174,21 @@ App.prototype.doBook = function (url, opts = null) {
     this.state.rendition.on("started", this.restoreBookm.bind(this));
     this.state.rendition.on("selected", this.doBookmTooltip.bind(this)); //show tooltip when selected text.
     this.state.rendition.on("displayError", this.fatal.bind(this, "error rendering book"));
+    this.state.rendition.on("displayed", this.onContentReady.bind(this));
 
     this.state.rendition.display();
 
     this.state.rendition.themes.default({
         '::selection': {
-            'background': 'rgba(255,255,0, 0.3)'
+            'background': 'rgb(36,38,128, 0.3)'
         },
         '.epubjs-hl': {
-            'fill': 'yellow',
+            'fill': '#242680',
             'fill-opacity': '0.3',
             'mix-blend-mode': 'multiply'
         }
     });
+
 
     // if (this.state.dictInterval)
     //     window.clearInterval(this.state.dictInterval);
@@ -282,18 +286,57 @@ App.prototype.changeFS = function(mode, set) {
 }
 
 
+App.prototype.onContentReady = function() {
+    this.qs("iframe").contentWindow.addEventListener("click", (evt) => {
+        // alert(evt.clientX+' '+evt.clientY);
+        this.mx = evt.clientX;
+        this.my = evt.clientY;
+    });
+}
+
 //Bookmarks
 
 App.prototype.doBookmTooltip = function(cfiRange, contents) {
     if(this.state.rendition.annotations._annotations[encodeURI(cfiRange)] != undefined)
         return;
-        
-    let tooltip = document.createElement('span');
-    tooltip.innerText = 'Create Bookmark';
+
+    let tooltip = document.createElement('span'),
+        book = this.qs('.book');
+    tooltip.innerText = 'Añadir marcador';
     tooltip.addEventListener('click', this.makeBookmark.bind(this, cfiRange, contents));
-    tooltip.addEventListener('click', (evt) => evt.target.remove());
-    tooltip.style = "color: red; position: absolute; top: 50%; left: 50%; z-index: 20000";
-    this.appElm.appendChild(tooltip);
+
+    Object.assign(tooltip.style, {
+        color: "#fff",
+        display: "inline-block",
+        background: "url(images/icons/bookmark.png)  no-repeat right center #242680",
+        backgroundSize: "37px",
+        position: "absolute",
+        zIndex: 10,
+        borderRadius: "15px",
+        padding: "15px 35px 15px 10px",
+        cursor: "pointer",
+        // width: "120px",
+        // height: "40px"
+    });
+
+    console.dir(tooltip);
+
+    let tlW = tooltip.clientWidth,
+        tlH = tooltip.clientHeight,
+        bookW = book.clientWidth,
+        bookH = book.clientHeight;
+
+    tooltip.style.left = (tlW + this.mx > bookW ? this.mx - tlW : this.mx) + 'px';
+    tooltip.style.top = (tlH + this.my > bookH ? this.my - tlH : this.my) + 'px';
+
+    book.appendChild(tooltip);
+
+    contents.window.addEventListener("click", () => {tooltip.remove()}, {once: true});
+    
+    document.body.addEventListener("click", () => {
+        tooltip.remove();
+        contents.window.getSelection().removeAllRanges();
+    }, {once: true});
 }
 
 App.prototype.makeBookmark = function (cfiRange, contents) {
@@ -371,12 +414,12 @@ App.prototype.restoreBookm = function () {
     }
 }
 
-App.prototype.getSelectedText = function () {
-    let w = this.qs("iframe").contentWindow;
-    if (w.getSelection)
-        return w.getSelection().toString();
-    return "";
-}
+// App.prototype.getSelectedText = function () {
+//     let w = this.qs("iframe").contentWindow;
+//     if (w.getSelection)
+//         return w.getSelection().toString();
+//     return "";
+// }
 
 App.prototype.doOpenBook = function () {
     var fi = document.createElement("input");
@@ -485,14 +528,16 @@ App.prototype.addImgClick = function () {
         im.onclick = function (e) {
             console.log(im.src);
 
-            let modalContainer = document.querySelector(".app").appendChild(document.createElement("div")),
-                modalImg = modalContainer.appendChild(document.createElement("img"));
+            let parent = document.querySelector(".app .viewer"),
+                modalContainer = parent.appendChild(document.createElement("div")),
+                modalImg = modalContainer.appendChild(document.createElement("img")),
+                closeBtn = modalContainer.appendChild(document.createElement("span"));
 
             modalContainer.className = "imgFullscreen fadeIn animated";
             modalImg.src = im.src;
+            closeBtn.className = "close-btn";
 
             modalContainer.onclick = function() {
-                // this.classList.remove("animated");
                 this.className = "imgFullscreen fadeOut animated";
                 this.style.animationDuration = "0.5s";
                 this.addEventListener('animationend', function() {
