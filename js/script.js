@@ -331,7 +331,7 @@ App.prototype.doBookmTooltip = function(cfiRange, contents) {
 
     book.appendChild(tooltip);
 
-    contents.window.addEventListener("click", () => {tooltip.remove()}, {once: true});
+    setTimeout(contents.window.addEventListener("click", () => {tooltip.remove()}, {once: true}), 1000);
     
     document.body.addEventListener("click", () => {
         tooltip.remove();
