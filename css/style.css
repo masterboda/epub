@@ -1,6 +1,7 @@
 /* no IE11, no safari 9 or less, yes chrome 50+, yes firefox 50+, yes opera 40+, yes android 4.4+ */
 @import '../fonts/Georgia/font-face.css';
 @import '../fonts/Lato/font-face.css';
+@import '../fonts/Pluto/font-face.css';
 
 * {
     box-sizing: border-box;
@@ -847,6 +848,7 @@ body {
 
 .app .footer {
     text-align: center;
+    font-family: Pluto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
