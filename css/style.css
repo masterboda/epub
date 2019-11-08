@@ -88,6 +88,19 @@ button:active,
     clear: both;
 }
 
+.bookmTooltip {
+    color: #fff;
+    display: inline-block;
+    background: url(images/icons/bookmark.png) no-repeat right center #242680 !important;
+    background-size: 37px;
+    position: absolute;
+    font-size: 14px;
+    z-index: 10;
+    border-radius: 15px;
+    padding: 15px 35px 15px 10px;
+    cursor: pointer;
+}
+
 body {
     background: var(--tercero);
 }

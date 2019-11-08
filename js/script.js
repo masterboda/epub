@@ -301,42 +301,39 @@ App.prototype.doBookmTooltip = function(cfiRange, contents) {
         return;
 
     let tooltip = document.createElement('span'),
-        book = this.qs('.book');
+        book = this.qs('.book'),
+        img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkBAMAAACCzIhnAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAMFBMVEX///9CpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfXi3q4xAAAAD3RSTlMAECAwQFBggJCgsMDQ4PB4UqzwAAAA+klEQVRYw+3XvQnCUBSG4esfEix0AIuM4ATqCA7gDm7gCOoG2UCsbMXCOSzSiI2CIAbRT5OTv5vmnGvr+bp74eFNl8QYnU6n+3GtNUo7T3hR28Has8eSPirbs2RXJU9ONIFD+TwFxgzx8LIevnbEiiEd3O2LGTYsudkXIwG52hddJUqUKFHyJ6TuO5Plw5V4SF94chIAkRvx4tf3yokEeF8oIyXfSDikjJR8I4MGZYQkjhhDGSGJI8ZQRkYokmZkhCJpRkSyCGVEJItQRkKiPJJkAgFBHkkyEJGwOA5lpIhQhvvqa1uRJMN9W5r5yS8f64ut/m3odLof9wG30l5Rbuc4ggAAAABJRU5ErkJggg==";
+
     tooltip.innerText = 'Añadir marcador';
     tooltip.addEventListener('click', this.makeBookmark.bind(this, cfiRange, contents));
 
     Object.assign(tooltip.style, {
         color: "#fff",
         display: "inline-block",
-        background: "url(images/icons/bookmark.png)  no-repeat right center #242680",
+        background: `url(${img}) no-repeat right center #242680`,
         backgroundSize: "37px",
         position: "absolute",
+        fontSize: "14px",
         zIndex: 10,
         borderRadius: "15px",
-        padding: "15px 35px 15px 10px",
+        padding: "10px 35px 10px 10px",
         cursor: "pointer",
-        // width: "120px",
-        // height: "40px"
+        left: this.mx+'px',
+        top: this.my+'px'
     });
 
     console.dir(tooltip);
 
-    let tlW = tooltip.clientWidth,
-        tlH = tooltip.clientHeight,
-        bookW = book.clientWidth,
-        bookH = book.clientHeight;
+    contents.window.document.body.appendChild(tooltip);
 
-    tooltip.style.left = (tlW + this.mx > bookW ? this.mx - tlW : this.mx) + 'px';
-    tooltip.style.top = (tlH + this.my > bookH ? this.my - tlH : this.my) + 'px';
-
-    book.appendChild(tooltip);
-
-    contents.window.addEventListener("click", () => {tooltip.remove()}, {once: true});
+    setTimeout(() => {
+        contents.window.addEventListener("click", () => {tooltip.remove()}, {once: true});
+    }, 500);
     
-    document.body.addEventListener("click", () => {
-        tooltip.remove();
-        contents.window.getSelection().removeAllRanges();
-    }, {once: true});
+    // document.body.addEventListener("click", () => {
+    //     tooltip.remove();
+    //     contents.window.getSelection().removeAllRanges();
+    // }, {once: true});
 }
 
 App.prototype.makeBookmark = function (cfiRange, contents) {
