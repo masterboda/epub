@@ -520,7 +520,6 @@ App.prototype.el = function (t, c) {
 App.prototype.addImgClick = function () {    
     let iDoc = this.qs("iframe").contentWindow.document;
     let imgDivArr = Array.from(iDoc.querySelectorAll(".circle-div"));
-    imgDivArr.forEach(el => { el.parentNode.classList.add("h200")});
     imgDivArr.forEach(cDiv => {
         //add class to parent div
         // cDiv.parentNode.classList.add("h200");
