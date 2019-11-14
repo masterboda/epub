@@ -518,7 +518,7 @@ App.prototype.el = function (t, c) {
 };
 
 App.prototype.addImgClick = function () {    
-    let iDoc = this.querySelector("iframe").contentWindow.document;
+    let iDoc = this.qs("iframe").contentWindow.document;
     let imgDivArr = Array.from(iDoc.querySelectorAll(".circle-div"));
     imgDivArr.forEach(cDiv => {
         cDiv.style.cursor = "zoom-in";
