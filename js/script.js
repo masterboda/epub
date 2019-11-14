@@ -518,12 +518,12 @@ App.prototype.el = function (t, c) {
 };
 
 App.prototype.addImgClick = function () {    
-    let iDoc = this.qs("iframe").contentWindow.document;
-    let imgArr = Array.from(iDoc.querySelectorAll("img"));
-    imgArr.forEach(im => {
-        im.style.cursor = "zoom-in";
-        im.onclick = function (e) {
-            console.log(im.src);
+    let iDoc = this.querySelector("iframe").contentWindow.document;
+    let imgDivArr = Array.from(iDoc.querySelectorAll(".circle-div"));
+    imgDivArr.forEach(cDiv => {
+        cDiv.style.cursor = "zoom-in";
+        cDiv.onclick = function (e) {
+            console.log(cDiv.querySelector("img").src);
 
             let parent = document.querySelector(".app .viewer"),
                 modalContainer = parent.appendChild(document.createElement("div")),
@@ -531,7 +531,7 @@ App.prototype.addImgClick = function () {
                 closeBtn = modalContainer.appendChild(document.createElement("span"));
 
             modalContainer.className = "imgFullscreen fadeIn animated";
-            modalImg.src = im.src;
+            modalImg.src = cDiv.querySelector("img").src;
             closeBtn.className = "close-btn";
 
             modalContainer.onclick = function() {
