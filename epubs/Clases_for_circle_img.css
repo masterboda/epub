@@ -24,14 +24,12 @@ div.circle-div {
 	position: relative;
 	width: 150px !important;
 	height: 150px !important;
-	transition: width .2s, height .2s, margin .2s;
+	transition: transform .2s;
 	overflow: visible !important; 
 }
 
 div.circle-div:hover {
-	width: 200px !important;
-	height: 200px !important;
-	margin-top: 0px;
+	transform: scale(1.25);
 }
 
 div.circle-div:after {
