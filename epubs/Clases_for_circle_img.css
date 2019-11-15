@@ -1,0 +1,62 @@
+
+
+/* Clases for circle img */
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+		opacity: 0.1
+	}
+
+	50% {
+		opacity: 1
+	}
+
+	100% {
+		transform: scale(1.2);
+		opacity: 0.1
+	}
+
+}
+
+div.circle-div {
+	margin-top: 25px;
+	border-radius: 50%;
+	position: relative;
+	width: 150px !important;
+	height: 150px !important;
+	transition: width .2s, height .2s, margin .2s;
+	overflow: visible !important; 
+}
+
+div.circle-div:hover {
+	width: 200px !important;
+	height: 200px !important;
+	margin-top: 0px;
+}
+
+div.circle-div:after {
+	content: '';
+	position: absolute;
+	display: block;
+	top: 5px;
+	left: 5px;
+	right: 5px;
+	bottom: 5px;
+	border-radius: 50%;
+	border: 10px solid #c0d2fb;
+	animation: pulse 3.5s linear infinite;
+}
+
+img.circle-img {
+	border: 5px solid #426ae7;
+	border-radius: 50%;
+	height: 75% !important;
+	width: 75% !important;
+	max-width: unset !important;
+	min-width: unset !important;
+	max-height: unset !important;
+	min-height: unset !important;
+	object-fit: cover;
+	transform: translate(-50%, -50%);
+	margin: 50%;
+}
