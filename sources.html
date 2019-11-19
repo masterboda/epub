@@ -16,8 +16,8 @@
 	<link rel="stylesheet" href="libs/css/normalize.min.css">
 	<link rel="stylesheet" href="libs/css/font-awesome-5.10.2/css/all.min.css">
 	<link rel="stylesheet" href="libs/css/animate.css">
-	<link rel="stylesheet" href="/libs/js/slick/slick.css">
-	<link rel="stylesheet" href="/libs/js/slick/slick-theme.css">
+	<link rel="stylesheet" href="libs/js/slick/slick.css">
+	<link rel="stylesheet" href="libs/js/slick/slick-theme.css">
 
 	<!-- Page stylesheets
     ======================================= -->
@@ -113,7 +113,7 @@
 				</div>
 			</div>
 
-			<div class="shelf"></div>
+			<!-- <div class="shelf"></div> -->
 		</div>
 	</section>
 
@@ -121,7 +121,104 @@
 		<span>Powered by</span>
 		<img src="images/icons/logo.png" alt="">
 	</footer>
+	<script>
+		var serviceWorkerSupported = 'serviceWorker' in navigator ? true : false;
 
+		let dwnBtns = Array.from(document.querySelectorAll('.dwn-icon'));
+		dwnBtns.forEach(function (btn) {
+			btn.innerHTML = "";
+			btn.addEventListener('click', onDwnClick);
+		});
+
+		let rmBtns = Array.from(document.querySelectorAll('.rm-book'));
+		rmBtns.forEach(function (btn) {
+			btn.addEventListener('click', onRmClick);
+		});
+
+		function onDwnClick(event) {
+			event.stopPropagation();
+			event.preventDefault();
+
+			let btn = event.target,
+				book = btn.parentElement,
+				url = book.dataset.url;
+
+			btn.classList.add('in-progress');
+
+			fetch(url)
+				.then(response => {
+					if (response.ok) {
+						book.classList.add('downloaded');
+						btn.classList.remove('in-progress');
+					}
+				});
+		}
+
+		function onRmClick(event) {
+			event.stopPropagation();
+			event.preventDefault();
+
+			let btn = event.target,
+				book = btn.parentElement,
+				url = book.dataset.url;
+
+			window.caches.keys()
+				.then(keys => {
+					keys = keys.filter(key => key.startsWith('ePubViewer'));
+					if (keys.length == 0)
+						reject();
+
+					window.caches.open(keys[0])
+						.then(cache => cache.delete(url))
+						.then(() => book.classList.remove('downloaded'));
+				});
+		}
+
+		function isBookCached(url) {
+			return new Promise(function (resolve, reject) {
+				window.caches.keys()
+					.then(keys => {
+						keys = keys.filter(key => key.startsWith('ePubViewer'));
+						if (keys.length == 0)
+							reject();
+						else {
+							window.caches.open(keys[0])
+								.then(cache => cache.match(url))
+								.then(match => {
+									if (match != undefined)
+										resolve();
+									else
+										reject();
+								})
+						}
+					});
+			});
+		}
+
+		let bookPosters = Array.from(document.querySelectorAll('.book'));
+		bookPosters.forEach(function (book) {
+			let bookUrl = book.dataset.url;
+			book.href = bookUrl ? `reader.html#!${bookUrl}` : '#';
+
+			if (serviceWorkerSupported && bookUrl) {
+				isBookCached(bookUrl)
+					.then(function () {
+						book.classList.add('downloaded');
+					})
+					.catch(function () {
+						book.classList.remove('downloaded');
+					});
+			} else {
+				Array.from(book.querySelectorAll('.dwn-icon, .rm-book'))
+					.forEach(item => {
+						item.remove();
+					});
+
+				if (bookUrl)
+					book.classList.add('downloaded');
+			}
+		});
+	</script>
 
 	<!-- JS libs
 	======================================= -->
