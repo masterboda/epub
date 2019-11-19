@@ -117,12 +117,19 @@ footer img {
 	font-weight: 400;
 }
 
-.carousel, .carousel-slides {
+.carousel {
+	width: 80%;
+	max-width: 600px;
+}
+
+.carousel-slides {
 	width: 100%;
 }
 
 .carousel-slide {
 	text-align: center;
+	padding-top: 20px;
+	/* margin: 0 25px; */
 }
 
 .source {
@@ -140,7 +147,7 @@ footer img {
 	color: #fff;
 	text-align: center;
 	margin: 20px auto;
-	max-width: 200px;
+	max-width: 130px;
 }
 
 .book{
