@@ -100,3 +100,137 @@ footer img {
 	filter: grayscale(1);
 	width: auto;
 }
+
+
+
+/* sources.html
+======================================= */
+ 
+.sources-container {
+	flex-direction: column;
+	min-width: 100%;
+}
+
+.caption {
+	margin: 10px 0 70px;
+	color: #fff;
+	font-weight: 400;
+}
+
+.carousel, .carousel-slides {
+	width: 100%;
+}
+
+.carousel-slide {
+	text-align: center;
+}
+
+.source {
+	display: block;
+	margin: 0 auto;
+	width: 130px;
+}
+
+.source-placeholder {
+	width: 100%;
+	height: auto;
+}
+
+.source-title {
+	color: #fff;
+	text-align: center;
+	margin: 20px auto;
+	max-width: 200px;
+}
+
+.book{
+	position: relative;
+    /* width: 100px;
+    height: 150px;*/
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.08), 0 0px 0px rgba(0,0,0,.29);
+}
+
+.book img{
+    filter: grayscale(0.9);
+    transition: filter .3s;
+}
+
+.book.downloaded img, .book.available img{
+    filter: grayscale(0);
+}
+.book.downloaded .dwn-icon{
+    display: none;
+}
+
+.book.downloaded .rm-book {
+    display: block;
+}
+
+.dwn-icon {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #aaa;
+    display: block;
+    width: 35px;
+    height: 35px;
+    background: url(../images/icons/dwn.png) no-repeat center;
+    background-size: cover;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dwn-icon.in-progress {
+    background-image: url(../images/icons/ajax-loader.gif);
+}
+
+.rm-book{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: url(../images/icons/close@2x.png) center no-repeat;
+    background-size: cover;
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+    display: none;
+}
+
+/* .shelf{
+    position: absolute;
+    bottom: 7px;
+    width: 100%;
+    height: 15px;
+    background: transparent;
+    perspective: 100px;
+	/*box-shadow: 0 1px 2px rgba(0,0,0,.17), 0 6px 8px rgba(0,0,0,.29);*/
+	box-shadow: 0 7px 25px rgba(0, 0, 0, 0.41), 0 0px 0px rgba(0,0,0,.29);
+} */
+
+.shelf::before{
+	content: "";
+    position: absolute;
+    width: calc(97.5%);
+    height: 25px;
+    bottom: 95%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #E6EBF4;
+    transform: rotateX(12deg);
+}
+
+.shelf::after{
+    content: "";
+    position: absolute;
+    width: calc(100%);
+    height: 14px;
+    top: 0px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #ffffff;
+    transform: rotateX(-2deg);
+}

@@ -16,8 +16,8 @@
 	<link rel="stylesheet" href="libs/css/normalize.min.css">
 	<link rel="stylesheet" href="libs/css/font-awesome-5.10.2/css/all.min.css">
 	<link rel="stylesheet" href="libs/css/animate.css">
-	<link rel="stylesheet" href="/libs/js/owl/assets/owl.carousel.min.css">
-	<link rel="stylesheet" href="/libs/js/owl/assets/owl.theme.default.min.css">
+	<link rel="stylesheet" href="/libs/js/slick/slick.css">
+	<link rel="stylesheet" href="/libs/js/slick/slick-theme.css">
 
 	<!-- Page stylesheets
     ======================================= -->
@@ -40,8 +40,81 @@
 		<a href="./" class="home-btn"><img src="images/icons/home.png" alt=""></a>
 	</header>
 
-	<section class="content">
-		
+	<section class="content sources-container">
+		<h2 class="caption">1ero primaria</h2>
+
+		<div class="carousel">
+			<div class="carousel-slides">
+
+				<div class="carousel-slide">
+					<a href="#" data-url="epubs/alice.epub" class="source book">
+						<img class="source-placeholder" src="images/on/thumb1.png" alt="">
+						<span class="dwn-icon"></span>
+						<span class="rm-book"></span>
+					</a>
+					<div class="source-title">
+						El librotante
+					</div>
+				</div>
+
+				<div class="carousel-slide">
+					<a href="#" data-url="epubs/alice.epub" class="source book">
+						<img class="source-placeholder" src="images/on/thumb2.png" alt="">
+						<span class="dwn-icon"></span>
+						<span class="rm-book"></span>
+					</a>
+					<div class="source-title">
+
+					</div>
+				</div>
+
+				<div class="carousel-slide">
+					<a href="#" data-url="epubs/wm3_narrativa_epub_v6_circle-img.epub" class="source book">
+						<img class="source-placeholder" src="images/on/thumb3.png" alt="">
+						<span class="dwn-icon"></span>
+						<span class="rm-book"></span>
+					</a>
+					<div class="source-title">
+						Pucuy y Kitan: La batalla contra Smog.
+					</div>
+				</div>
+
+				<div class="carousel-slide">
+					<a href="#" class="source audio">
+						<img class="source-placeholder" src="images/icons/audio.png" alt="">
+						<!-- <span class="dwn-icon"></span>
+						<span class="rm-book"></span> -->
+					</a>
+					<div class="source-title">
+						Audio libro
+					</div>
+				</div>
+
+				<div class="carousel-slide">
+					<a href="#" data-url="epubs/alice.epub" class="source book">
+						<img class="source-placeholder" src="images/on/thumb4.png" alt="">
+						<span class="dwn-icon"></span>
+						<span class="rm-book"></span>
+					</a>
+					<div class="source-title">
+
+					</div>
+				</div>
+
+				<div class="carousel-slide">
+					<a href="#" data-url="epubs/alice.epub" class="source book">
+						<img class="source-placeholder" src="images/on/thumb5.png" alt="">
+						<span class="dwn-icon"></span>
+						<span class="rm-book"></span>
+					</a>
+					<div class="source-title">
+
+					</div>
+				</div>
+			</div>
+
+			<div class="shelf"></div>
+		</div>
 	</section>
 
 	<footer>
@@ -50,10 +123,25 @@
 	</footer>
 
 
-	
 	<!-- JS libs
 	======================================= -->
 	<script src="libs/js/jquery-3.4.1.min.js"></script>
-	<script src="libs/js/owl/owl.carousel.min.js"></script>
+	<script src="libs/js/slick/slick.min.js"></script>
+
+	<script>
+		$('.carousel-slides').slick({
+			dots: true,
+            infinite: true,
+			speed: 300,
+            slidesToShow: 3,
+            slidesToScroll: 2,
+
+		});
+
+		// $('.carousel-slides').owlCarousel({
+		// 	loop: true,
+		// 	margin: 10,
+		// });
+	</script>
 </body>
 </html>
