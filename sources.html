@@ -3,12 +3,15 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 	<title>Narrativas</title>
+
+	<!-- BOOTSTRAP -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 	<!-- Css libs
     ======================================= -->
@@ -26,7 +29,7 @@
 	<link rel="stylesheet" href="css/home.css">
 	<!-- <link rel="stylesheet" href="css/style.css"> -->
 
-<!-- 	<script src="dist/vconsole.min.js"></script>
+	<!-- 	<script src="dist/vconsole.min.js"></script>
 	<script>
 		// init vConsole
 		// var vConsole = new VConsole();
@@ -34,93 +37,59 @@
  -->
 </head>
 
-<body>
-	<header>
-		<a href="./" class="logo"><img src="images/icons/logo.png" alt=""></a>
-		<a href="./" class="home-btn"><img src="images/icons/home.png" alt=""></a>
-	</header>
-
-	<section class="content sources-container">
-		<h2 class="caption">1ero primaria</h2>
-
-		<div class="carousel">
-			<div class="carousel-slides">
-
-				<div class="carousel-slide">
-					<a href="#" data-url="epubs/alice.epub" class="source book">
-						<img class="source-placeholder" src="images/on/thumb1.png" alt="">
-						<span class="dwn-icon"></span>
-						<span class="rm-book"></span>
-					</a>
-					<div class="source-title">
-						El librotante
-					</div>
-				</div>
-
-				<div class="carousel-slide">
-					<a href="#" data-url="epubs/alice.epub" class="source book">
-						<img class="source-placeholder" src="images/on/thumb2.png" alt="">
-						<span class="dwn-icon"></span>
-						<span class="rm-book"></span>
-					</a>
-					<div class="source-title">
-
-					</div>
-				</div>
-
-				<div class="carousel-slide">
-					<a href="#" data-url="epubs/wm3_narrativa_epub_v6_circle-img.epub" class="source book">
-						<img class="source-placeholder" src="images/on/thumb3.png" alt="">
-						<span class="dwn-icon"></span>
-						<span class="rm-book"></span>
-					</a>
-					<div class="source-title">
-						Pucuy y Kitan: La batalla contra Smog.
-					</div>
-				</div>
-
-				<div class="carousel-slide">
-					<a href="#" class="source audio">
-						<img class="source-placeholder" src="images/icons/audio.png" alt="">
-						<!-- <span class="dwn-icon"></span>
-						<span class="rm-book"></span> -->
-					</a>
-					<div class="source-title">
-						Audio libro
-					</div>
-				</div>
-
-				<div class="carousel-slide">
-					<a href="#" data-url="epubs/alice.epub" class="source book">
-						<img class="source-placeholder" src="images/on/thumb4.png" alt="">
-						<span class="dwn-icon"></span>
-						<span class="rm-book"></span>
-					</a>
-					<div class="source-title">
-
-					</div>
-				</div>
-
-				<div class="carousel-slide">
-					<a href="#" data-url="epubs/alice.epub" class="source book">
-						<img class="source-placeholder" src="images/on/thumb5.png" alt="">
-						<span class="dwn-icon"></span>
-						<span class="rm-book"></span>
-					</a>
-					<div class="source-title">
-
-					</div>
-				</div>
+<body class="bflex">
+	<div class="container-fluid p-0 header">
+		<div class="row no-gutters">
+			<div class="col-12 d-flex justify-content-center align-items-center p-4">
+				<a href="./" class="logo"><img src="images/icons/logo.png" alt=""></a>
 			</div>
-
-			<!-- <div class="shelf"></div> -->
 		</div>
-	</section>
+	</div>
 
-	<footer>
-		<span>Powered by</span>
-		<img src="images/icons/logo.png" alt="">
-	</footer>
+	<div class="container-fluid p-0 colbg2">
+		<div class="row no-gutters">
+			<div class="col-md-12 d-flex flex-column justify-content-center align-items-center p-4 pt-5 pb-5">
+
+				<h2 class="caption">1º primaria</h2>
+
+				<div class="carousel">
+					<div class="carousel-slides">
+						<div class="carousel-slide">
+							<a href="#" data-url="epubs/alice.epub" class="source book">
+								<img class="source-placeholder" src="images/on/thumb1.png" alt="">
+								<span class="dwn-icon"></span>
+								<span class="rm-book"></span>
+							</a>
+							<div class="source-title">
+								El librotante
+							</div>
+						</div>
+						<div class="carousel-slide">
+							<a href="#" data-url="epubs/wm3_narrativa_epub_v6_circle-img.epub" class="source book">
+								<img class="source-placeholder" src="images/on/thumb3.png" alt="">
+								<span class="dwn-icon"></span>
+								<span class="rm-book"></span>
+							</a>
+							<div class="source-title">
+								Pucuy y Kitan: La batalla contra Smog.
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row no-gutters">
+			<div class="col-12 d-flex justify-content-center align-items-center p-4 foot">
+				<span>Powered by</span>
+				<img src="images/icons/logo.png" alt="">
+			</div>
+		</div>
+	</div>
+
 	<script>
 		var serviceWorkerSupported = 'serviceWorker' in navigator ? true : false;
 
@@ -228,33 +197,40 @@
 	<script>
 		$('.carousel-slides').slick({
 			dots: true,
-            infinite: true,
+			infinite: true,
 			speed: 300,
 			variableHeight: true,
-            slidesToShow: 3,
-            slidesToScroll: 1,
-			responsive: [
-                {
-                    breakpoint: 820,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1
-                    }
-                },
+			slidesToShow: 3,
+			slidesToScroll: 1,
+			responsive: [{
+					breakpoint: 820,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 1
+					}
+				},
 				{
-                    breakpoint: 520,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
+					breakpoint: 520,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+			]
 		});
 
-		// $('.carousel-slides').owlCarousel({
-		// 	loop: true,
-		// 	margin: 10,
-		// });
 	</script>
+
+	<!-- BOOTSTRAP -->
+	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+	</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+	</script>
+
 </body>
+
 </html>
