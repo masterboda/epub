@@ -3,275 +3,122 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport"
-		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-
-	<link rel="manifest" href="./manifest.json">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="theme-color">
+	<link rel="manifest" href="./manifest.json">
 
 	<title>Narrativas</title>
+
 	<!-- BOOTSTRAP -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<!-- FONTAWESOME -->
-	<script src="https://kit.fontawesome.com/d3825ec2ab.js"></script>
-	<!-- FONT FEATHER -->
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-	<!-- GOOGLE FONTS -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap"
-		rel="stylesheet">
-	<!-- ESTILOS BASE -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+	<!-- Css libs
+    ======================================= -->
+
+	<link rel="stylesheet" href="libs/css/normalize.min.css">
+	<link rel="stylesheet" href="libs/css/font-awesome-5.10.2/css/all.min.css">
+	<link rel="stylesheet" href="libs/css/animate.css">
+
+	<!-- Page stylesheets
+    ======================================= -->
+
 	<link rel="stylesheet" href="css/estilos_base.css">
-	<!-- ESTILOS -->
-	<link rel="stylesheet" href="css/estilos.css">
-	<script src="dist/vconsole.min.js"></script>
+	<link rel="stylesheet" href="css/home.css">
+	<!-- <link rel="stylesheet" href="css/style.css"> -->
+
+<!-- 	<script src="dist/vconsole.min.js"></script>
 	<script>
 		// init vConsole
-		var vConsole = new VConsole();
+		// var vConsole = new VConsole();
 	</script>
-	
-	<script>
-		if ('serviceWorker' in navigator) {
-			var serviceWorkerSupported = true;
-
-			// window.addEventListener('load', () => {
-			// 	navigator.serviceWorker.register('sw.js').then(reg => {
-			// 		reg.onupdatefound = () => {
-			// 			const installingWorker = reg.installing;
-			// 			installingWorker.onstatechange = () => {
-			// 				if (installingWorker.state === 'installed' && navigator.serviceWorker
-			// 					.controller) {
-			// 					location.reload();
-			// 				}
-			// 			};
-			// 		};
-			// 	})
-			// });
-		} else {
-			var serviceWorkerSupported = false;
-			alert('Your web browser do not support ServiceWorker so offline mode is unavailable :(');
-		}
-
-		try {
-			window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log(
-				"error checking cache version"));
-		} catch (err) {}
-	</script>
+	 -->
 </head>
 
-<body>
+<body class="bflex">
 
-	<div class="container-fluid p-0">
-
-		<div class="header p-3 pb-5 d-flex justify-content-center">
-			<img src="images/icons/logo.png" class="logohead" alt="">
-			<div class="menu-btn"></div>
-		</div>
-
-		<div class="row position-relative no-gutters bg1-init">
-
-			<div class="col-md-12 p-5 d-flex flex-column justify-content-center align-items-center ">
-
-				<!-- LIBRARY -->
-				<div class="library position-relative contA">
-					<div class="tableLibrary"></div>
-					<div class="row no-gutters">
-						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
-							<div class="tableLibrary2"></div>
-							<a href="#" data-url="epubs/alice.epub" class="book">
-								<img class="cubiertaAvs" src="images/on/thumb1.png" alt="">
-								<span class="dwn-icon"></span>
-								<span class="rm-book"></span>
-							</a>
-							<div class="infoBook">
-								<p class="titleBook block-ellipsis">Misión bebé</p>
-								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
-								<p class="porcentBook">Próximamente...</p>
-							</div>
-						</div>
-						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
-							<div class="tableLibrary2"></div>
-							<a href="#" data-url="epubs/wm5_adjust.epub" class="book">
-								<img class="cubiertaAvs" src="images/on/thumb2.png" alt="">
-								<span class="dwn-icon"></span>
-								<span class="rm-book"></span>
-							</a>
-							<div class="infoBook">
-								<p class="titleBook block-ellipsis">El club de los octópodos azules</p>
-								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
-								<p class="porcentBook">Próximamente...</p>
-							</div>
-						</div>
-						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
-							<div class="tableLibrary2"></div>
-							<a href="#" data-url="epubs/wm5.epub" class="book">
-								<img class="cubiertaAvs" src="images/on/thumb3.png" alt="">
-								<span class="dwn-icon"></span>
-								<span class="rm-book"></span>
-							</a>
-							<div class="infoBook">
-								<p class="titleBook block-ellipsis">Pucuy y Kitan: La batalla contra Smog.</p>
-								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
-								<p class="porcentBook">Disponible</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- LIBRARY -->
-
-				<!-- LIBRARY -->
-				<div class="library position-relative contA">
-					<div class="tableLibrary"></div>
-					<div class="row no-gutters">
-						<div class="col-md-2"></div>
-						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
-							<div class="tableLibrary2"></div>
-							<a href="#" data-url="epubs/wm3_narrativa_epub_v6.epub" class="book">
-								<img class="cubiertaAvs" src="images/on/thumb4.png" alt="">
-								<span class="dwn-icon"></span>
-								<span class="rm-book"></span>
-							</a>
-							<div class="infoBook">
-								<p class="titleBook block-ellipsis">El librotante</p>
-								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
-								<p class="porcentBook">Próximamente...</p>
-							</div>
-						</div>
-						<div class="col-md-4 p-3 mb-3 d-flex flex-row justify-content-around align-items-center contB">
-							<div class="tableLibrary2"></div>
-							<a href="#" class="book">
-								<img class="cubiertaAvs" src="images/on/thumb5.png" alt="">
-								<span class="dwn-icon"></span>
-								<span class="rm-book"></span>
-							</a>
-							<div class="infoBook">
-								<p class="titleBook block-ellipsis">Lupe y los caramelos para adivinar</p>
-								<p class="nameAuthor block-ellipsis">Nicole Lebel y Francis Turenne</p>
-								<p class="porcentBook">Próximamente...</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- LIBRARY -->
+	<div class="container-fluid p-0 header">
+		<div class="row no-gutters">
+			<div class="col-12 d-flex justify-content-center align-items-center p-4">
+				<a href="./" class="logo"><img src="images/icons/logo.png" alt=""></a>
 			</div>
-
 		</div>
-
 	</div>
 
+	<div class="container-fluid p-0 colbg1">
+		<div class="row no-gutters">
+			<div class="col-md-12 d-flex justify-content-center align-items-center p-4 pt-5 pb-5">
+				<div class="content">
+					<a href="sources.html" class="item">
+						<span class="item-number">1º</span>
+						<span class="item-text">grado</span>
+					</a>
+					<a href="sources.html" class="item">
+						<span class="item-number">2º</span>
+						<span class="item-text">grado</span>
+					</a>
+					<a href="sources.html" class="item">
+						<span class="item-number">3º</span>
+						<span class="item-text">grado</span>
+					</a>
+					<a href="sources.html" class="item">
+						<span class="item-number">4º</span>
+						<span class="item-text">grado</span>
+					</a>
+					<a href="sources.html" class="item">
+						<span class="item-number">5º</span>
+						<span class="item-text">grado</span>
+					</a>	
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<!-- BOOTSTRAP -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-	</script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-	</script>
-	<!-- FONT FEATHER -->
+	<div class="container-fluid">
+		<div class="row no-gutters">
+			<div class="col-12 d-flex justify-content-center align-items-center p-4 foot">
+				<span>Powered by</span>
+				<img src="images/icons/logo.png" alt="">
+			</div>
+		</div>
+	</div>
+
 	<script>
-		feather.replace()
-	</script>
-
-	<script>
-		let dwnBtns = Array.from(document.querySelectorAll('.dwn-icon'));
-		dwnBtns.forEach(function (btn) {
-			btn.innerHTML = "";
-			btn.addEventListener('click', onDwnClick);
-		});
-
-		let rmBtns = Array.from(document.querySelectorAll('.rm-book'));
-		rmBtns.forEach(function (btn) {
-			btn.addEventListener('click', onRmClick);
-		});
-
-		function onDwnClick(event) {
-			event.stopPropagation();
-			event.preventDefault();
-
-			let btn = event.target,
-				book = btn.parentElement,
-				url = book.dataset.url;
-
-			btn.classList.add('in-progress');
-
-			fetch(url)
-				.then(response => {
-					if (response.ok) {
-						book.classList.add('downloaded');
-						btn.classList.remove('in-progress');
-					}
-				});
-		}
-
-		function onRmClick(event) {
-			event.stopPropagation();
-			event.preventDefault();
-
-			let btn = event.target,
-				book = btn.parentElement,
-				url = book.dataset.url;
-
-			window.caches.keys()
-				.then(keys => {
-					keys = keys.filter(key => key.startsWith('ePubViewer'));
-					if (keys.length == 0)
-						reject();
-
-					window.caches.open(keys[0])
-						.then(cache => cache.delete(url))
-						.then(() => book.classList.remove('downloaded'));
-				});
-		}
-
-		function isBookCached(url) {
-			return new Promise(function (resolve, reject) {
-				window.caches.keys()
-					.then(keys => {
-						keys = keys.filter(key => key.startsWith('ePubViewer'));
-						if (keys.length == 0)
-							reject();
-						else {
-							window.caches.open(keys[0])
-								.then(cache => cache.match(url))
-								.then(match => {
-									if (match != undefined)
-										resolve();
-									else
-										reject();
-								})
-						}
-					});
-			});
-		}
-
-		let bookPosters = Array.from(document.querySelectorAll('.book'));
-		bookPosters.forEach(function (book) {
-			let bookUrl = book.dataset.url;
-			book.href = bookUrl ? `reader.html#!${bookUrl}` : '#';
-
-			if(serviceWorkerSupported && bookUrl) {
-				isBookCached(bookUrl)
-					.then(function () {
-						book.classList.add('downloaded');
+			if ('serviceWorker' in navigator) {
+				var serviceWorkerSupported = true;
+	
+				window.addEventListener('load', () => {
+					navigator.serviceWorker.register('sw.js').then(reg => {
+						reg.onupdatefound = () => {
+							const installingWorker = reg.installing;
+							installingWorker.onstatechange = () => {
+								if (installingWorker.state === 'installed' && navigator.serviceWorker
+									.controller) {
+									location.reload();
+								}
+							};
+						};
 					})
-					.catch(function () {
-						book.classList.remove('downloaded');
-					});
+				});
+			} else {
+				var serviceWorkerSupported = false;
+				alert('Your web browser do not support ServiceWorker so offline mode is unavailable :(');
 			}
-			else {
-				Array.from(book.querySelectorAll('.dwn-icon, .rm-book'))
-					.forEach(item => {
-						item.remove();
-					});
+	
+			try {
+				window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log(
+					"error checking cache version"));
+			} catch (err) {}
+		</script>
 
-				if(bookUrl)
-					book.classList.add('downloaded');
-			}
-		});
-	</script>
+		<!-- BOOTSTRAP -->
+	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </body>
 

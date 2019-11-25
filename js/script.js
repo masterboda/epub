@@ -301,42 +301,39 @@ App.prototype.doBookmTooltip = function(cfiRange, contents) {
         return;
 
     let tooltip = document.createElement('span'),
-        book = this.qs('.book');
+        book = this.qs('.book'),
+        img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkBAMAAACCzIhnAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAMFBMVEX///9CpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfVCpfXi3q4xAAAAD3RSTlMAECAwQFBggJCgsMDQ4PB4UqzwAAAA+klEQVRYw+3XvQnCUBSG4esfEix0AIuM4ATqCA7gDm7gCOoG2UCsbMXCOSzSiI2CIAbRT5OTv5vmnGvr+bp74eFNl8QYnU6n+3GtNUo7T3hR28Has8eSPirbs2RXJU9ONIFD+TwFxgzx8LIevnbEiiEd3O2LGTYsudkXIwG52hddJUqUKFHyJ6TuO5Plw5V4SF94chIAkRvx4tf3yokEeF8oIyXfSDikjJR8I4MGZYQkjhhDGSGJI8ZQRkYokmZkhCJpRkSyCGVEJItQRkKiPJJkAgFBHkkyEJGwOA5lpIhQhvvqa1uRJMN9W5r5yS8f64ut/m3odLof9wG30l5Rbuc4ggAAAABJRU5ErkJggg==";
+
     tooltip.innerText = 'Añadir marcador';
     tooltip.addEventListener('click', this.makeBookmark.bind(this, cfiRange, contents));
 
     Object.assign(tooltip.style, {
         color: "#fff",
         display: "inline-block",
-        background: "url(images/icons/bookmark.png)  no-repeat right center #242680",
+        background: `url(${img}) no-repeat right center #242680`,
         backgroundSize: "37px",
         position: "absolute",
+        fontSize: "14px",
         zIndex: 10,
         borderRadius: "15px",
-        padding: "15px 35px 15px 10px",
+        padding: "10px 35px 10px 10px",
         cursor: "pointer",
-        // width: "120px",
-        // height: "40px"
+        left: this.mx+'px',
+        top: this.my+'px'
     });
 
     console.dir(tooltip);
 
-    let tlW = tooltip.clientWidth,
-        tlH = tooltip.clientHeight,
-        bookW = book.clientWidth,
-        bookH = book.clientHeight;
+    contents.window.document.body.appendChild(tooltip);
 
-    tooltip.style.left = (tlW + this.mx > bookW ? this.mx - tlW : this.mx) + 'px';
-    tooltip.style.top = (tlH + this.my > bookH ? this.my - tlH : this.my) + 'px';
-
-    book.appendChild(tooltip);
-
-    setTimeout(contents.window.addEventListener("click", () => {tooltip.remove()}, {once: true}), 1000);
+    setTimeout(() => {
+        contents.window.addEventListener("click", () => {tooltip.remove()}, {once: true});
+    }, 500);
     
-    document.body.addEventListener("click", () => {
-        tooltip.remove();
-        contents.window.getSelection().removeAllRanges();
-    }, {once: true});
+    // document.body.addEventListener("click", () => {
+    //     tooltip.remove();
+    //     contents.window.getSelection().removeAllRanges();
+    // }, {once: true});
 }
 
 App.prototype.makeBookmark = function (cfiRange, contents) {
@@ -506,6 +503,31 @@ App.prototype.doReset = function () {
     // this.doDictionary(null);
 };
 
+App.prototype.createElement = function (name, props, innerContent) {
+    const elm = document.createElement(name);
+
+    for (let prop in props) {
+        if (typeof props[prop] === 'object')
+            Object.assign(elm[prop], props[prop]);
+        else
+            elm[prop] = props[prop];
+    }
+
+    if (innerContent) {
+
+        if(!(innerContent instanceof Array))
+            innerContent = [innerContent];
+
+        for (let item of innerContent) {
+            let append = item instanceof Node ? item : document.createTextNode(item);
+            elm.appendChild(append)
+        }
+
+    }
+
+    return elm;
+}
+
 App.prototype.qs = function (q) {
     return this.appElm.querySelector(q);
 };
@@ -520,36 +542,125 @@ App.prototype.el = function (t, c) {
     return e;
 };
 
-App.prototype.addImgClick = function () {    
-    let iDoc = this.qs("iframe").contentWindow.document;
-    let imgArr = Array.from(iDoc.querySelectorAll("img"));
-    imgArr.forEach(im => {
-        im.style.cursor = "zoom-in";
-        im.onclick = function (e) {
-            console.log(im.src);
+App.prototype.addAudioClick = function () {
+    let bookiFrame = this.qs("iframe").contentWindow.document,
+        audioBtns = Array.from(bookiFrame.querySelectorAll('.audio-btn'));
 
-            let parent = document.querySelector(".app .viewer"),
-                modalContainer = parent.appendChild(document.createElement("div")),
-                modalImg = modalContainer.appendChild(document.createElement("img")),
-                closeBtn = modalContainer.appendChild(document.createElement("span"));
+    // let audioBtns = Array.from(document.querySelectorAll('.audio-btn')); //Temporary!!!
 
-            modalContainer.className = "imgFullscreen fadeIn animated";
-            modalImg.src = im.src;
-            closeBtn.className = "close-btn";
+    audioBtns.forEach(btn => {
+        let audioSrc = btn.dataset.source;
 
-            modalContainer.onclick = function() {
-                this.className = "imgFullscreen fadeOut animated";
-                this.style.animationDuration = "0.5s";
-                this.addEventListener('animationend', function() {
-                    this.remove();
-                });
+        if(audioSrc) {
+            let app = this;
+
+            btn.onclick = function(e) {
+                if(this.dataset.active == "false") {
+                    let audio = app.qs('.audio-container audio');
+                    if (!audio) {
+                        let audioContainer = app.createElement(
+                            'div', {className: 'audio-container', draggable: 'true'}, [
+                                app.createElement('audio', {src: audioSrc, controls: true, autoplay: true}),
+                                app.createElement(
+                                    'span', {
+                                        className: 'close-audio',
+                                        onclick: function(e) {
+                                            audioBtns.forEach(btn => {
+                                                btn.dataset.active = false;
+                                            });
+                                            this.parentElement.classList.add('hidden');
+                                            this.parentElement.querySelector('audio').pause();
+                                            // this.parentElement.remove();
+                                        }
+                                    }
+                                )
+                            ]
+                        );
+
+                        app.qs('.viewer').appendChild(audioContainer);
+                    }
+                    else {
+                        audio.src = audioSrc;
+                        let audioContainer = audio.parentElement;
+                        audioContainer.classList.remove('hidden');
+                    }
+                }
+                else {
+                    //In future some logic to handle with
+                    return;
+                }
             }
+        }
+    });
 
+}
+
+// App.prototype.doFullscreenImage = function () {}
+
+App.prototype.addImgClick = function () {    
+    // let bookiFrame = this.state.rendition.getContents().document;
+    let bookiFrame = this.qs("iframe").contentWindow.document;
+    let imgDivArr = Array.from(bookiFrame.querySelectorAll(".circle-div"));
+    
+    imgDivArr.forEach(cDiv => {
+        cDiv.parentNode.style.height = "200px";
+        cDiv.style.cursor = "zoom-in";
+
+        let app = this,
+            imgSrc = cDiv.querySelector("img").src;
+
+        cDiv.onclick = function (e) {
+            console.log(imgSrc);
+
+            let modalContainer = app.createElement(
+                'div', {
+                    className: 'imgFullscreen fadeIn animated',
+                    style: {animationDuration: '0.5s'},
+                    onclick: function() {
+                        this.className = "imgFullscreen fadeOut animated";
+                        this.addEventListener('animationend', function() {
+                            this.remove();
+                        });
+                    }
+                },
+                [
+                    app.createElement('img', {src: imgSrc}),
+                    app.createElement('span', {className: 'close-btn'})
+                ]
+            );
+
+            app.qs('.viewer').appendChild(modalContainer);
             e.stopPropagation();
         }
     });
 }
 
+    var bCoverInit = false;
+App.prototype.addCover = function () {
+    if (bCoverInit) return;
+    // let bookiFrame = this.state.rendition.getContents().document;
+    let bookiFrame = this.qs("iframe").contentWindow.document;
+    // let imgCover = bookiFrame.querySelector("._idContainer000");
+    let imgCover = bookiFrame.querySelector("._idGenObjectAttribute-1");
+    let parent = document.querySelector(".app .viewer"),
+        modalContainer = parent.appendChild(document.createElement("div")),
+        modalImg = modalContainer.appendChild(document.createElement("img")),
+        closeBtn = modalContainer.appendChild(document.createElement("span"));
+
+    modalContainer.className = "imgFullscreen fadeIn animated";
+    // modalImg.src = imgCover.querySelector("img").src;
+    modalImg.src = imgCover.src;
+    closeBtn.className = "close-btn";
+
+    modalContainer.onclick = function() {
+        this.className = "imgFullscreen fadeOut animated";
+        this.style.animationDuration = "0.5s";
+        this.addEventListener('animationend', function() {
+            this.remove();
+        });
+    }
+    bCoverInit = true;
+}
 
 App.prototype.onBookReady = function (event) {
     // this.qs(".sidebar-button").classList.remove("hidden");
@@ -634,7 +745,10 @@ App.prototype.onRenditionRelocated = function (event) {
     try {
         let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
         this.qsa(".chapter-list .chapter-item").forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
+        //Add this directly to hooks
+        this.addCover();
         this.addImgClick();
+        this.addAudioClick();
     } catch (err) {
         this.fatal("error updating toc", err);
     }

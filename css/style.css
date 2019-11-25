@@ -1,6 +1,7 @@
 /* no IE11, no safari 9 or less, yes chrome 50+, yes firefox 50+, yes opera 40+, yes android 4.4+ */
 @import '../fonts/Georgia/font-face.css';
 @import '../fonts/Lato/font-face.css';
+@import '../fonts/Pluto/font-face.css';
 
 * {
     box-sizing: border-box;
@@ -28,6 +29,26 @@ button:active,
 :focus {
     outline: none;
     box-shadow: none;
+}
+
+.audio-container {
+    position: absolute;
+    right: 10px;
+    bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+.audio-container .close-audio {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    background: url(../images/icons/close.png) no-repeat center;
+    background-size: 25px;
 }
 
 .hidden {
@@ -85,6 +106,19 @@ button:active,
     content: '';
     display: block;
     clear: both;
+}
+
+.bookmTooltip {
+    color: #fff;
+    display: inline-block;
+    background: url(images/icons/bookmark.png) no-repeat right center #242680 !important;
+    background-size: 37px;
+    position: absolute;
+    font-size: 14px;
+    z-index: 10;
+    border-radius: 15px;
+    padding: 15px 35px 15px 10px;
+    cursor: pointer;
 }
 
 body {
@@ -847,6 +881,7 @@ body {
 
 .app .footer {
     text-align: center;
+    font-family: Pluto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
