@@ -67,8 +67,9 @@ button:active,
 }
 
 .audio-container {
-    position: fixed;
-    left: 45px;
+    position: absolute;
+    right: 10px;
+    bottom: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
