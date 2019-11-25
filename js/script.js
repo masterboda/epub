@@ -503,6 +503,31 @@ App.prototype.doReset = function () {
     // this.doDictionary(null);
 };
 
+App.prototype.createElement = function (name, props, innerContent) {
+    const elm = document.createElement(name);
+
+    for (let prop in props) {
+        if (typeof props[prop] === 'object')
+            Object.assign(elm[prop], props[prop]);
+        else
+            elm[prop] = props[prop];
+    }
+
+    if (innerContent) {
+
+        if(!(innerContent instanceof Array))
+            innerContent = [innerContent];
+
+        for (let item of innerContent) {
+            let append = item instanceof Node ? item : document.createTextNode(item);
+            elm.appendChild(append)
+        }
+
+    }
+
+    return elm;
+}
+
 App.prototype.qs = function (q) {
     return this.appElm.querySelector(q);
 };
@@ -517,9 +542,51 @@ App.prototype.el = function (t, c) {
     return e;
 };
 
+App.prototype.addAudioClick = function () {
+    // let bookiFrame = this.qs("iframe").contentWindow.document,
+    //     audioBtns = Array.from(bookiFrame.querySelectorAll('.audio-btn'));
+
+    let audioBtns = Array.from(document.querySelectorAll('.audio-btn')); //Temporary!!!
+
+    audioBtns.forEach(btn => {
+        let audioSrc = btn.dataset.source;
+
+        if(audioSrc) {
+            let app = this;
+
+            btn.onclick = function(e) {
+                if(!this.dataset.active) {
+
+                    let audioContainer = app.createElement(
+                        'div', {className: 'audio-container'}, [
+                            app.createElement('audio', {src: audioSrc, controls: true, autoplay: true}),
+                            app.createElement(
+                                'span', {
+                                    className: 'close-audio',
+                                    onclick: function(e) {
+                                        this.parentElement.remove();
+                                    }
+                                }, 'Close audio'
+                            )
+                        ]
+                    );
+
+                    app.qs('.viewer').appendChild(audioContainer);
+                }
+                else {
+                    //In future some logic to handle with
+                    return;
+                }
+            }
+        }
+    });
+
+}
+
 App.prototype.addImgClick = function () {    
-    let iDoc = this.qs("iframe").contentWindow.document;
-    let imgDivArr = Array.from(iDoc.querySelectorAll(".circle-div"));
+    // let bookiFrame = this.state.rendition.getContents().document;
+    let bookiFrame = this.qs("iframe").contentWindow.document;
+    let imgDivArr = Array.from(bookiFrame.querySelectorAll(".circle-div"));
     imgDivArr.forEach(cDiv => {
         //add class to parent div
         // cDiv.parentNode.classList.add("h200");
@@ -635,7 +702,9 @@ App.prototype.onRenditionRelocated = function (event) {
     try {
         let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
         this.qsa(".chapter-list .chapter-item").forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
+        //Add this directly to hooks
         this.addImgClick();
+        this.addAudioClick();
     } catch (err) {
         this.fatal("error updating toc", err);
     }
