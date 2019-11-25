@@ -568,11 +568,11 @@ App.prototype.addAudioClick = function () {
                                             audioBtns.forEach(btn => {
                                                 btn.dataset.active = false;
                                             });
-                                            this.parentElement.style.display = 'none';
+                                            this.parentElement.classList.add('hidden');
                                             this.parentElement.querySelector('audio').pause();
                                             // this.parentElement.remove();
                                         }
-                                    }, 'Close audio'
+                                    }
                                 )
                             ]
                         );
@@ -582,7 +582,7 @@ App.prototype.addAudioClick = function () {
                     else {
                         audio.src = audioSrc;
                         let audioContainer = audio.parentElement;
-                        audioContainer.style.display = 'block';
+                        audioContainer.classList.remove('hidden');
                     }
                 }
                 else {
