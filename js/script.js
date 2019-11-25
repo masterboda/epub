@@ -581,8 +581,8 @@ App.prototype.addAudioClick = function () {
                     }
                     else {
                         audio.src = audioSrc;
-                        let audioContainer = app.qs('audio-container');
-                        audioContainer.display = 'block';
+                        let audioContainer = audio.parentElement;
+                        audioContainer.style.display = 'block';
                     }
                 }
                 else {
