@@ -630,7 +630,9 @@ App.prototype.addImgClick = function () {
     });
 }
 
-App.prototype.addCover = function () {    
+    var bCoverInit = false;
+App.prototype.addCover = function () {
+    if (bCoverInit) return;
     // let bookiFrame = this.state.rendition.getContents().document;
     let bookiFrame = this.qs("iframe").contentWindow.document;
     // let imgCover = bookiFrame.querySelector("._idContainer000");
@@ -652,6 +654,7 @@ App.prototype.addCover = function () {
             this.remove();
         });
     }
+    bCoverInit = true;
 }
 
 App.prototype.onBookReady = function (event) {
