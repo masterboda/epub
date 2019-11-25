@@ -2,7 +2,7 @@
 console.log("sw: service worker loaded");
 
 const cachePrefix = "ePubViewer";
-const revision = 37;              // Update on every change
+const revision = 38;              // Update on every change
 
 const appItems = ["./", "index.html", "reader.html", "https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap", "css/estilos_base.css", "css/estilos.css", "libs/css/normalize.min.css", "dist/vconsole.min.js", "css/style.css", "images/icons/home.png", "images/on/thumb1.png", "images/on/thumb2.png", "images/on/thumb3.png", "images/on/thumb4.png", "images/on/thumb5.png", "libs/css/font-awesome-5.10.2/css/all.min.css", "images/icons/arrow-left.png", "libs/css/animate.css", "https://fonts.googleapis.com/css?family=Arbutus+Slab", "polyfills/babel-polyfill.min.js", "polyfills/fetch.js", "polyfills/pep.min.js", "images/icons/arrow-right.png", "images/icons/logo.png", "js/script.js", "libs/js/sanitize-html.min.js", "images/icons/nav.png", "images/icons/text-tool.png", "images/icons/search.png", "images/icons/bookmark.png", "libs/js/jszip.min.js", "libs/js/epub.js"];
 // Set the cache as the active cache.
