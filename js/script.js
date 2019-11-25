@@ -630,6 +630,29 @@ App.prototype.addImgClick = function () {
     });
 }
 
+App.prototype.addCover = function () {    
+    // let bookiFrame = this.state.rendition.getContents().document;
+    let bookiFrame = this.qs("iframe").contentWindow.document;
+    // let imgCover = bookiFrame.querySelector("._idContainer000");
+    let imgCover = bookiFrame.querySelector("._idGenObjectAttribute-1");
+    let parent = document.querySelector(".app .viewer"),
+        modalContainer = parent.appendChild(document.createElement("div")),
+        modalImg = modalContainer.appendChild(document.createElement("img")),
+        closeBtn = modalContainer.appendChild(document.createElement("span"));
+
+    modalContainer.className = "imgFullscreen fadeIn animated";
+    // modalImg.src = imgCover.querySelector("img").src;
+    modalImg.src = imgCover.src;
+    closeBtn.className = "close-btn";
+
+    modalContainer.onclick = function() {
+        this.className = "imgFullscreen fadeOut animated";
+        this.style.animationDuration = "0.5s";
+        this.addEventListener('animationend', function() {
+            this.remove();
+        });
+    }
+}
 
 App.prototype.onBookReady = function (event) {
     // this.qs(".sidebar-button").classList.remove("hidden");
@@ -715,6 +738,7 @@ App.prototype.onRenditionRelocated = function (event) {
         let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
         this.qsa(".chapter-list .chapter-item").forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
         //Add this directly to hooks
+        this.addCover();
         this.addImgClick();
         this.addAudioClick();
     } catch (err) {
