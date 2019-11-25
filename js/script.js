@@ -558,7 +558,7 @@ App.prototype.addAudioClick = function () {
                 if(this.dataset.active == "false") {
                     let audio = app.qs('.audio-container audio');
                     if (!audio) {
-                        let audioContainer =  app.createElement(
+                        let audioContainer = app.createElement(
                             'div', {className: 'audio-container', draggable: 'true'}, [
                                 app.createElement('audio', {src: audioSrc, controls: true, autoplay: true}),
                                 app.createElement(
@@ -599,32 +599,51 @@ App.prototype.addImgClick = function () {
     // let bookiFrame = this.state.rendition.getContents().document;
     let bookiFrame = this.qs("iframe").contentWindow.document;
     let imgDivArr = Array.from(bookiFrame.querySelectorAll(".circle-div"));
+    
     imgDivArr.forEach(cDiv => {
-        //add class to parent div
-        // cDiv.parentNode.classList.add("h200");
         cDiv.parentNode.style.height = "200px";
-        // 
         cDiv.style.cursor = "zoom-in";
+
+        let app = this,
+            imgSrc = cDiv.querySelector("img").src;
+
         cDiv.onclick = function (e) {
-            console.log(cDiv.querySelector("img").src);
+            console.log(imgSrc);
 
-            let parent = document.querySelector(".app .viewer"),
-                modalContainer = parent.appendChild(document.createElement("div")),
-                modalImg = modalContainer.appendChild(document.createElement("img")),
-                closeBtn = modalContainer.appendChild(document.createElement("span"));
+            let modalContainer = app.createElement(
+                'div', {
+                    className: 'imgFullscreen fadeIn animated',
+                    style: {animationDuration: '0.5s'},
+                    onclick: function() {
+                        this.className = "imgFullscreen fadeOut animated";
+                        this.addEventListener('animationend', function() {
+                            this.remove();
+                        });
+                    }
+                },
+                [
+                    app.createElement('img', {src: imgSrc}),
+                    app.createElement('span', {className: 'close-btn'})
+                ]
+            );
 
-            modalContainer.className = "imgFullscreen fadeIn animated";
-            modalImg.src = cDiv.querySelector("img").src;
-            closeBtn.className = "close-btn";
+            // let parent = document.querySelector(".app .viewer"),
+            //     modalContainer = parent.appendChild(document.createElement("div")),
+            //     modalImg = modalContainer.appendChild(document.createElement("img")),
+            //     closeBtn = modalContainer.appendChild(document.createElement("span"));
 
-            modalContainer.onclick = function() {
-                this.className = "imgFullscreen fadeOut animated";
-                this.style.animationDuration = "0.5s";
-                this.addEventListener('animationend', function() {
-                    this.remove();
-                });
-            }
+            // modalContainer.className = "imgFullscreen fadeIn animated";
+            // modalImg.src = cDiv.querySelector("img").src;
+            // closeBtn.className = "close-btn";
 
+            // modalContainer.onclick = function() {
+            //     this.className = "imgFullscreen fadeOut animated";
+            //     this.style.animationDuration = "0.5s";
+            //     this.addEventListener('animationend', function() {
+            //         this.remove();
+            //     });
+            // }
+            app.qs('.viewer').appendChild(modalContainer);
             e.stopPropagation();
         }
     });
