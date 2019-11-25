@@ -75,6 +75,8 @@ img.circle-img {
 	cursor: pointer;
 	transition: transform .2s;
 	z-index: 2;
+	margin: 10px;
+   margin-left: calc(50% - 22px);
 }
 .audio-btn:hover {
   transform: scale(1.25);

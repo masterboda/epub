@@ -543,10 +543,10 @@ App.prototype.el = function (t, c) {
 };
 
 App.prototype.addAudioClick = function () {
-    // let bookiFrame = this.qs("iframe").contentWindow.document,
-    //     audioBtns = Array.from(bookiFrame.querySelectorAll('.audio-btn'));
+    let bookiFrame = this.qs("iframe").contentWindow.document,
+        audioBtns = Array.from(bookiFrame.querySelectorAll('.audio-btn'));
 
-    let audioBtns = Array.from(document.querySelectorAll('.audio-btn')); //Temporary!!!
+    // let audioBtns = Array.from(document.querySelectorAll('.audio-btn')); //Temporary!!!
 
     audioBtns.forEach(btn => {
         let audioSrc = btn.dataset.source;
