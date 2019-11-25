@@ -555,23 +555,35 @@ App.prototype.addAudioClick = function () {
             let app = this;
 
             btn.onclick = function(e) {
-                if(!this.dataset.active) {
+                if(this.dataset.active == "false") {
+                    let audio = app.qs('.audio-container audio');
+                    if (!audio) {
+                        let audioContainer =  app.createElement(
+                            'div', {className: 'audio-container', draggable: 'true'}, [
+                                app.createElement('audio', {src: audioSrc, controls: true, autoplay: true}),
+                                app.createElement(
+                                    'span', {
+                                        className: 'close-audio',
+                                        onclick: function(e) {
+                                            audioBtns.forEach(btn => {
+                                                btn.dataset.active = false;
+                                            });
+                                            this.parentElement.style.display = 'none';
+                                            this.parentElement.querySelector('audio').pause();
+                                            // this.parentElement.remove();
+                                        }
+                                    }, 'Close audio'
+                                )
+                            ]
+                        );
 
-                    let audioContainer = app.createElement(
-                        'div', {className: 'audio-container'}, [
-                            app.createElement('audio', {src: audioSrc, controls: true, autoplay: true}),
-                            app.createElement(
-                                'span', {
-                                    className: 'close-audio',
-                                    onclick: function(e) {
-                                        this.parentElement.remove();
-                                    }
-                                }, 'Close audio'
-                            )
-                        ]
-                    );
-
-                    app.qs('.viewer').appendChild(audioContainer);
+                        app.qs('.viewer').appendChild(audioContainer);
+                    }
+                    else {
+                        audio.src = audioSrc;
+                        let audioContainer = app.qs('audio-container');
+                        audioContainer.display = 'block';
+                    }
                 }
                 else {
                     //In future some logic to handle with
