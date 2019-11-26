@@ -642,6 +642,10 @@ App.prototype.addCover = function () {
     let bookiFrame = this.qs("iframe").contentWindow.document;
     // let imgCover = bookiFrame.querySelector("._idContainer000");
     let imgCover = bookiFrame.querySelector("._idGenObjectAttribute-1");
+    if (!imgCover) {
+        bCoverInit = true;
+        return;
+    }
     let parent = document.querySelector(".app .viewer"),
         modalContainer = parent.appendChild(document.createElement("div")),
         modalImg = modalContainer.appendChild(document.createElement("img")),
