@@ -143,7 +143,7 @@ body {
     font-size: 14px;
 }
 
-.app.scrolled .bar, .app.scrolled .nav-arrows{
+.app.scrolled .bar{
     display: none;
 }
 

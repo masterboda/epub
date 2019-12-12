@@ -51,11 +51,11 @@ let App = function (el) {
     this.ufn = ufn.startsWith("!") ? ufn.replace("!", "") : ufn;
 
     if (this.ufn) {
-        fetch(this.ufn).then(resp => {
-            if (resp.status != 200) throw new Error("response status: " + resp.status.toString() + " " + resp.statusText);
-        }).catch(err => {
-            this.fatal("error loading book", err, true);
-        });
+        // fetch(this.ufn).then(resp => {
+        //     if (resp.status != 200) throw new Error("response status: " + resp.status.toString() + " " + resp.statusText);
+        // }).catch(err => {
+        //     this.fatal("error loading book", err, true);
+        // });
         this.doBook(this.ufn);
     }
 
