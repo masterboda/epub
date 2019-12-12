@@ -1,0 +1,190 @@
+<body>
+	<style>
+		.audio-player {
+			background: #242680;
+			color: #fff;
+			padding: 15px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			-webkit-border-radius: 15px;
+			-moz-border-radius: 15px;
+			border-radius: 15px;
+			box-shadow: 0 0 15px #ccc;
+			font-family: inherit;
+		}
+
+		.audio-progress {
+			flex: 1;
+			display: flex;
+			align-items: center;
+		}
+		.audio-bar {
+			flex: 1;
+			width: 100%;
+			height: 3px;
+			background: rgba(0, 0, 0, .5);
+			margin: 0 15px;
+			cursor: pointer;
+			position: relative;
+		}
+
+		.audio-bar span {
+			position: absolute;
+			display: block;
+			height: 100%;
+			background: #ccc;
+		}
+
+		.audio-playpause, .audio-mute {
+			cursor: pointer;
+			margin-right: 10px;
+			display: inline-block;
+			width: 30px;
+			height: 30px;
+			transition: background .3s;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 25px;
+		}
+
+		.audio-playpause {
+			background-image: url('./images/icons/audio/play.png');
+		}
+		.audio-mute{
+			background-image: url('./images/icons/audio/speaker.png');
+		}
+		.audio-playpause.played {
+			background-image: url('./images/icons/audio/pause.png');
+		}
+		.audio-mute.muted{
+			background-image: url('./images/icons/audio/speaker-muted.png');
+		}
+	</style>
+
+	<script>
+		let a = createAudio('https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3');
+
+		document.body.appendChild(a);
+
+		function createAudio(src, opts) {
+
+			opts = opts || {
+				autoplay: false,
+				loop: false
+			};
+
+
+			function formatTime(sec) {
+				let h = Math.floor(sec / 3600), m = Math.floor(sec / 60) % 60, s = Math.floor(sec % 60);
+				return [h, m, s]
+					.map(v => v < 10 ? "0" + v : v)
+					.filter((v, i) => v !== "00" || i > 0)
+					.join(":");
+			}
+
+			function setProgress(evt) {
+				audioObj.currentTime = (evt.clientX - this.offsetLeft) / this.clientWidth * audioObj.duration;
+			}
+			
+			function onPlayPause(evt) {
+				playBtn.classList[evt.type == 'play' ? 'add' : 'remove']('played');
+			}
+
+			function onVolumeChange(evt) {
+				muteBtn.classList[this.muted ? 'add' : 'remove']('muted');
+			}
+
+			function onTimeUpdate(evt) {
+				timeBlock.innerText = formatTime(this.currentTime);
+				bar.children[0].style.width = `${this.currentTime / this.duration * 100}%`;
+			}
+
+			function onPlayClick(evt) {
+				audioObj[audioObj.paused ? 'play' : 'pause']()
+			}
+
+			const audioObj = createElement(
+				'audio', {
+					src: src,
+					loop: opts.loop,
+					autoplay: opts.autoplay,
+					hidden: true,
+					onplay: onPlayPause,
+					onpause: onPlayPause,
+					onvolumechange: onVolumeChange,
+					ontimeupdate: onTimeUpdate
+				}
+			);
+
+			const playBtn = createElement('span', {
+				className: 'audio-playpause',
+				onclick: onPlayClick
+			});
+
+			const muteBtn = createElement('span', {
+				className: 'audio-mute',
+				onclick: function(evt) {
+					audioObj.muted = !audioObj.muted;
+				}
+			});
+
+			const bar = createElement('div', {
+				className: 'audio-bar',
+				innerHTML: '<span></span>',
+				onclick: setProgress
+			});
+
+			const timeBlock = createElement('span', {
+				className: 'audio-duration',
+				innerText: '00:00'
+			});
+
+			return createElement(
+				'div', { className: 'audio-player' }, [
+					audioObj,
+					createElement(
+						'div', { className: 'audio-progress' }, [
+							timeBlock,
+							bar
+						]
+					),
+					createElement(
+						'div', {
+							className: 'audio-controls'
+						}, [
+							playBtn,
+							muteBtn
+						]
+					)
+				]
+			);
+		}
+
+
+		function createElement(name, props, innerContent) {
+			const elm = document.createElement(name);
+
+			for (let prop in props) {
+				if (typeof props[prop] === 'object')
+					Object.assign(elm[prop], props[prop]);
+				else
+					elm[prop] = props[prop];
+			}
+
+			if (innerContent) {
+
+				if (!(innerContent instanceof Array))
+					innerContent = [innerContent];
+
+				for (let item of innerContent) {
+					let append = item instanceof Node ? item : document.createTextNode(item);
+					elm.appendChild(append)
+				}
+
+			}
+
+			return elm;
+		}
+	</script>
+</body>
