@@ -542,60 +542,149 @@ App.prototype.el = function (t, c) {
     return e;
 };
 
+App.prototype.createAudio = function (src, opts) {
+    opts = opts || {
+        autoplay: false,
+        loop: false
+    };
+
+
+    function formatTime(sec) {
+        let h = Math.floor(sec / 3600),
+            m = Math.floor(sec / 60) % 60,
+            s = Math.floor(sec % 60);
+        return [h, m, s]
+            .map(v => v < 10 ? "0" + v : v)
+            .filter((v, i) => v !== "00" || i > 0)
+            .join(":");
+    }
+
+    function setProgress(evt) {
+        audioObj.currentTime = (evt.clientX - this.offsetLeft) / this.clientWidth * audioObj.duration;
+    }
+
+    function onPlayPause(evt) {
+        playBtn.classList[evt.type == 'play' ? 'add' : 'remove']('played');
+    }
+
+    function onVolumeChange(evt) {
+        muteBtn.classList[this.muted ? 'add' : 'remove']('muted');
+    }
+
+    function onTimeUpdate(evt) {
+        timeBlock.innerText = formatTime(this.currentTime);
+        bar.children[0].style.width = `${this.currentTime / this.duration * 100}%`;
+    }
+
+    function onPlayClick(evt) {
+        audioObj[audioObj.paused ? 'play' : 'pause']()
+    }
+
+    const audioObj = this.createElement(
+        'audio', {
+            src: src,
+            loop: opts.loop,
+            autoplay: opts.autoplay,
+            hidden: true,
+            onplay: onPlayPause,
+            onpause: onPlayPause,
+            onvolumechange: onVolumeChange,
+            ontimeupdate: onTimeUpdate
+        }
+    );
+
+    const playBtn = this.createElement('span', {
+        className: 'audio-playpause',
+        onclick: onPlayClick
+    });
+
+    const muteBtn = this.createElement('span', {
+        className: 'audio-mute',
+        onclick: function (evt) {
+            audioObj.muted = !audioObj.muted;
+        }
+    });
+
+    const bar = this.createElement('div', {
+        className: 'audio-bar',
+        innerHTML: '<span></span>',
+        onclick: setProgress
+    });
+
+    const timeBlock = this.createElement('span', {
+        className: 'audio-duration',
+        innerText: '00:00'
+    });
+
+    return this.createElement(
+        'div', {
+            className: 'audio-player'
+        }, [
+            audioObj,
+            this.createElement(
+                'div', {
+                    className: 'audio-progress'
+                }, [
+                    timeBlock,
+                    bar
+                ]
+            ),
+            this.createElement(
+                'div', {
+                    className: 'audio-controls'
+                }, [
+                    playBtn,
+                    muteBtn
+                ]
+            )
+        ]
+    );
+}
+
 App.prototype.addAudioClick = function () {
     let bookiFrame = this.qs("iframe").contentWindow.document,
         audioBtns = Array.from(bookiFrame.querySelectorAll('.audio-btn'));
 
-    // let audioBtns = Array.from(document.querySelectorAll('.audio-btn')); //Temporary!!!
-
     audioBtns.forEach(btn => {
         let audioSrc = btn.dataset.source;
 
-        if(audioSrc) {
+        if (audioSrc) {
             let app = this;
 
-            btn.onclick = function(e) {
-                if(this.dataset.active == "false") {
+            btn.onclick = function (e) {
+                if (this.dataset.active == "false") {
                     let audio = app.qs('.audio-container audio');
                     if (!audio) {
-                        let audioContainer = app.createElement(
-                            'div', {className: 'audio-container', draggable: 'true'}, [
-                                app.createElement('audio', {src: audioSrc, controls: true, autoplay: true}),
+                        let audioPlayer = app.createAudio(audioSrc, { autoplay: true }),
+                            audioContainer = app.createElement(
+                            'div', { className: 'audio-container' }, [
+                                audioPlayer,
                                 app.createElement(
                                     'span', {
                                         className: 'close-audio',
                                         onclick: function(e) {
-                                            audioBtns.forEach(btn => {
-                                                btn.dataset.active = false;
-                                            });
-                                            this.parentElement.classList.add('hidden');
-                                            this.parentElement.querySelector('audio').pause();
-                                            // this.parentElement.remove();
+                                            audioBtns.forEach(btn => btn.dataset.active = false);
+                                            audioContainer.classList.add('hidden');
+                                            audioPlayer.querySelector('audio').pause();
                                         }
                                     }
                                 )
-                            ]
-                        );
-
+                            ]);
                         app.qs('.viewer').appendChild(audioContainer);
-                    }
-                    else {
+
+                    } else {
                         audio.src = audioSrc;
-                        let audioContainer = audio.parentElement;
+                        let audioContainer = audio.parentElement.parentElement;
                         audioContainer.classList.remove('hidden');
                     }
-                }
-                else {
+                } else {
                     //In future some logic to handle with
                     return;
                 }
             }
         }
     });
-
 }
-
-// App.prototype.doFullscreenImage = function () {}
 
 App.prototype.addImgClick = function () {    
     // let bookiFrame = this.state.rendition.getContents().document;
