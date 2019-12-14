@@ -1,0 +1,478 @@
+
+/********************************  TOUCHA  ********************************************/
+
+@-webkit-keyframes touchA{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.1,1.1);
+    }
+}
+@-o-keyframes touchA{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.1,1.1);
+    }
+}
+@-ms-keyframes touchA{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.1,1.1);
+    }
+}
+@-moz-keyframes touchA{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.1,1.1);
+    }
+}
+@keyframes touchA{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.1,1.1);
+    }
+}
+
+/********************************  TOUCHB  ********************************************/
+
+@-webkit-keyframes touchB{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.2,1.2);
+    }
+}
+@-o-keyframes touchB{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.2,1.2);
+    }
+}
+@-ms-keyframes touchB{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.2,1.2);
+    }
+}
+@-moz-keyframes touchB{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.2,1.2);
+    }
+}
+@keyframes touchB{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.2,1.2);
+    }
+}
+
+/********************************  TOUCHC  ********************************************/
+
+@-webkit-keyframes touchC{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.3,1.3);
+    }
+}
+@-o-keyframes touchC{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.3,1.3);
+    }
+}
+@-ms-keyframes touchC{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.3,1.3);
+    }
+}
+@-moz-keyframes touchC{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.3,1.3);
+    }
+}
+@keyframes touchC{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.3,1.3);
+    }
+}
+
+/********************************  TOUCHD  ********************************************/
+
+@-webkit-keyframes touchD{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.4,1.4);
+    }
+}
+@-o-keyframes touchD{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.4,1.4);
+    }
+}
+@-ms-keyframes touchD{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.4,1.4);
+    }
+}
+@-moz-keyframes touchD{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.4,1.4);
+    }
+}
+@keyframes touchD{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.4,1.4);
+    }
+}
+
+/********************************  TOUCHE  ********************************************/
+
+@-webkit-keyframes touchE{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.5,1.5);
+    }
+}
+@-o-keyframes touchE{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.5,1.5);
+    }
+}
+@-ms-keyframes touchE{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.5,1.5);
+    }
+}
+@-moz-keyframes touchE{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.5,1.5);
+    }
+}
+@keyframes touchE{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.5,1.5);
+    }
+}
+
+/********************************  TOUCHF  ********************************************/
+
+@-webkit-keyframes touchF{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.6,1.6);
+    }
+}
+@-o-keyframes touchF{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.6,1.6);
+    }
+}
+@-ms-keyframes touchF{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.6,1.6);
+    }
+}
+@-moz-keyframes touchF{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.6,1.6);
+    }
+}
+@keyframes touchF{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.6,1.6);
+    }
+}
+
+
+/********************************  TOUCHG  ********************************************/
+
+@-webkit-keyframes touchG{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.7,1.7);
+    }
+}
+@-o-keyframes touchG{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.7,1.7);
+    }
+}
+@-ms-keyframes touchG{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.7,1.7);
+    }
+}
+@-moz-keyframes touchG{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.7,1.7);
+    }
+}
+@keyframes touchG{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.7,1.7);
+    }
+}
+
+/********************************  TOUCHH  ********************************************/
+
+@-webkit-keyframes touchH{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.8,1.8);
+    }
+}
+@-o-keyframes touchH{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.8,1.8);
+    }
+}
+@-ms-keyframes touchH{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.8,1.8);
+    }
+}
+@-moz-keyframes touchH{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.8,1.8);
+    }
+}
+@keyframes touchH{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.8,1.8);
+    }
+}
+
+/********************************  TOUCHI  ********************************************/
+
+@-webkit-keyframes touchI{
+    0% {
+        opacity: 0.99;
+        -webkit-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -webkit-transform: scale(1.9,1.9);
+    }
+}
+@-o-keyframes touchI{
+    0% {
+        opacity: 0.99;
+        -o-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -o-transform: scale(1.9,1.9);
+    }
+}
+@-ms-keyframes touchI{
+    0% {
+        opacity: 0.99;
+        -ms-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -ms-transform: scale(1.9,1.9);
+    }
+}
+@-moz-keyframes touchI{
+    0% {
+        opacity: 0.99;
+        -moz-transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        -moz-transform: scale(1.9,1.9);
+    }
+}
+@keyframes touchI{
+    0% {
+        opacity: 0.99;
+        transform: scale(1,1);
+    }
+    100%{
+        opacity: 0;
+        transform: scale(1.9,1.9);
+    }
+}
