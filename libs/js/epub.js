@@ -4971,6 +4971,8 @@ var Contents = function () {
 			if (axis === "vertical") {
 				this.css("padding", gap / 2 + "px 20px", true);
 			} else {
+				this.css("padding-top", "20px", true);
+				this.css("padding-bottom", "20px", true);
 				this.css("padding-left", gap / 2 + "px", true);
 				this.css("padding-right", gap / 2 + "px", true);
 			}
