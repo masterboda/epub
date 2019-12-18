@@ -35,11 +35,11 @@ button:active,
     position: absolute;
     right: 10px;
     bottom: 40px;
-    display: flex;
+    /*display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    width: 350px;
+    width: 350px;*/
 }
 
 .audio-container .close-audio {
@@ -909,9 +909,9 @@ body {
         display: none;
     }
 
-    .audio-container {
+    /*.audio-container {
         width: 250px;
-    }
+    }*/
     .app .menu-bar .title .logo {
         width: 35px;
         height: 35px;
@@ -939,6 +939,7 @@ body {
 
 .audio-player {
     background: #242680;
+    width: 350px;
     color: #fff;
     padding: 15px;
     display: flex;
@@ -949,8 +950,28 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 15px #ccc;
     font-family: inherit;
-    flex: 1;
+    /*flex: 1;*/
 }
+
+.audio-player.minimized {
+    width: 40px !important;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.audio-player.minimized * {
+    display: none;
+}
+
+.audio-player .audio-maximize {
+    display: none;
+}
+
+.audio-player.minimized .audio-maximize {
+    display: block;
+}
+
 .audio-progress {
     flex: 1;
     display: flex;
@@ -971,7 +992,7 @@ body {
     height: 100%;
     background: #ccc;
 }
-.audio-playpause, .audio-mute {
+.audio-playpause, .audio-mute, .audio-minimize, .audio-close {
     cursor: pointer;
     margin-right: 10px;
     display: inline-block;
@@ -985,9 +1006,16 @@ body {
 .audio-playpause {
     background-image: url('../images/icons/audio/play.png');
 }
-.audio-mute{
+.audio-mute {
     background-image: url('../images/icons/audio/speaker.png');
 }
+.audio-minimize {
+    background-image: url('../images/icons/audio/fold.png');
+}
+.audio-close {
+    background-image: url('../images/icons/audio/close.png');
+}
+
 .audio-playpause.played {
     background-image: url('../images/icons/audio/pause.png');
 }

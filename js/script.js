@@ -597,11 +597,32 @@ App.prototype.createAudio = function (src, opts) {
         className: 'audio-playpause',
         onclick: onPlayClick
     });
+    
+    const minimizeBtn = this.createElement('span', {
+        className: 'audio-minimize',
+        onclick: function (evt) {
+            audioPlayer.classList.add('minimized');
+        }
+    });
+
+    const maximizeBtn = this.createElement('span', {
+        className: 'audio-maximize',
+        onclick: function (evt) {
+            audioPlayer.classList.remove('minimized');
+        }
+    }, '+');
 
     const muteBtn = this.createElement('span', {
         className: 'audio-mute',
         onclick: function (evt) {
             audioObj.muted = !audioObj.muted;
+        }
+    });
+
+    const closeBtn = this.createElement('span', {
+        className: 'audio-close',
+        onclick: function (evt) {
+            return;
         }
     });
 
@@ -616,7 +637,7 @@ App.prototype.createAudio = function (src, opts) {
         innerText: '00:00'
     });
 
-    return this.createElement(
+    const audioPlayer = this.createElement(
         'div', {
             className: 'audio-player'
         }, [
@@ -634,11 +655,16 @@ App.prototype.createAudio = function (src, opts) {
                     className: 'audio-controls'
                 }, [
                     playBtn,
-                    muteBtn
+                    muteBtn,
+                    minimizeBtn,
+                    closeBtn
                 ]
-            )
+            ),
+            maximizeBtn
         ]
     );
+
+    return audioPlayer;
 }
 
 App.prototype.addAudioClick = function () {
