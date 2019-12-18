@@ -957,6 +957,7 @@ body {
     width: 40px !important;
     height: 40px;
     border-radius: 50%;
+    padding: 0;
     overflow: hidden;
 }
 
@@ -966,6 +967,13 @@ body {
 
 .audio-player .audio-maximize {
     display: none;
+    flex: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: url('../images/icons/audio/note.png') center no-repeat;
+    background-size: 20px;
 }
 
 .audio-player.minimized .audio-maximize {

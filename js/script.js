@@ -545,7 +545,9 @@ App.prototype.el = function (t, c) {
 App.prototype.createAudio = function (src, opts) {
     opts = opts || {
         autoplay: false,
-        loop: false
+        loop: false,
+        minimized: false,
+        draggable: false
     };
 
 
@@ -560,7 +562,10 @@ App.prototype.createAudio = function (src, opts) {
     }
 
     function setProgress(evt) {
-        audioObj.currentTime = (evt.clientX - this.offsetLeft) / this.clientWidth * audioObj.duration;
+        let box = this.getBoundingClientRect(),
+            left = box.left + pageXOffset;
+
+        audioObj.currentTime = (evt.clientX - left) / this.clientWidth * audioObj.duration;
     }
 
     function onPlayPause(evt) {
@@ -610,7 +615,7 @@ App.prototype.createAudio = function (src, opts) {
         onclick: function (evt) {
             audioPlayer.classList.remove('minimized');
         }
-    }, '+');
+    });
 
     const muteBtn = this.createElement('span', {
         className: 'audio-mute',
@@ -622,7 +627,7 @@ App.prototype.createAudio = function (src, opts) {
     const closeBtn = this.createElement('span', {
         className: 'audio-close',
         onclick: function (evt) {
-            return;
+            this.parentElement.parentElement.remove();
         }
     });
 
@@ -639,7 +644,7 @@ App.prototype.createAudio = function (src, opts) {
 
     const audioPlayer = this.createElement(
         'div', {
-            className: 'audio-player'
+            className: `audio-player ${(opts.minimized ? 'minimized' : '')}`
         }, [
             audioObj,
             this.createElement(
@@ -678,35 +683,25 @@ App.prototype.addAudioClick = function () {
             let app = this;
 
             btn.onclick = function (e) {
-                if (this.dataset.active == "false") {
-                    let audio = app.qs('.audio-container audio');
+                // if (this.dataset.active == "false") {
+                    let audio = app.qs('.audio-player audio');
+
                     if (!audio) {
-                        let audioPlayer = app.createAudio(audioSrc, { autoplay: true }),
-                            audioContainer = app.createElement(
-                            'div', { className: 'audio-container' }, [
-                                audioPlayer,
-                                app.createElement(
-                                    'span', {
-                                        className: 'close-audio',
-                                        onclick: function(e) {
-                                            audioBtns.forEach(btn => btn.dataset.active = false);
-                                            audioContainer.classList.add('hidden');
-                                            audioPlayer.querySelector('audio').pause();
-                                        }
-                                    }
-                                )
-                            ]);
-                        app.qs('.viewer').appendChild(audioContainer);
+
+                        let audioPlayer = app.createAudio(audioSrc, { autoplay: true });
+                        audioPlayer.style.position = "absolute";
+                        audioPlayer.style.right = "10px";
+                        audioPlayer.style.bottom = "40px";
+
+                        app.qs('.viewer').appendChild(audioPlayer);
 
                     } else {
                         audio.src = audioSrc;
-                        let audioContainer = audio.parentElement.parentElement;
-                        audioContainer.classList.remove('hidden');
                     }
-                } else {
-                    //In future some logic to handle with
-                    return;
-                }
+                // } else {
+                //     //In future some logic to handle with
+                //     return;
+                // }
             }
         }
     });
