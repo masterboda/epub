@@ -6,7 +6,6 @@ const appItems = [
 	"css/estilos_base.css", 
 	"css/estilos.css", 
 	"libs/css/normalize.min.css", 
-	// "dist/vconsole.min.js", 
 	"css/style.css", 
 	"images/icons/home.png", 
 	"images/on/thumb1.png", 
@@ -27,7 +26,7 @@ const appItems = [
 	"images/icons/text-tool.png", 
 	"images/icons/search.png", 
 	"images/icons/bookmark.png", 
-	"libs/js/jszip.min.js", 
+	"libs/js/jszip.js", 
 	"libs/js/epub.js", 
 	"libs/js/jquery-3.4.1.js"
 ];
