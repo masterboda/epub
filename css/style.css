@@ -650,10 +650,9 @@ body {
     box-sizing: border-box;
     max-width: 1200px;
     margin: 0 auto;
-    /*height: calc(100vh - 156px);*/
-    /*overflow-y: scroll;*/
-
-    /* background: #fff;
+    height: calc(100vh - 156px);
+    /*overflow-y: scroll;
+    background: #fff;
     padding: 40px 0; */
     border-radius: 5px;
     position: relative;
@@ -933,7 +932,7 @@ body {
 
     .app .viewer {
         width: 100%;
-        padding: 25px 0;
+        /*padding: 25px 0;*/
     }
 }
 
