@@ -220,18 +220,20 @@ App.prototype.setDefaultChipActive = function (container) {
 
 // New version 
 App.prototype.setChipActive = function (container, value) {
-    Array.from(this.qs(`.settings-row[data-type='${container}']`).querySelectorAll(".settings-item[data-value]")).forEach(el => {
-        el.classList[el.dataset.value == value ? "add" : "remove"]("active");
-    });
-    localStorage.setItem(`ePubViewer:${container}`, value);
-    this.applyTheme();
-    if(container == "flow") {
-        this.doBook(this.ufn);
-        this.appElm.classList[value == "scrolled-doc" ? "add" : "remove"]("scrolled");
-    }
+    if (this.getChipActive(container) != value) {
+        Array.from(this.qs(`.settings-row[data-type='${container}']`).querySelectorAll(".settings-item[data-value]")).forEach(el => {
+            el.classList[el.dataset.value == value ? "add" : "remove"]("active");
+        });
+        localStorage.setItem(`ePubViewer:${container}`, value);
+        this.applyTheme();
+        if (container == "flow") {
+            this.doBook(this.ufn);
+            this.appElm.classList[value == "scrolled-doc" ? "add" : "remove"]("scrolled");
+        }
 
-    if (this.state.rendition && this.state.rendition.location)
-        this.onRenditionRelocatedUpdateIndicators(this.state.rendition.location);
+        if (this.state.rendition && this.state.rendition.location)
+            this.onRenditionRelocatedUpdateIndicators(this.state.rendition.location);
+    }
     return value;
 };
 
