@@ -221,6 +221,20 @@ background-color: var(--primero);
     display: none;
 }
 
+.popUpHA{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    display: none;
+}
+
 .playContent{
     position: relative;
 width: 90%;
@@ -233,6 +247,19 @@ width: 90%;
     justify-content: space-between;
     vertical-align: middle;
     /*overflow: hidden;*/
+}
+
+.playContentHA{
+    position: relative;
+    width: 90%;
+    height: 90%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 10px;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* vertical-align: middle; */
+    overflow-y: auto;
 }
 
 .playListCont{
@@ -609,4 +636,41 @@ height: 10px;
     display: inline-block;
     line-height: 20px;
     margin: 0px;
+ }
+
+ .bcloseHA{
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50px;
+    top: 10px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+ }
+
+ .bcloseHA > p{
+    font-size: 35px;
+    font-weight: 300;
+    display: inline-block;
+    line-height: 20px;
+    margin: 0px;
+ }
+
+
+ .haltCont{
+    padding: 25px;
+    background-color: whitesmoke;
+    border-bottom: 1px solid #e6e6e6;
+    cursor: pointer;
+ }
+
+ .snText{
+    text-decoration: none !important;
  }

@@ -80,21 +80,24 @@
 
   $(".jAudio").jAudio(t);
 
+  $(document).on('click', ".audioPlayer", function(){
+    $(".popUp").fadeIn().css("display","flex");
+  });
+
   $(document).on('click', ".bclose", function(){
     $(".popUp").fadeOut();
 
     if ($("#togPlay").hasClass("jAudio--control-pause")) {  
       $("#togPlay").trigger( "click" );
     }
-
-    // var beepOne = $("#beep-one")[0];
-    // beepOne.pause();
-    
   });
 
-  $(document).on('click', ".audioPlayer", function(){
-    $(".popUp").fadeIn().css("display","flex");
-    
+  $(document).on('click', ".HAbooks", function(){
+    $(".popUpHA").fadeIn().css("display","flex");
+  });
+
+  $(document).on('click', ".bcloseHA", function(){
+    $(".popUpHA").fadeOut();
   });
 
 })();
