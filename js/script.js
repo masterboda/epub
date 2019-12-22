@@ -468,7 +468,7 @@ App.prototype.fatal = function (msg, err, usersFault) {
         error: err.toString(),
         stack: err.stack
     });    
-    console.log("Error line 410");
+    console.log("Error line 471");
     console.log(mgs);
     console.error(err);
     console.log(usersFault);
@@ -747,34 +747,40 @@ App.prototype.addImgClick = function () {
     });
 }
 
+    // bCoverInit serve for only one time show
     var bCoverInit = false;
 App.prototype.addCover = function () {
     if (bCoverInit) return;
-    // let bookiFrame = this.state.rendition.getContents().document;
-    let bookiFrame = this.qs("iframe").contentWindow.document;
-    // let imgCover = bookiFrame.querySelector("._idContainer000");
-    let imgCover = bookiFrame.querySelector("._idGenObjectAttribute-1");
+    //let imgCover = bookiFrame.querySelector("._idGenObjectAttribute-1");
+    let imgCover = this.state.book.cover;
     if (!imgCover) {
         bCoverInit = true;
         return;
     }
-    let parent = document.querySelector(".app .viewer"),
-        modalContainer = parent.appendChild(document.createElement("div")),
-        modalImg = modalContainer.appendChild(document.createElement("img")),
-        closeBtn = modalContainer.appendChild(document.createElement("span"));
 
-    modalContainer.className = "imgFullscreen fadeIn animated";
-    // modalImg.src = imgCover.querySelector("img").src;
-    modalImg.src = imgCover.src;
-    closeBtn.className = "close-btn";
-
-    modalContainer.onclick = function() {
-        this.className = "imgFullscreen fadeOut animated";
-        this.style.animationDuration = "0.5s";
-        this.addEventListener('animationend', function() {
-            this.remove();
+    fetch(imgCover)
+        .then((resp) => {
+            if (resp.status == 200) {
+                showCover(imgCover, this);
+            } else {
+                if (imgCover.substr(0, 6) == "/OEBPS") {
+                    imgCover = imgCover.replace("/OEBPS/image", "/images");
+                    fetch(imgCover).then((resp1) => {
+                        if (resp1.status == 200) {
+                            showCover(imgCover, this);
+                        }
+                    });
+                }
+                bCoverInit = true;
+                return;
+            }
+        })
+        .catch(err => {
+            console.log("error loading cover", err);
+            bCoverInit = true;
+            return;
         });
-    }
+    
     bCoverInit = true;
 }
 
@@ -862,7 +868,7 @@ App.prototype.onRenditionRelocated = function (event) {
         let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
         this.qsa(".chapter-list .chapter-item").forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
         //Add this directly to hooks
-        this.addCover();
+        //this.addCover();
         this.addImgClick();
         this.addAudioClick();
     } catch (err) {
@@ -1376,7 +1382,22 @@ try {
         error: err.toString(),
         stack: err.stack
     });
-    console.log("Error line 1016");
+    console.log("Error line 1385");
     console.error(err);
     console.log(err.toString(), err.stack);
+}
+
+function showCover(imgCover, _this) {
+    let bookiFrame = _this.qs("iframe").contentWindow.document;
+    let parent = document.querySelector(".app .viewer"), modalContainer = parent.appendChild(document.createElement("div")), modalImg = modalContainer.appendChild(document.createElement("img")), closeBtn = modalContainer.appendChild(document.createElement("span"));
+    modalContainer.className = "imgFullscreen fadeIn animated";
+    modalImg.src = imgCover; //.coverPath; //imgCover.src
+    closeBtn.className = "close-btn";
+    modalContainer.onclick = function () {
+        this.className = "imgFullscreen fadeOut animated";
+        this.style.animationDuration = "0.5s";
+        this.addEventListener('animationend', function () {
+            this.remove();
+        });
+    };
 }
