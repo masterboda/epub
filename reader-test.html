@@ -101,63 +101,6 @@
         <!-- MENU-BAR
         ======================================= -->
         
-        <div class="menu-bar">
-            <!-- Logo here -->
-            <div class="title">
-                <a href="./" class="logo"><img src="images/icons/home.png" alt=""></a>
-                <div class="title-text">
-                    <h2 class="book-title"></h2>
-                    <h3 class="book-author"></h3>
-                </div>
-            </div>
-
-            <div class="menu-tools">
-                <div class="menu-tool chapter-tool" onclick="modal(document.querySelector('.tabs-modal'), 'show', ()=>ePubViewer.doTab('chapters'))"></div>
-                <div class="menu-tool font-tool">
-                    
-                    <div class="menu-tooltip font-settings">
-                        <div class="tooltip-content">
-
-                            <div class="settings-row font-size" data-font-size="12" data-type="font-size">
-                                <!-- <div class="settings-item" onclick="ePubViewer.changeFS(-1)">Aa-</div> -->
-                                <!-- <div class="settings-item" onclick="ePubViewer.changeFS(1)">Aa+</div> -->
-                                <div class="settings-item font-size active" data-value="12pt" style="background: #fff; color: #000;" onclick="ePubViewer.fontSizeUp(-1)">Aa-</div>
-                                <div class="settings-item font-size active" data-value="12pt" style="background: #fff; color: #000;" onclick="ePubViewer.fontSizeUp(1)">Aa+</div>
-                                <div class="settings-item hidden" data-value="08pt"></div>
-                                <div class="settings-item hidden" data-value="09pt"></div>
-                                <div class="settings-item hidden" data-value="10pt"></div>
-                                <div class="settings-item hidden active" data-value="12pt" data-default="true"></div>
-                                <div class="settings-item hidden" data-value="14pt"></div>
-                                <div class="settings-item hidden" data-value="16pt"></div>
-                                <div class="settings-item hidden" data-value="18pt"></div>
-                            </div>
-    
-                            <div class="settings-row" data-type="flow">
-                                <div class="settings-item active" data-value="paginated" data-default="true">Paginated</div>
-                                <div class="settings-item" data-value="scrolled-doc">Scrolled</div>
-                            </div>
-
-                            <div class="settings-row" data-type="theme">
-                                <!-- data-value: body-bg;book-bg;shadow;font-color -->
-                                <div class="settings-item active" style="background: #eff6fe; color: #000;" data-value="#eff6fe;#fff;#ccc;#000" data-default="true">Light</div>
-                                <div class="settings-item" style="background: #f5deb3; color: #000;" data-value="#f5deb3;#f5deb3;#fff;#000">Sepia</div>
-                                <div class="settings-item" style="background: #111b21; color: #e8e8e8;" data-value="#111b21;#111b21;#aaa;#e8e8e8">Dark</div>
-                            </div>
-                            
-                            <div class="settings-row"  data-type="font">
-                                <div class="settings-item active" style="font-family: Arial" data-value="Arial, Arimo, Liberation Sans, sans-serif" data-default="true">Arial</div>
-                                <div class="settings-item" style="font-family: Lato" data-value="Lato, sans-serif">Lato</div>
-                                <div class="settings-item" style="font-family: Georgia" data-value="Georgia, Liberation Serif, serif">Georgia</div>
-                                <div class="settings-item" style="font-family: Times New Roman" data-value="Times New Roman, Times, serif">Times</div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="menu-tool search-tool" onclick="modal(document.querySelector('.tabs-modal'), 'show', () => ePubViewer.doTab('search'))"></div>
-                <div class="menu-tool bookmark-tool" onclick="modal(document.querySelector('.tabs-modal'), 'show', () => {ePubViewer.doTab('bookmarks')})"></div>
-            </div>
-        </div>
         
         <div class="viewer">
             <!-- <div class="audio-btn" data-source="./epubs/A8_E3_Cuatro es mejro que tres.mp3" data-active="false"></div> -->
@@ -188,8 +131,8 @@
             ======================================= -->
             
         <div class="nav-arrows">
-            <div class="prev-btn"><button class="prev"><img src="images/icons/button-left.png" alt=""/></button></div>
-            <div class="next-btn"><button class="next"><img src="images/icons/button-right.png" alt=""/></button></div>
+            <div class="prev-btn" onclick="rendition.prev()"><button class="prev"><img src="images/icons/button-left.png" alt=""/></button></div>
+            <div class="next-btn" onclick="rendition.next()"><button class="next"><img src="images/icons/button-right.png" alt=""/></button></div>
         </div>
 
         
@@ -226,7 +169,23 @@
     <!-- Project scripts
     ======================================= -->
     
-    <script src="js/script.js"></script>
+	 <!-- <script src="js/script.js"></script> -->
+	 <script>
+		var currentSectionIndex = 8;
+		// Load the opf
+		var book = ePub("https://aldebaran.ru/author/yurevich_kuzmin_alekseyi/kniga_64_stratagemyi_knigi_peremen/download.epub");
+		var bEl = document.querySelector('.app .book');
+		bEl.innerHTML = '';
+
+		var rendition = book.renderTo(bEl, {
+			 manager: "continuous",
+			 flow: "paginated",
+			 width: "100%",
+		  });
+
+		  rendition.display();
+	
+	 </script>
 
 </body>
 
