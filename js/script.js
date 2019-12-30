@@ -885,6 +885,7 @@ App.prototype.onKeyUp = function (event) {
     }
 };
 
+// ?? To remove
 App.prototype.onRenditionClick = function (event) {
     // console.log("You clicked on book");
     try {
@@ -1054,21 +1055,6 @@ App.prototype.applyTheme = function () {
     }
 };
 
-App.prototype.loadFonts = function() {
-    this.state.rendition.getContents().forEach(c => {
-        [
-            "https://fonts.googleapis.com/css?family=Arbutus+Slab",
-            "https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i"
-        ].forEach(url => {
-            let el = c.document.body.appendChild(c.document.createElement("link"));
-            el.setAttribute("rel", "stylesheet");
-            el.setAttribute("href", url);
-        });
-    });
-};
-
-
-
 /* Progress bar
 ======================================= */
 App.prototype.updateRangeBar = function (r) {
@@ -1100,17 +1086,6 @@ App.prototype.onRenditionRelocatedUpdateIndicators = function (event) {
 
         //book percent indicator update
         this.qs('.bar .loc').innerText = `${Math.round(this.state.rendition.location.start.percentage * 100)}%`;
-
-        //bookmark indicator update
-        // let icon = this.qs(".menu-bar .bookmark-tool");
-        // for(let item in this.bookmArr) {
-        //     if(this.bookmArr[item].href == this.state.rendition.location.start.cfi) {
-        //         icon.classList.add("bookmarked");
-        //         break;
-        //     }
-
-        //     icon.classList.remove("bookmarked");
-        // }
         
     } catch (err) {
         console.error("error updating indicators: " + err);
@@ -1262,7 +1237,6 @@ App.prototype.doSearch = function (q) {
 App.prototype.onResultClick = function (href, event) {
     console.log("tocClick", href);
     this.state.rendition.display(href);
-    //temporary!!!
     modal(this.qs(".tabs-modal"), 'hide');
     event.stopPropagation();
     event.preventDefault();
@@ -1328,11 +1302,6 @@ App.prototype.onSearchClick = function (event) {
     }).catch(err => this.fatal("error searching book", err));
 };
 
-//temporary!!!
-// App.prototype.doModal = function (activeTab) {
-//     this.qs(".modal").classList.toggle('hidden');
-//     this.doTab(activeTab);
-// };
 
 let ePubViewer = null;
 
