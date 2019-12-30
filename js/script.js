@@ -50,14 +50,8 @@ let App = function (el) {
     let ufn = location.search.replace("?", "") || location.hash.replace("#", "");
     this.ufn = ufn.startsWith("!") ? ufn.replace("!", "") : ufn;
 
-    if (this.ufn) {
-        // fetch(this.ufn).then(resp => {
-        //     if (resp.status != 200) throw new Error("response status: " + resp.status.toString() + " " + resp.statusText);
-        // }).catch(err => {
-        //     this.fatal("error loading book", err, true);
-        // });
+    if (this.ufn)
         this.doBook(this.ufn);
-    }
 
     document.body.addEventListener("keyup", this.onKeyUp.bind(this));
 
@@ -71,7 +65,9 @@ let App = function (el) {
             return;
         }
     });
-    this.qsa(".tab-list .tab-item").forEach(el => el.addEventListener("click", this.onTabClick.bind(this, el.dataset.tab)));
+
+    this.qsa(".tab-list .tab-item")
+        .forEach(el => el.addEventListener("click", this.onTabClick.bind(this, el.dataset.tab)));
     
     this.qs(".tab[data-tab=search] .search-bar .search-input").addEventListener("keydown", event => {
         if (event.keyCode == 13)
@@ -79,26 +75,19 @@ let App = function (el) {
         else if (event.keyCode == 8 || event.keyCode == 46) //on backspace or delete click
             this.qs(".search-results").innerHTML = "";
     });
+    
     this.qs(".tab[data-tab=search] .search-bar .do-search").addEventListener("click", this.onSearchClick.bind(this));
-    
-    
-    // this.qs(".do-bookmark").addEventListener("click", this.makeBookmark.bind(this));
-    // this.qs(".new-bookmark .bookmark-input").addEventListener("keydown", event => {
-    //     if(event.keyCode == 13) {
-    //         this.makeBookmark();
-    //     }
-    // });
     
     // Settings buttons EventListeners
     this.qsa(".settings-row[data-type]").forEach(el => {
-        Array.from(el.querySelectorAll(".settings-item[data-value]")).forEach(cel => cel.addEventListener("click", event => {
-            this.setChipActive(el.dataset.type, cel.dataset.value);
-        }));
+        Array.from(el.querySelectorAll(".settings-item[data-value]"))
+            .forEach(cel => cel.addEventListener("click", event => {
+                this.setChipActive(el.dataset.type, cel.dataset.value);
+            }));
     });
 
     this.qs("button.prev").addEventListener("click", () => this.state.rendition.prev());
     this.qs("button.next").addEventListener("click", () => this.state.rendition.next());
-    // this.qs("button.open").addEventListener("click", () => this.doOpenBook());
 
     // try {
     //     this.qs(".bar .loc").style.cursor = "pointer";
@@ -238,8 +227,6 @@ App.prototype.setChipActive = function (container, value) {
 };
 
 App.prototype.getChipActive = function (container) {
-    // console.log("container : ");
-    // console.dir(container);
     let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item.active[data-value]") ||
              this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]");
     return el.dataset.value;
@@ -340,7 +327,7 @@ App.prototype.doBookmTooltip = function(cfiRange, contents) {
 
 App.prototype.makeBookmark = function (cfiRange, contents) {
     this.state.book.getRange(cfiRange).then(range => {
-        console.log(`Selected: ${range.toString()}`, cfiRange, contents);
+        // console.log(`Selected: ${range.toString()}`, cfiRange, contents);
         if(range) {
             let text = range.toString().trim().slice(0, 70);
             this.addBookm({title: text, href: cfiRange});
@@ -348,20 +335,14 @@ App.prototype.makeBookmark = function (cfiRange, contents) {
         }
     });
 }
-// App.prototype.bookmFillText = function () {
-//     let text = this.getSelectedText(),
-//         textInput = this.qs(".new-bookmark .bookmark-input");
 
-//     textInput.value = text ? text : this.qs("a.chapter-item.active").innerText;
-//     textInput.focus();
-// }
 App.prototype.addBookm = function (item) {
     console.log(item);
     this.bookmArr.push(item);
     this.updateBookm();
 }
 App.prototype.rmBookm = function (index) {
-    let removed = this.bookmArr.splice(index, 1)[0];
+    let removed = this.bookmArr.splice(index, 1)[0]; //??
     this.state.rendition.annotations.remove(removed.href);
     this.updateBookm();
 }
@@ -386,8 +367,11 @@ App.prototype.updateBookm = function () {
 
         a.href = a.dataset.href = item.href;
         a.innerText = item.title;
+
         a.addEventListener("click", event => {
-            this.state.rendition.display(item.href).catch(err => console.warn("error displaying page", err));
+            this.state.rendition.display(item.href)
+                .catch(err => console.warn("error displaying page", err));
+
             modal(this.qs(".tabs-modal"), 'hide');
             event.stopPropagation();
             event.preventDefault();
@@ -413,13 +397,7 @@ App.prototype.restoreBookm = function () {
     }
 }
 
-// App.prototype.getSelectedText = function () {
-//     let w = this.qs("iframe").contentWindow;
-//     if (w.getSelection)
-//         return w.getSelection().toString();
-//     return "";
-// }
-
+// For development purposes
 App.prototype.doOpenBook = function () {
     var fi = document.createElement("input");
 
@@ -483,7 +461,6 @@ App.prototype.doReset = function () {
         book: null,
         rendition: null
     };
-    // this.qs(".sidebar-wrapper").classList.add("out");
     this.qs(".menu-bar .book-title").innerHTML = "";
     this.qs(".menu-bar .book-author").innerHTML = "";
     this.qs(".tab[data-tab=bookmarks] .bookmark-list").innerHTML = "";
@@ -491,15 +468,7 @@ App.prototype.doReset = function () {
     this.qs(".search-results").innerHTML = "";
     this.qs(".search-input").value = "";
     this.qs(".chapter-list").innerHTML = "";
-    // this.qs(".info .cover").src = "";
-    // this.qs(".info .title").innerHTML = "";
-    // this.qs(".info .series-info").classList.remove("hidden");
-    // this.qs(".info .series-name").innerHTML = "";
-    // this.qs(".info .series-index").innerHTML = "";
-    // this.qs(".info .author").innerHTML = "";
-    // this.qs(".info .description").innerHTML = "";
     this.qs(".book").innerHTML = '<div class="empty-wrapper"><div class="empty"><div class="app-name">ePubViewer</div><div class="message"><a href="javascript:ePubViewer.doOpenBook();" class="big-button">Open a Book</a></div></div></div>';
-    // this.qs(".sidebar-button").classList.add("hidden");
     this.qs("button.prev").classList.add("hidden");
     this.qs("button.next").classList.add("hidden");
     // this.doDictionary(null);
@@ -747,8 +716,8 @@ App.prototype.addImgClick = function () {
     });
 }
 
-    // bCoverInit serve for only one time show
-    var bCoverInit = false;
+// bCoverInit serve for only one time show
+var bCoverInit = false;
 App.prototype.addCover = function () {
     if (bCoverInit) return;
     //let imgCover = bookiFrame.querySelector("._idGenObjectAttribute-1");
@@ -785,14 +754,10 @@ App.prototype.addCover = function () {
 }
 
 App.prototype.onBookReady = function (event) {
-    // this.qs(".sidebar-button").classList.remove("hidden");
     this.qs("button.prev").classList.remove("hidden");
     this.qs("button.next").classList.remove("hidden");
 
-
     console.log("bookKey", this.state.book.key());
-
-    // this.qs(".info .cover").src = "./images/logo.png";
 
     let chars = 1650;
     let key = `${this.state.book.key()}:locations-${chars}`;
@@ -801,18 +766,13 @@ App.prototype.onBookReady = function (event) {
 
     if (stored) return this.state.book.locations.load(stored);
     console.log("generating locations");
-    return this.state.book.locations.generate(chars).then(() => {
-        localStorage.setItem(key, this.state.book.locations.save());
-        console.log("locations generated", this.state.book.locations);
-    }).catch(err => console.error("error generating locations", err));
-
-
-    //?????
-    // this.qs(".item").addEventListener("click", myFunction);
-
-    // function myFunction() {
-    //     document.getElementsByClassName("item").css("display","none");
-    // }
+    return (this.state.book.locations.generate(chars)
+        .then(() => {
+            localStorage.setItem(key, this.state.book.locations.save());
+            console.log("locations generated", this.state.book.locations);
+        })
+        .catch(err => console.error("error generating locations", err))
+    );
 };
 
 
@@ -822,7 +782,9 @@ App.prototype.onBookReady = function (event) {
 App.prototype.onTocItemClick = function (href, event) {
     console.log("tocClick", href);
 
-    this.state.rendition.display(href).catch(err => console.warn("error displaying page", err));
+    this.state.rendition.display(href)
+        .catch(err => console.warn("error displaying page", err));
+
     modal(this.qs(".tabs-modal"), 'hide');
     event.stopPropagation();
     event.preventDefault();
@@ -839,9 +801,10 @@ App.prototype.getNavItem = function(loc, ignoreHash) {
 };
 
 App.prototype.onNavigationLoaded = function (nav) {
-    console.log("navigation", nav);
+    // console.log("navigation", nav);
     let toc = this.qs(".chapter-list");
     toc.innerHTML = "";
+
     let handleItems = (items, indent) => {
         items.forEach(item => {
             let a = toc.appendChild(this.el("a", "chapter-item"));
@@ -866,7 +829,8 @@ App.prototype.onRenditionRelocated = function (event) {
     // try {this.doDictionary(null);} catch (err) {}
     try {
         let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
-        this.qsa(".chapter-list .chapter-item").forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
+        this.qsa(".chapter-list .chapter-item")
+            .forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
         //Add this directly to hooks
         //this.addCover();
         this.addImgClick();
@@ -957,7 +921,7 @@ App.prototype.addSwipeListener = function () {
     
     let el = this.qs("iframe").contentWindow.document;
 
-    console.log('Call \'addSwipeListerner\'', el);
+    // console.log('Call \'addSwipeListener\'', el);
 
     var yDown = null, xDown = null;
 
