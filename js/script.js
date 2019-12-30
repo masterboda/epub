@@ -7,6 +7,10 @@ function log(...p){
         console.log(...p)
 }
 
+Array.prototype.last = function() {
+    return this[this.length - 1];
+}
+
 window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;
     if (msg.indexOf("Object expected") > -1 && url.indexOf("epub") > -1) return;
@@ -48,6 +52,7 @@ function modal(el, type, callback){
 let App = function (el) {
     this.appElm = el;
     this.bookmArr = [];
+    this.fontSizes = [8, 9, 10, 12, 14, 16, 18, 22];
     this.state = {};
     this.doReset();
     this.mx = 0;
@@ -116,7 +121,7 @@ App.prototype.doBook = function (url, opts = null) {
     try {
         this.state.book = ePub(url, opts);
         this.qs(".book").innerHTML = "";
-        let flowState = this.getChipActive("flow");//localStorage.getItem(`ePubViewer:flow`) || "paginated";
+        let flowState = this.getActiveValue("flow");//localStorage.getItem(`ePubViewer:flow`) || "paginated";
         this.state.rendition = this.state.book.renderTo(this.qs(".book"), {flow: flowState}); //flow: "scrolled-doc"
     } catch (err) {
         this.fatal("error loading book", err);
@@ -179,19 +184,33 @@ App.prototype.restoreChipActive = function (container) {
 };
 
 App.prototype.setDefaultChipActive = function (container) {
-    let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]");
-    this.setChipActive(container, el.dataset.value);
-    return el.dataset.value;
+    let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]"),
+        val;
+    
+    val = el
+        ? el.dataset.value
+        : this.qs(`.settings-row[data-type='${container}'][data-default]`).dataset.default;
+
+    this.setChipActive(container, val);
+    return val;
 };
 
 // New version 
 App.prototype.setChipActive = function (container, value) {
-    if (this.getChipActive(container) != value) {
-        Array.from(this.qs(`.settings-row[data-type='${container}']`).querySelectorAll(".settings-item[data-value]")).forEach(el => {
-            el.classList[el.dataset.value == value ? "add" : "remove"]("active");
-        });
+    if (this.getActiveValue(container) != value) {
+        let containerElm = this.qs(`.settings-row[data-type='${container}']`),
+            settingItems = Array.from(containerElm.querySelectorAll(".settings-item[data-value]"));
+        
+        if(settingItems.length > 0)
+            settingItems.forEach(el => {
+                el.classList[el.dataset.value == value ? "add" : "remove"]("active")
+            });
+        else
+            containerElm.dataset.value = value;
+
         localStorage.setItem(`ePubViewer:${container}`, value);
         this.applyTheme();
+        
         if (container == "flow") {
             this.doBook(this.ufn);
             this.appElm.classList[value == "scrolled-doc" ? "add" : "remove"]("scrolled");
@@ -203,54 +222,51 @@ App.prototype.setChipActive = function (container, value) {
     return value;
 };
 
-App.prototype.getChipActive = function (container) {
-    let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item.active[data-value]") ||
-             this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]");
+App.prototype.getActiveValue = function (container) {
+    let el = this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item.active[data-value]")
+                || this.qs(`.settings-row[data-type='${container}']`).querySelector(".settings-item[data-default]")
+                || this.qs(`.settings-row[data-type='${container}']`);
     return el.dataset.value;
 };
 
-App.prototype.fontSizeUp = function(mode) {
-    let fontEl = this.qs("[data-font-size]"),
-        sizes = ["04pt","08pt","09pt","10pt","12pt","14pt","16pt","18pt","30pt"],
-        btns = this.qsa("[data-font-size] .settings-item"),
-        currFZ = sizes[sizes.indexOf(btns[0].dataset.value) + mode];
-    if (mode == -1 && currFZ == "04pt") {
-        btns[0].classList.add('disabled');
-        return;
-    }
-    else if ( mode == 1 && currFZ == "30pt") {
-        btns[1].classList.add('disabled');
-        return;
-    }
-    btns[0].dataset.value = currFZ;
-    btns[1].dataset.value = currFZ;
 
-    fontEl.dataset.fontSize = currFZ;
-}
+App.prototype.setFontSize = function(s) {
+    let fontEl = this.qs("[data-type=font-size]");
+    s = +s;
 
-App.prototype.changeFS = function(mode, set) {
-    let fontEl = this.qs("[data-font-size]"),
-        sizes = [4,8,9,10,12,14,16,18,30],
-        currFZ = +fontEl.dataset.fontSize,
-        btns = this.qsa("[data-font-size] .settings-item");
+    if(!s || s < this.fontSizes[0] || s > this.fontSizes.last())
+        log("Invalid font size", s);
 
-    btns[0].classList.remove('disabled');
-    btns[1].classList.remove('disabled');
-
-    if (mode == -1 && currFZ == 8) {
-        btns[0].classList.add('disabled');
-        return;
-    }
-    else if ( mode == 1 && currFZ == 18) {
-        btns[1].classList.add('disabled');
-        return;
-    }
-    currFZ = !set ? sizes[sizes.indexOf(currFZ) + mode] : set;
-    fontEl.dataset.fontSize = currFZ;
-    localStorage.setItem(`ePubViewer:font-size`, currFZ);
+    fontEl.dataset.value = s;
+    localStorage.setItem(`ePubViewer:font-size`, s);
     this.applyTheme();
+
+    return s;
 }
 
+App.prototype.fontSizeUp = function() {
+    let current = +this.getActiveValue('font-size'),
+        [downBtn, upBtn] = this.qsa("[data-type=font-size] .settings-item");;
+    
+    if(current + 1 >= this.fontSizes.last()) {
+        upBtn.classList.add('disabled');
+        return this.setFontSize(this.fontSizes.last());
+    }
+
+    return this.setFontSize(this.fontSizes[this.fontSizes.indexOf(current) + 1]);
+}
+
+App.prototype.fontSizeDown = function() {
+    let current = +this.getActiveValue('font-size'),
+        [downBtn, upBtn] = this.qsa("[data-type=font-size] .settings-item");;
+    
+    if(current - 1 < this.fontSizes[0]) {
+        upBtn.classList.add('disabled');
+        return this.setFontSize(this.fontSizes[0]);
+    }
+
+    return this.setFontSize(this.fontSizes[this.fontSizes.indexOf(current) - 1]);
+}
 
 App.prototype.onContentReady = function() {
     this.qs("iframe").contentWindow.addEventListener("click", (evt) => {
@@ -955,13 +971,13 @@ App.prototype.applyTheme = function () {
     let theme = {
         linkColor: "#1e83d2",
         textAlign: "justify",
-        fontFamily: this.getChipActive("font"),
+        fontFamily: this.getActiveValue("font"),
         // fontSize: this.qs("[data-font-size]").dataset.fontSize + 'pt',
-        fontSize: this.getChipActive("font-size")
+        fontSize: this.getActiveValue("font-size") + 'pt'
         // lineHeight: 1
     };
 
-    [theme.bodyBg, theme.viewerBg, theme.viewerShadowColor, theme.fontColor] = this.getChipActive("theme").split(";");
+    [theme.bodyBg, theme.viewerBg, theme.viewerShadowColor, theme.fontColor] = this.getActiveValue("theme").split(";");
 
     let rules = {
         "body": {
