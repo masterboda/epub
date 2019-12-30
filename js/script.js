@@ -1,5 +1,11 @@
 "use strict";
 
+let debugMode = true;
+
+function log(...p){
+    if(debugMode)
+        console.log(...p)
+}
 
 window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;
@@ -9,8 +15,8 @@ window.onerror = function (msg, url, line, column, err) {
     document.querySelector(".app .error .error-title").innerHTML = "Error1";
     document.querySelector(".app .error .error-description").innerHTML = "Please try reloading the page or using a different browser (Chrome or Firefox), and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
     document.querySelector(".app .error .error-info").innerHTML = msg;
-    console.log("msg:", msg, " url:", url, "line: ", line, " column:", column);
-    console.log("err:", err.toString(), " err.stack:", err.stack);
+    log("msg:", msg, " url:", url, "line: ", line, " column:", column);
+    log("err:", err.toString(), " err.stack:", err.stack);
     document.querySelector(".app .error .error-dump").innerHTML = JSON.stringify({
         error: err.toString(),
         stack: err.stack,
@@ -89,33 +95,6 @@ let App = function (el) {
     this.qs("button.prev").addEventListener("click", () => this.state.rendition.prev());
     this.qs("button.next").addEventListener("click", () => this.state.rendition.next());
 
-    // try {
-    //     this.qs(".bar .loc").style.cursor = "pointer";
-    //     this.qs(".bar .loc").addEventListener("click", event => {
-    //         try {
-    //             let answer = prompt(`Location to go to (up to ${this.state.book.locations.length()})?`, this.state.rendition.currentLocation().start.location);
-    //             if (!answer) return;
-    //             answer = answer.trim();
-    //             if (answer == "") return;
-
-    //             let parsed = parseInt(answer, 10);
-    //             if (isNaN(parsed) || parsed < 0) throw new Error("Invalid location: not a positive integer");
-    //             if (parsed > this.state.book.locations.length()) throw new Error("Invalid location");
-
-    //             let cfi = this.state.book.locations.cfiFromLocation(parsed);
-    //             if (cfi === -1) throw new Error("Invalid location");
-
-    //             this.state.rendition.display(cfi);
-    //         } catch (err) {
-    //             alert(err.toString());
-    //         }
-    //     });
-    // } catch (err) {
-    //     this.fatal("error attaching event handlers for location go to", err);
-    //     throw err;
-    // }
-    // this.doTab("toc");
-
     try {
         this.loadSettingsFromStorage();
     } catch (err) {
@@ -131,8 +110,7 @@ App.prototype.doBook = function (url, opts = null) {
     opts = opts || {
         encoding: "epub"
     };
-    console.log("doBook", url, opts);
-    console.log("HACER LIBRO");
+    log("doBook", url, opts);
     this.doReset();
 
     try {
@@ -151,7 +129,6 @@ App.prototype.doBook = function (url, opts = null) {
     // this.state.book.loaded.cover.then(this.onBookCoverLoaded.bind(this)).catch(this.fatal.bind(this, "error loading cover"));
 
     this.state.rendition.hooks.content.register(this.applyTheme.bind(this));
-    this.state.rendition.hooks.content.register(this.loadFonts.bind(this));
 
     this.state.rendition.on("relocated", this.onRenditionRelocated.bind(this));
     this.state.rendition.on("click", this.onRenditionClick.bind(this));
@@ -327,7 +304,7 @@ App.prototype.doBookmTooltip = function(cfiRange, contents) {
 
 App.prototype.makeBookmark = function (cfiRange, contents) {
     this.state.book.getRange(cfiRange).then(range => {
-        // console.log(`Selected: ${range.toString()}`, cfiRange, contents);
+        log(`Selected: ${range.toString()}`, cfiRange, contents);
         if(range) {
             let text = range.toString().trim().slice(0, 70);
             this.addBookm({title: text, href: cfiRange});
@@ -337,7 +314,7 @@ App.prototype.makeBookmark = function (cfiRange, contents) {
 }
 
 App.prototype.addBookm = function (item) {
-    console.log(item);
+    log("addBookm", item);
     this.bookmArr.push(item);
     this.updateBookm();
 }
@@ -355,9 +332,9 @@ App.prototype.updateBookm = function () {
     this.bookmArr.forEach((item, i) => {
         
         if(annt._annotations[encodeURI(item.href)] == undefined) {
-            // console.log(annt._annotations);
+            // log(annt._annotations);
             annt.highlight(item.href, {}, (e) => {
-                console.log("highlight clicked", e.target);
+                log("highlight clicked", e.target);
             });
         }
 
@@ -425,7 +402,7 @@ App.prototype.doOpenBook = function () {
         }, false);
 
         
-        console.log(fi.files[0]);
+        log(fi.files[0]);
 
         if (fi.files[0]) {
             reader.readAsArrayBuffer(fi.files[0]);
@@ -433,7 +410,7 @@ App.prototype.doOpenBook = function () {
     };
     document.body.appendChild(fi);
     fi.click();
-    // console.log(fi)
+    // log(fi)
 };
 
 App.prototype.fatal = function (msg, err, usersFault) {
@@ -446,11 +423,11 @@ App.prototype.fatal = function (msg, err, usersFault) {
         error: err.toString(),
         stack: err.stack
     });    
-    console.log("Error line 471");
-    console.log(mgs);
+    log("Error line 471");
+    log(mgs);
     console.error(err);
-    console.log(usersFault);
-    console.log(err.toString(), err.stack);
+    log(usersFault);
+    log(err.toString(), err.stack);
 };
 
 App.prototype.doReset = function () {
@@ -691,7 +668,7 @@ App.prototype.addImgClick = function () {
             imgSrc = cDiv.querySelector("img").src;
 
         cDiv.onclick = function (e) {
-            console.log(imgSrc);
+            log(imgSrc);
 
             let modalContainer = app.createElement(
                 'div', {
@@ -745,7 +722,7 @@ App.prototype.addCover = function () {
             }
         })
         .catch(err => {
-            console.log("error loading cover", err);
+            log("error loading cover", err);
             bCoverInit = true;
             return;
         });
@@ -757,19 +734,19 @@ App.prototype.onBookReady = function (event) {
     this.qs("button.prev").classList.remove("hidden");
     this.qs("button.next").classList.remove("hidden");
 
-    console.log("bookKey", this.state.book.key());
+    log("bookKey", this.state.book.key());
 
     let chars = 1650;
     let key = `${this.state.book.key()}:locations-${chars}`;
     let stored = localStorage.getItem(key);
-    console.log("storedLocations", typeof stored == "string" ? stored.substr(0, 40) + "..." : stored);
+    log("storedLocations", typeof stored == "string" ? stored.substr(0, 40) + "..." : stored);
 
     if (stored) return this.state.book.locations.load(stored);
-    console.log("generating locations");
+    log("generating locations");
     return (this.state.book.locations.generate(chars)
         .then(() => {
             localStorage.setItem(key, this.state.book.locations.save());
-            console.log("locations generated", this.state.book.locations);
+            log("locations generated", this.state.book.locations);
         })
         .catch(err => console.error("error generating locations", err))
     );
@@ -780,7 +757,7 @@ App.prototype.onBookReady = function (event) {
 ======================================= */
 
 App.prototype.onTocItemClick = function (href, event) {
-    console.log("tocClick", href);
+    log("tocClick", href);
 
     this.state.rendition.display(href)
         .catch(err => console.warn("error displaying page", err));
@@ -801,7 +778,7 @@ App.prototype.getNavItem = function(loc, ignoreHash) {
 };
 
 App.prototype.onNavigationLoaded = function (nav) {
-    // console.log("navigation", nav);
+    // log("navigation", nav);
     let toc = this.qs(".chapter-list");
     toc.innerHTML = "";
 
@@ -841,7 +818,7 @@ App.prototype.onRenditionRelocated = function (event) {
 };
 
 App.prototype.onBookMetadataLoaded = function (metadata) {
-    console.log("metadata", metadata);
+    log("metadata", metadata);
     this.qs(".menu-bar .book-title").innerText = this.qs(".tabs-wrapper .book-name").innerText = metadata.title.trim();
     this.qs(".menu-bar .book-author").innerText = metadata.creator.trim();
     // this.qs(".info .title").innerText = metadata.title.trim();
@@ -887,7 +864,7 @@ App.prototype.onKeyUp = function (event) {
 
 // ?? To remove
 App.prototype.onRenditionClick = function (event) {
-    // console.log("You clicked on book");
+    // log("You clicked on book");
     try {
         if(true) return;
         if (event.target.tagName.toLowerCase() == "a" && event.target.href) return;
@@ -922,7 +899,7 @@ App.prototype.addSwipeListener = function () {
     
     let el = this.qs("iframe").contentWindow.document;
 
-    // console.log('Call \'addSwipeListener\'', el);
+    // log('Call \'addSwipeListener\'', el);
 
     var yDown = null, xDown = null;
 
@@ -948,17 +925,17 @@ App.prototype.addSwipeListener = function () {
 
         if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
             if ( xDiff > 0.25 ) {
-                console.log('left swipe');
+                log('left swipe');
                 return this.state.rendition.next();
             } else if (xDiff < -0.25) {
-                console.log('right swipe');
+                log('right swipe');
                 return this.state.rendition.prev();
             }
         } else {
             if ( yDiff > 0.25 ) {
-                console.log('up swipe');
+                log('up swipe');
             } else if (yDiff < -0.25) {
-                console.log('down swipe');
+                log('down swipe');
             }
         };
 
@@ -967,30 +944,6 @@ App.prototype.addSwipeListener = function () {
         yDown = null;
     };
 }
-
-App.prototype.onRenditionDisplayedTouchSwipe = function (event) {
-    console.log("call function 'onRenditionDisplayedTouchSwipe'");
-    // let start = null
-    // let end = null;
-    // const el = event.document.documentElement;
-
-    // el.addEventListener('touchstart', event => {
-    //     start = event.changedTouches[0];
-    // });
-    // el.addEventListener('touchend', event => {
-    //     console.log("You swiped");
-    //     end = event.changedTouches[0];
-
-    //     let hr = (end.screenX - start.screenX) / el.getBoundingClientRect().width;
-    //     let vr = (end.screenY - start.screenY) / el.getBoundingClientRect().height;
-
-    //     if (hr > vr && hr > 0.25) return this.state.rendition.prev();
-    //     if (hr < vr && hr < -0.25) return this.state.rendition.next();
-    //     if (vr > hr && vr > 0.25) return;
-    //     if (vr < hr && vr < -0.25) return;
-    // });
-
-};
 
 
 /* Change Themes
@@ -1102,13 +1055,14 @@ App.prototype.onRenditionRelocatedSavePos = function (event) {
 App.prototype.onRenditionStartedRestorePos = function (event) {
     try {
         let stored = localStorage.getItem(`${this.state.book.key()}:pos`);
-        console.log("storedPos", stored);
+        log("storedPos", stored);
         if (stored) this.state.rendition.display(stored);
     } catch (err) {
         this.fatal("error restoring position", err);
     }
 };
 
+{
 // App.prototype.checkDictionary = function () {
 //     try {
 //         let selection = (this.state.rendition.manager && this.state.rendition.manager.getContents().length > 0) ? this.state.rendition.manager.getContents()[0].window.getSelection().toString().trim() : "";
@@ -1130,12 +1084,12 @@ App.prototype.onRenditionStartedRestorePos = function (event) {
 //     if (this.state.lastWord) if (this.state.lastWord == word) return;
 //     this.state.lastWord = word;
 
-//     if (!this.qs(".dictionary-wrapper").classList.contains("hidden")) console.log("hide dictionary");
+//     if (!this.qs(".dictionary-wrapper").classList.contains("hidden")) log("hide dictionary");
 //     this.qs(".dictionary-wrapper").classList.add("hidden");
 //     this.qs(".dictionary").innerHTML = "";
 //     if (!word) return;
 
-//     console.log(`define ${word}`);
+//     log(`define ${word}`);
 //     this.qs(".dictionary-wrapper").classList.remove("hidden");
 //     this.qs(".dictionary").innerHTML = "";
 
@@ -1157,7 +1111,7 @@ App.prototype.onRenditionStartedRestorePos = function (event) {
 //         if (obj.status == "error") throw new Error(`ApiError: ${obj.result}`);
 //         return obj.result;
 //     }).then(word => {
-//         console.log("dictLookup", word);
+//         log("dictLookup", word);
 //         meaningsEl.innerHTML = "";
 //         wordEl.innerText = [word.word].concat(word.alternates || []).join(", ").toLowerCase();
         
@@ -1202,6 +1156,7 @@ App.prototype.onRenditionStartedRestorePos = function (event) {
 //         } catch (err) {}
 //     });
 // };
+}
 
 App.prototype.doFullscreen = () => {
     document.fullscreenEnabled = document.fullscreenEnabled || document.mozFullScreenEnabled || document.documentElement.webkitRequestFullScreen;
@@ -1235,7 +1190,7 @@ App.prototype.doSearch = function (q) {
 };
 
 App.prototype.onResultClick = function (href, event) {
-    console.log("tocClick", href);
+    log("tocClick", href);
     this.state.rendition.display(href);
     modal(this.qs(".tabs-modal"), 'hide');
     event.stopPropagation();
@@ -1265,7 +1220,7 @@ App.prototype.doTab = function (tab) {
 };
 
 App.prototype.onTabClick = function (tab, event) {
-    console.log("tabClick", tab);
+    log("tabClick", tab);
     this.doTab(tab);
     event.stopPropagation();
     event.preventDefault();
@@ -1315,9 +1270,9 @@ try {
         error: err.toString(),
         stack: err.stack
     });
-    console.log("Error line 1385");
+    log("Error line 1385");
     console.error(err);
-    console.log(err.toString(), err.stack);
+    log(err.toString(), err.stack);
 }
 
 function showCover(imgCover, _this) {
