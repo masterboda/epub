@@ -1,6 +1,7 @@
 "use strict";
 
 let debugMode = true;
+let fullPath = location.origin + location.pathname.slice(0, location.pathname.lastIndexOf('/') + 1);
 
 function log(...p){
     if(debugMode)
@@ -134,6 +135,7 @@ App.prototype.doBook = function (url, opts = null) {
     // this.state.book.loaded.cover.then(this.onBookCoverLoaded.bind(this)).catch(this.fatal.bind(this, "error loading cover"));
 
     this.state.rendition.hooks.content.register(this.applyTheme.bind(this));
+    this.state.rendition.hooks.content.register(this.loadFonts.bind(this));
 
     this.state.rendition.on("relocated", this.onRenditionRelocated.bind(this));
     this.state.rendition.on("click", this.onRenditionClick.bind(this));
@@ -1022,6 +1024,15 @@ App.prototype.applyTheme = function () {
     } catch (err) {
         console.error("error applying theme", err);
     }
+};
+
+App.prototype.loadFonts = function () {
+    this.state.rendition.getContents().forEach(c => {
+        let url = fullPath + "css/fonts.css",
+            el = c.document.body.appendChild(c.document.createElement("link"));
+        el.setAttribute("rel", "stylesheet");
+        el.setAttribute("href", url);
+    });
 };
 
 /* Progress bar
