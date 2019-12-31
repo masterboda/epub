@@ -48,6 +48,7 @@ const audios = [
 ]
 
 const epubs = [
+	{name: 'goHome', src: "WM1.epub"},
 	{name: 'goTo1', src: "WM1_A1_E3.epub"},
 	{name: 'goTo2', src: "WM1_A2_E3.epub"},
 	{name: 'goTo3', src: "WM1_A3_E3.epub"},
@@ -76,29 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		// Add EventListener only if btn is founded
 		if(btn)
-			btn.addEventListener('click', (e) => {
-				// window.parent.location = '../reader.html#!epubs/' + epub.src;
-				// window.parent.location.assign('../reader.html#!epubs/' + epub.src);				
+			btn.addEventListener('click', (e) => {			
 				window.parent.location.hash = '#!epubs/' + epub.src;
 				window.parent.location.assign(window.parent.location);
-				window.parent.location.reload();				
+				window.parent.location.reload();
 			});
 	}
 });
-
-
-function include(filename, onload) {
-	var head = document.getElementsByTagName('head')[0];
-	var script = document.createElement('script');
-	script.src = filename;
-	script.type = 'text/javascript';
-	script.onload = script.onreadystatechange = function() {
-		if (script.readyState)
-			if (script.readyState === 'complete' || script.readyState === 'loaded') {
-				script.onreadystatechange = null;
-				onload();
-			}
-		else onload();
-	};
-	head.appendChild(script);
-}
