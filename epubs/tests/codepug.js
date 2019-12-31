@@ -67,41 +67,21 @@ document.addEventListener('DOMContentLoaded', function() {
 		let btn = get(`.${audio.name}`);
 
 		// Add Attribute only if img exists
-		if(btn){
-			btn.parentElement.setAttribute("data-source", audio.src);
-		}
+		if(btn) btn.parentElement.setAttribute("data-source", audio.src);
 	}
-
 
 	// Go throw all list of epub links
 	for(let epub of epubs) {
 		let btn = get(`.${epub.name}`);
 
 		// Add EventListener only if btn is founded
-		if(btn){
+		if(btn)
 			btn.addEventListener('click', (e) => {
 				window.parent.location = '../reader.html#!epubs/' + epub.src;
 				window.parent.location.assign('../reader.html#!epubs/' + epub.src);
 				window.parent.location.reload();			
-			});			
-		}
+			});
 	}
-	
-	// let bAlt1 = get('.bAlt1'),
-	// 	hAlt1 = get('.hAlt1'),
-	// 	goTo1 = get('.goTo1');
-		
-	// if (bAlt1 && hAlt1)
-	// 	bAlt1.addEventListener('click', (e) => hAlt1.fadeIn());
-
-	// if (goTo1)
-	// 	goTo1.addEventListener('click', (e) => {
-	// 		window.parent.location = '../reader.html#!epubs/WM1_A1_E3.epub';
-	// 		window.parent.location.assign('../reader.html#!epubs/WM1_A1_E3.epub');
-	// 		window.parent.location.reload();
-	// 		// if (hAlt1) hAlt1.fadeIn()
-	// 	});
-
 });
 
 
@@ -111,12 +91,11 @@ function include(filename, onload) {
 	script.src = filename;
 	script.type = 'text/javascript';
 	script.onload = script.onreadystatechange = function() {
-		if (script.readyState) {
+		if (script.readyState)
 			if (script.readyState === 'complete' || script.readyState === 'loaded') {
 				script.onreadystatechange = null;
 				onload();
 			}
-		}
 		else onload();
 	};
 	head.appendChild(script);
