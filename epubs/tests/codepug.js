@@ -77,9 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		// Add EventListener only if btn is founded
 		if(btn)
 			btn.addEventListener('click', (e) => {
-				window.parent.location = '../reader.html#!epubs/' + epub.src;
-				window.parent.location.assign('../reader.html#!epubs/' + epub.src);
-				window.parent.location.reload();			
+				// window.parent.location = '../reader.html#!epubs/' + epub.src;
+				// window.parent.location.assign('../reader.html#!epubs/' + epub.src);				
+				window.parent.location.hash = '#!epubs/' + epub.src;
+				window.parent.location.assign(window.parent.location);
+				window.parent.location.reload();				
 			});
 	}
 });
