@@ -149,7 +149,7 @@ App.prototype.doBook = function (url, opts = null) {
     this.state.rendition.on("started", this.restoreBookm.bind(this));
     this.state.rendition.on("selected", this.doBookmTooltip.bind(this)); //show tooltip when selected text.
     this.state.rendition.on("displayError", this.fatal.bind(this, "error rendering book"));
-    this.state.rendition.on("displayed", this.onContentReady.bind(this));
+    this.state.rendition.on("relocated", this.onContentReady.bind(this));
 
     this.state.rendition.display();
 
@@ -273,11 +273,11 @@ App.prototype.fontSizeDown = function() {
 }
 
 App.prototype.onContentReady = function() {
-    this.qs("iframe").contentWindow.addEventListener("click", (evt) => {
+    this.qs("iframe").contentWindow.onclick =  function(evt) {
         // alert(evt.clientX+' '+evt.clientY);
         this.mx = evt.clientX;
         this.my = evt.clientY;
-    });
+    }.bind(this);
 }
 
 //Bookmarks
