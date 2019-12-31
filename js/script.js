@@ -62,6 +62,15 @@ let App = function (el) {
     let ufn = location.search.replace("?", "") || location.hash.replace("#", "");
     this.ufn = ufn.startsWith("!") ? ufn.replace("!", "") : ufn;
 
+    try {
+        this.loadSettingsFromStorage();
+    } catch (err) {
+        this.fatal("error loading settings", err);
+        throw err;
+    }
+
+    this.applyTheme();
+
     if (this.ufn)
         this.doBook(this.ufn);
 
@@ -101,13 +110,6 @@ let App = function (el) {
     this.qs("button.prev").addEventListener("click", () => this.state.rendition.prev());
     this.qs("button.next").addEventListener("click", () => this.state.rendition.next());
 
-    try {
-        this.loadSettingsFromStorage();
-    } catch (err) {
-        this.fatal("error loading settings", err);
-        throw err;
-    }
-    this.applyTheme();
 };
 
 App.prototype.doBook = function (url, opts = null) {
@@ -181,7 +183,7 @@ App.prototype.loadSettingsFromStorage = function () {
 App.prototype.restoreChipActive = function (container) {
     let v = localStorage.getItem(`ePubViewer:${container}`);
     if (v)
-        return this.setChipActive(container, v);
+        return this.setChipActive(container, v, false);
     this.setDefaultChipActive(container);
 };
 
@@ -198,7 +200,7 @@ App.prototype.setDefaultChipActive = function (container) {
 };
 
 // New version 
-App.prototype.setChipActive = function (container, value) {
+App.prototype.setChipActive = function (container, value, refresh = true) {
     if (this.getActiveValue(container) != value) {
         let containerElm = this.qs(`.settings-row[data-type='${container}']`),
             settingItems = Array.from(containerElm.querySelectorAll(".settings-item[data-value]"));
@@ -213,7 +215,7 @@ App.prototype.setChipActive = function (container, value) {
         localStorage.setItem(`ePubViewer:${container}`, value);
         this.applyTheme();
         
-        if (container == "flow") {
+        if (container == "flow" && refresh) {
             this.doBook(this.ufn);
             this.appElm.classList[value == "scrolled-doc" ? "add" : "remove"]("scrolled");
         }
@@ -433,7 +435,7 @@ App.prototype.doOpenBook = function () {
 
 App.prototype.fatal = function (msg, err, usersFault) {
     console.error(msg, err);
-    document.querySelector(".app .error").classList.remove("hidden");
+    //document.querySelector(".app .error").classList.remove("hidden");
     document.querySelector(".app .error .error-title").innerHTML = "Error2";
     document.querySelector(".app .error .error-description").innerHTML = usersFault ? "" : "Please try reloading the page or using a different browser, and if the error still persists, <a href=\"https://github.com/geek1011/ePubViewer/issues\">report an issue</a>.";
     document.querySelector(".app .error .error-info").innerHTML = msg + ": " + err.toString();
@@ -679,7 +681,7 @@ App.prototype.addImgClick = function () {
     let imgDivArr = Array.from(bookiFrame.querySelectorAll(".circle-div"));
     
     imgDivArr.forEach(cDiv => {
-        cDiv.parentNode.style.height = "200px";
+        //cDiv.parentNode.style.height = "200px";
         cDiv.style.cursor = "zoom-in";
 
         let app = this,
